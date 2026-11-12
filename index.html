@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#14532d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BYD">
@@ -11,7 +11,8 @@
 <title>Backyard Darts</title>
 <style>
 :root{--bg:#f5f6f4;--card:#fff;--ink:#16211b;--mute:#6b7a70;--green:#14532d;--green2:#1d7a43;--gold:#f4c430;--red:#c0392b;--line:#dfe4e0}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button,#display,#cards{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 button{font:inherit;cursor:pointer;border:0}
 .screen{display:none;max-width:520px;margin:0 auto;padding:16px 16px calc(16px + env(safe-area-inset-bottom));min-height:100%}
