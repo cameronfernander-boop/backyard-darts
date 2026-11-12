@@ -25,6 +25,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute
 .row{display:flex;gap:8px;margin-bottom:8px}
 .row input{flex:1;padding:12px 14px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--card)}
 .x{background:var(--card);border:2px solid var(--line);border-radius:12px;width:48px;color:var(--mute)}
+select{flex:1;min-width:0;padding:12px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--card);color:var(--ink)}
 .link{background:none;color:var(--green2);font-weight:600;padding:8px 0}
 .toggle{display:flex;align-items:center;gap:10px;margin-top:6px}
 .toggle input{width:22px;height:22px}
@@ -73,6 +74,8 @@ header.bar .t{font-weight:700}
   <button id="add" class="link">+ Add player</button>
   <h2>Rules</h2>
   <label class="toggle"><input type="checkbox" id="dbl" checked> Double out (finish on a double or bullseye)</label>
+  <h2>Caller voice</h2>
+  <div class="row"><select id="voiceSel"></select><button id="voiceTest" class="x" style="width:auto;padding:0 16px">Test</button></div>
   <button id="start" class="big">Start game</button>
 </section>
 
@@ -80,7 +83,7 @@ header.bar .t{font-weight:700}
   <header class="bar">
     <button id="menu">‹ Menu</button>
     <div class="t" id="gtitle"></div>
-    <button id="undo">Undo</button>
+    <div><button id="snd" title="Sound" style="font-size:20px">🔊</button><button id="undo">Undo</button></div>
   </header>
   <div id="cards"></div>
   <div id="turn"></div>
@@ -127,6 +130,65 @@ let G=null, entry='', setupStart=501, names=['Player 1','Player 2'];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(G))}catch(e){}}
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+
+/* ---------- voice ---------- */
+const ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+function words(n){
+  if(n<20)return ONES[n];
+  if(n<100)return TENS[Math.floor(n/10)]+(n%10?'-'+ONES[n%10]:'');
+  if(n<1000)return ONES[Math.floor(n/100)]+' hundred'+(n%100?' and '+words(n%100):'');
+  return 'one thousand'+(n%1000?' and '+words(n%1000):'');
+}
+let soundOn=true;
+try{soundOn=localStorage.getItem('byd-sound')!=='off'}catch(e){}
+function drawSound(){$('snd').textContent=soundOn?'🔊':'🔇'}
+let voices=[],voiceName='';
+try{voiceName=localStorage.getItem('byd-voice')||''}catch(e){}
+const MALE=/daniel|aaron|evan|alex\b|fred|ryan|guy|david|mark|george|james|tom\b|oliver|arthur|gordon|reed|rishi|male|liam|thomas|eric|brandon|christopher|davis|andrew|bruce|lee\b/i;
+const FEMALE=/samantha|karen|victoria|susan|moira|tessa|fiona|kate|serena|zira|hazel|jenny|aria|sara|emma|female|amy|ava|nicky|allison|joanna|catherine|libby|sonia|michelle|monica|ella|nora/i;
+function rank(v){
+  let s=0;
+  if(/^en/i.test(v.lang))s+=10;
+  if(MALE.test(v.name))s+=20;
+  if(FEMALE.test(v.name))s-=30;
+  if(/natural|neural|enhanced|premium|online|siri/i.test(v.name))s+=15;
+  return s;
+}
+function loadVoices(){
+  if(!('speechSynthesis' in window))return;
+  voices=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)).sort((a,b)=>rank(b)-rank(a));
+  const sel=$('voiceSel');
+  if(!voices.length){sel.innerHTML='<option>Default voice</option>';return}
+  if(!voices.some(v=>v.name===voiceName))voiceName=voices[0].name;
+  sel.innerHTML=voices.map(v=>`<option value="${esc(v.name)}" ${v.name===voiceName?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('');
+}
+function say(t){
+  if(!soundOn||!('speechSynthesis' in window))return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);
+    const v=voices.find(x=>x.name===voiceName);
+    if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';
+    u.rate=0.95;u.pitch=0.9;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+$('voiceSel').addEventListener('change',e=>{
+  voiceName=e.target.value;
+  try{localStorage.setItem('byd-voice',voiceName)}catch(err){}
+  say('One hundred and eighty!');
+});
+$('voiceTest').addEventListener('click',()=>{
+  if(!soundOn){soundOn=true;try{localStorage.setItem('byd-sound','on')}catch(e){}drawSound()}
+  say('One hundred and eighty! Three hundred and twenty-one left.');
+});
+$('snd').addEventListener('click',()=>{
+  soundOn=!soundOn;
+  try{localStorage.setItem('byd-sound',soundOn?'on':'off')}catch(e){}
+  drawSound();
+  if(soundOn)say('Sound on');else if('speechSynthesis' in window)speechSynthesis.cancel();
+});
 
 /* ---------- setup ---------- */
 function drawSetup(){
@@ -197,11 +259,16 @@ function submit(){
 function commit(v,bust){
   const p=G.players[G.turn];
   G.log.push({p:G.turn,prev:p.score});
-  if(bust){p.visits.push({v:0,bust:true});toast('Bust!')}
-  else{p.score-=v;p.visits.push({v,bust:false});if(v>=95)celebrate(v)}
+  let msg;
+  if(bust){p.visits.push({v:0,bust:true});toast('Bust!');msg='Bust! No score.'}
+  else{
+    p.score-=v;p.visits.push({v,bust:false});if(v>=95)celebrate(v);
+    msg=(v?words(v)+(v>=100?'!':'.'):'No score.')+' '+words(p.score)+' left.';
+  }
   entry='';
-  if(p.score===0&&!bust){G.over=true;G.winner=G.turn;if(v<95)confetti()}
+  if(p.score===0&&!bust){G.over=true;G.winner=G.turn;if(v<95)confetti();msg='Game shot! '+p.name+' wins.'}
   else G.turn=(G.turn+1)%G.players.length;
+  say(msg);
   save();draw();
 }
 $('dblYes').addEventListener('click',()=>{$('dblModal').classList.remove('on');commit(pendingV,false)});
@@ -250,6 +317,9 @@ function loop(){
 
 /* ---------- start ---------- */
 drawSetup();
+drawSound();
+loadVoices();
+if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=loadVoices;
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
