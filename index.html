@@ -10,7 +10,7 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>Backyard Darts</title>
 <style>
-:root{--bg:#f5f6f4;--card:#fff;--ink:#16211b;--mute:#6b7a70;--green:#14532d;--green2:#1d7a43;--gold:#f4c430;--red:#c0392b;--line:#dfe4e0;--aqua:#00abc9;--aqua2:#007a92}
+:root{--bg:#f5f6f4;--card:#fff;--ink:#16211b;--mute:#6b7a70;--green:#007a92;--green2:#008aa5;--gold:#f4c430;--red:#c0392b;--line:#dfe4e0;--aqua:#00abc9;--aqua2:#007a92}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 button,#display,#cards{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -37,7 +37,7 @@ header.bar button{background:none;color:var(--green2);font-weight:600;padding:8p
 header.bar .t{font-weight:700}
 #cards{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
 .pc{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 12px}
-.pc.cur{border-color:var(--green2);box-shadow:0 0 0 3px rgba(29,122,67,.15)}
+.pc.cur{border-color:var(--green2);box-shadow:0 0 0 3px rgba(0,171,201,.18)}
 .pc .n{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pc .s{font-size:40px;font-weight:800;line-height:1.1}
 .pc .m{font-size:12px;color:var(--mute)}
@@ -47,7 +47,7 @@ header.bar .t{font-weight:700}
 #leave{text-align:center;color:var(--mute);min-height:22px;margin-bottom:8px}
 #keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
 #keys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:24px;font-weight:700;color:var(--ink)}
-#keys button:active{background:#e9eee9}
+#keys button:active{background:#e1f3f6}
 #keys .go{background:var(--green);border-color:var(--green);color:#fff;font-size:18px}
 .menu{display:grid;gap:10px;margin-bottom:6px}
 .gbtn{background:var(--card);border:2px solid var(--line);border-left:6px solid var(--aqua);border-radius:14px;padding:12px 14px;text-align:left;display:flex;flex-direction:row;align-items:center;gap:12px;color:var(--ink);box-shadow:0 2px 0 rgba(0,0,0,.04)}
@@ -59,13 +59,34 @@ header.bar .t{font-weight:700}
 .gbtn span{color:var(--mute);font-size:14px;display:block}
 .gbtn.soon{opacity:.55}
 #home{background:linear-gradient(180deg,#e6f7fa 0,var(--bg) 260px)}
-.hero{position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(135deg,var(--aqua),var(--aqua2));color:#fff;padding:26px 20px 30px 64px;margin-bottom:6px;box-shadow:0 6px 18px rgba(0,122,146,.25)}
+.hero{position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(135deg,var(--aqua),var(--aqua2));color:#fff;padding:50px 20px 30px 64px;margin-bottom:6px;box-shadow:0 6px 18px rgba(0,122,146,.25)}
 .flagtri{position:absolute;left:0;top:0;height:100%;width:46px}
 .heroTxt .eyebrow{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
 .hero h1{color:#fff;margin:4px 0 2px;font-size:32px;text-shadow:0 2px 0 rgba(0,0,0,.18)}
 .hero .sub{color:rgba(255,255,255,.92);margin:0}
 .goldband{position:absolute;left:0;right:0;bottom:0;height:10px;background:var(--gold)}
 #howto{color:var(--aqua2);border-color:var(--aqua)}
+.chip2{position:absolute;top:12px;right:12px;z-index:2;display:flex;align-items:center;gap:6px;min-height:34px;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.6);color:#fff;border-radius:999px;padding:3px 12px 3px 3px;font-weight:700;font-size:14px;max-width:62%}
+.chip2 .cn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-left:9px}
+.chip2 .av+.cn{padding-left:0}
+.av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;flex:none;line-height:1}
+.av img{width:100%;height:100%;object-fit:cover}
+.tabs2{display:flex;gap:8px;margin:6px 0 4px}
+.tabs2 button{flex:1;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-weight:700;color:var(--ink)}
+.tabs2 button.on{background:var(--green);border-color:var(--green);color:#fff}
+.msg{min-height:22px;margin-top:10px;color:var(--red);font-size:14px}
+.msg.ok{color:var(--green2)}
+.pfTop{display:flex;justify-content:center;margin:8px 0 4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:12px;color:var(--mute)}
+.egrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.egrid button{background:var(--card);border:2px solid var(--line);border-radius:12px;font-size:24px;padding:8px 0}
+.egrid button.on,.crow button.on{border-color:var(--aqua2);box-shadow:0 0 0 3px rgba(0,171,201,.3)}
+.crow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.crow button{width:34px;height:34px;border-radius:50%;border:3px solid #fff;outline:1px solid var(--line)}
+.badge{background:#fff4cc;border:2px solid var(--gold);color:#6b5200;border-radius:12px;padding:8px 12px;text-align:center;font-weight:700;margin-top:10px}
 #home h2.pick{margin:18px 0 10px;color:var(--aqua2)}
 details{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
 summary{font-weight:700;cursor:pointer}
@@ -77,7 +98,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 .ch .pt{font-size:22px;font-weight:800}
 .cl{display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
 .cc{font-size:26px;font-weight:800;min-height:44px;display:flex;align-items:center;justify-content:center}
-.cc.cur,.ch.cur{border-color:var(--green2);background:#eef7f1}
+.cc.cur,.ch.cur{border-color:var(--green2);background:#e6f7fa}
 .cc.done{color:var(--green2)}
 #cTurn,#aTurn,#sTurn,#bTurn,#hTurn,#kTurn{text-align:center;font-weight:700;margin:14px 0 4px}
 #cMult{margin-top:auto}
@@ -86,18 +107,18 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 .mult button.on{background:var(--green);border-color:var(--green);color:#fff}
 .tkeys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 8px}
 .tkeys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:20px;font-weight:700;color:var(--ink)}
-.tkeys button:active,.akeys button:active{background:#e9eee9}
+.tkeys button:active,.akeys button:active{background:#e1f3f6}
 #aCards,#sCards,#bCards,#hCards,#kCards{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .akeys{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:auto}
 .akeys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:22px 0;font-size:20px;font-weight:700;color:var(--ink)}
 .akeys button.hit{background:var(--green);border-color:var(--green);color:#fff}
-.pbar{height:6px;background:#e5eae6;border-radius:4px;margin-top:6px;overflow:hidden}
+.pbar{height:6px;background:#d9eef2;border-radius:4px;margin-top:6px;overflow:hidden}
 .pbar i{display:block;height:100%;background:var(--green2)}
 #hDisplay{text-align:center;font-size:56px;font-weight:800;min-height:68px;-webkit-user-select:none;user-select:none}
 #hDisplay.dim{color:#b9c2bc}
 .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
 .kp button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:24px;font-weight:700;color:var(--ink)}
-.kp button:active{background:#e9eee9}
+.kp button:active{background:#e1f3f6}
 .kp .go{background:var(--green);border-color:var(--green);color:#fff;font-size:18px}
 .pc.out{opacity:.45}
 #toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none;z-index:30}
@@ -118,6 +139,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 <section id="home" class="screen on">
   <div class="hero">
     <svg class="flagtri" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,0 100,50 0,100" fill="#000"/></svg>
+    <button class="chip2" id="chip"></button>
     <div class="heroTxt">
       <div class="eyebrow">THE BAHAMAS</div>
       <h1>Backyard Darts</h1>
@@ -243,6 +265,40 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <button class="big alt" id="kEnd" style="margin-top:4px">End turn</button>
 </section>
 
+<section id="auth" class="screen">
+  <header class="bar"><button id="authBack">‹ Home</button><div class="t">Account</div><div></div></header>
+  <div class="tabs2"><button id="tabIn" class="on">Sign in</button><button id="tabUp">Create account</button></div>
+  <div id="upName" style="display:none"><h2>Your name</h2><div class="row"><input id="auName" maxlength="14" placeholder="Name other players will see" autocomplete="nickname"></div></div>
+  <h2>Email</h2>
+  <div class="row"><input id="auEmail" type="email" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off"></div>
+  <h2>Password</h2>
+  <div class="row"><input id="auPass" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
+  <div id="auMsg" class="msg"></div>
+  <button id="auGo" class="big" style="margin-top:6px">Sign in</button>
+  <button id="auForgot" class="link">Forgot password?</button>
+</section>
+
+<section id="profile" class="screen">
+  <header class="bar"><button id="pfBack">‹ Home</button><div class="t">My profile</div><div></div></header>
+  <div class="pfTop"><div id="pfAvatar"></div></div>
+  <h2>Name</h2>
+  <div class="row"><input id="pfName" maxlength="14"><button id="pfSave" class="x" style="width:auto;padding:0 16px">Save</button></div>
+  <div id="pfAdfree" class="badge" style="display:none">⭐ Ad-free member</div>
+  <div class="stats">
+    <div class="stat"><b id="stGames">0</b><span>Games played</span></div>
+    <div class="stat"><b id="stWins">0</b><span>Wins</span></div>
+    <div class="stat"><b id="stRank">Rookie</b><span>Rank</span></div>
+  </div>
+  <div class="pbar" style="height:8px;margin-top:10px"><i id="rkBar" style="width:0"></i></div>
+  <div id="rkTxt" style="text-align:center;color:var(--mute);font-size:13px;margin-top:6px"></div>
+  <h2>Avatar</h2>
+  <div id="emojiGrid" class="egrid"></div>
+  <div id="colorRow" class="crow"></div>
+  <button class="big alt" id="pfPhoto" style="margin-top:14px">Use a photo instead</button>
+  <input type="file" id="pfFile" accept="image/*" style="display:none">
+  <button class="link" id="pfOut" style="margin-top:14px">Sign out</button>
+</section>
+
 <div class="modal" id="gWin">
   <div class="box">
     <h3 id="gWinTitle"></h3>
@@ -283,7 +339,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let G=null, entry='', setupStart=501, names=['Player 1','Player 2'];
 
-function save(){try{localStorage.setItem(KEY,JSON.stringify(G))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(G))}catch(e){}touch(KEY)}
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
 
@@ -348,6 +404,7 @@ $('snd').addEventListener('click',()=>{
 
 /* ---------- setup ---------- */
 function drawSetup(){
+  if(cloud.profile&&names[0]==='Player 1')names[0]=cloud.profile.name;
   const saved=load();
   $('resume').style.display=(saved&&!saved.over)?'block':'none';
   $('games').innerHTML=[101,301,501,701,1001].map(n=>`<button class="chip ${n===setupStart?'on':''}" data-n="${n}">${n}</button>`).join('');
@@ -383,6 +440,7 @@ function draw(){
   $('leave').textContent=(v!==null&&v<=p.score)?'Leaves '+(p.score-v):'';
   if(G.over){
     const w=G.players[G.winner];
+    recordResult('x01',G.log,[w.name],G.players.map(p=>p.name));
     $('winTitle').textContent=w.name+' wins!';
     $('winStats').textContent='3-dart average '+avg(w)+' over '+w.visits.length+' visits';
     $('winModal').classList.add('on');
@@ -438,7 +496,7 @@ function undo(){
   save();draw();
 }
 $('undo').addEventListener('click',undo);
-$('winUndo').addEventListener('click',undo);
+$('winUndo').addEventListener('click',()=>{unrecord(G.log);undo()});
 $('menu').addEventListener('click',()=>{drawSetup();show('setup')});
 $('winMenu').addEventListener('click',()=>{$('winModal').classList.remove('on');drawSetup();show('setup')});
 $('rematch').addEventListener('click',()=>{
@@ -488,7 +546,7 @@ $('aMenu').addEventListener('click',()=>show('home'));
 /* ---------- setup for Cricket and Around the World ---------- */
 let gGame='cricket',gNames=['Player 1','Player 2'],curG='cricket';
 const GKEY={cricket:'byd-cricket',atw:'byd-atw',shanghai:'byd-shanghai',bob:'byd-bob',halve:'byd-halve',killer:'byd-killer'};
-function saveG(key,S){try{localStorage.setItem(GKEY[key],JSON.stringify(S))}catch(e){}}
+function saveG(key,S){try{localStorage.setItem(GKEY[key],JSON.stringify(S))}catch(e){}touch(GKEY[key])}
 function readSaved(g){try{return JSON.parse(localStorage.getItem(GKEY[g]))}catch(e){return null}}
 function openGSetup(g){
   gGame=g;
@@ -498,6 +556,7 @@ function openGSetup(g){
   drawGSetup();show('gsetup');
 }
 function drawGSetup(){
+  if(cloud.profile&&gNames[0]==='Player 1')gNames[0]=cloud.profile.name;
   const s=readSaved(gGame);
   $('gResume').style.display=(s&&!s.over)?'block':'none';
   $('gnames').innerHTML=gNames.map((n,i)=>`<div class="row"><input data-i="${i}" value="${esc(n)}" maxlength="14" placeholder="Player ${i+1}">${gNames.length>1?`<button class="x" data-del="${i}">✕</button>`:''}</div>`).join('');
@@ -519,7 +578,7 @@ $('gResume').addEventListener('click',()=>{
 function showGWin(title,stats){$('gWinTitle').textContent=title;$('gWinStats').textContent=stats;$('gWin').classList.add('on')}
 function hideGWin(){$('gWin').classList.remove('on')}
 $('gWinMenu').addEventListener('click',()=>{hideGWin();show('home')});
-$('gWinUndo').addEventListener('click',()=>{GM[curG].undo()});
+$('gWinUndo').addEventListener('click',()=>{const st={cricket:C,atw:A,shanghai:S,bob:B,halve:H,killer:K}[curG];if(st)unrecord(st.hist);GM[curG].undo()});
 $('gRematch').addEventListener('click',()=>{GM[curG].rematch()});
 
 /* ---------- Cricket ---------- */
@@ -528,7 +587,7 @@ let C=null,cMult=1;
 function newCricket(list){
   return {players:list.map(n=>({name:n,marks:{20:0,19:0,18:0,17:0,16:0,15:0,25:0},points:0})),turn:0,dart:0,over:false,winner:null,hist:[]};
 }
-function saveC(){try{localStorage.setItem(GKEY.cricket,JSON.stringify(C))}catch(e){}}
+function saveC(){try{localStorage.setItem(GKEY.cricket,JSON.stringify(C))}catch(e){}touch(GKEY.cricket)}
 function showCricket(){curG='cricket';show('cricket');drawCricket()}
 $('cKeys').innerHTML=[20,19,18,17,16,15,25,0].map(t=>`<button data-t="${t}">${t===25?'Bull':t===0?'Miss':t}</button>`).join('');
 function cAllClosed(p){return CT.every(t=>p.marks[t]>=3)}
@@ -542,7 +601,7 @@ function drawCricket(){
   $('cBoard').innerHTML=h+'</div>';
   $('cTurn').textContent=C.over?'':C.players[C.turn].name+"'s turn · Dart "+(C.dart+1)+' of 3';
   document.querySelectorAll('#cMult button').forEach(b=>b.classList.toggle('on',+b.dataset.m===cMult));
-  if(C.over){const w=C.players[C.winner];showGWin(w.name+' wins!',w.points+' points');}else hideGWin();
+  if(C.over){const w=C.players[C.winner];recordResult('cricket',C.hist,[w.name],C.players.map(p=>p.name));showGWin(w.name+' wins!',w.points+' points');}else hideGWin();
 }
 function cDart(t){
   if(!C||C.over)return;
@@ -584,7 +643,7 @@ let A=null;
 function newATW(list,jump){
   return {jump:!!jump,players:list.map(n=>({name:n,pos:1,darts:0})),turn:0,dart:0,over:false,winner:null,hist:[]};
 }
-function saveA(){try{localStorage.setItem(GKEY.atw,JSON.stringify(A))}catch(e){}}
+function saveA(){try{localStorage.setItem(GKEY.atw,JSON.stringify(A))}catch(e){}touch(GKEY.atw)}
 function showATW(){curG='atw';show('atw');drawATW()}
 const aLabel=pos=>pos===21?'Bull':String(pos);
 function drawATW(){
@@ -594,7 +653,7 @@ function drawATW(){
   $('aKeys').innerHTML=A.jump
     ?'<button class="hit" data-s="1">Hit (+1)</button><button class="hit" data-s="2">Double (+2)</button><button class="hit" data-s="3">Triple (+3)</button><button data-s="0">Miss</button>'
     :'<button class="hit" data-s="1">Hit</button><button data-s="0">Miss</button>';
-  if(A.over){const w=A.players[A.winner];showGWin(w.name+' wins!',w.darts+' darts thrown');}else hideGWin();
+  if(A.over){const w=A.players[A.winner];recordResult('atw',A.hist,[w.name],A.players.map(p=>p.name));showGWin(w.name+' wins!',w.darts+' darts thrown');}else hideGWin();
 }
 function aDart(step){
   if(!A||A.over)return;
@@ -647,6 +706,7 @@ function drawShanghai(){
   $('sTurn').textContent=S.over?'':'Round '+S.round+' of '+SR+' · Target '+S.round+' · '+S.players[S.turn].name+' · Dart '+(S.dart+1)+' of 3';
   if(S.over){
     const w=S.winners;
+    recordResult('shanghai',S.hist,w.map(i=>S.players[i].name),S.players.map(p=>p.name));
     showGWin(S.shanghai?S.players[w[0]].name+' hit a Shanghai!':(w.length>1?'Tie: '+namesOf(S,w):S.players[w[0]].name+' wins!'),S.shanghai?'Instant win':S.players[w[0]].score+' points');
   }else hideGWin();
 }
@@ -695,6 +755,7 @@ function drawBob(){
   $('bTurn').textContent=B.over?'':'Round '+B.round+' of 21 · Target '+bTarget(B.round)+' (worth '+bVal(B.round)+') · '+B.players[B.turn].name;
   if(B.over){
     const w=bWinners();
+    recordResult('bob',B.hist,w.map(i=>B.players[i].name),B.players.map(p=>p.name));
     showGWin(w.length>1?'Tie: '+namesOf(B,w):B.players[w[0]].name+' wins!',B.players[w[0]].score+' points');
   }else hideGWin();
 }
@@ -738,6 +799,7 @@ function drawHalve(){
   $('hDisplay').classList.toggle('dim',hEntry==='');
   if(H.over){
     const w=H.winners;
+    recordResult('halve',H.hist,w.map(i=>H.players[i].name),H.players.map(p=>p.name));
     showGWin(w.length>1?'Tie: '+namesOf(H,w):H.players[w[0]].name+' wins!',H.players[w[0]].score+' points');
   }else hideGWin();
 }
@@ -786,7 +848,7 @@ function drawKiller(){
   $('kCards').innerHTML=K.players.map((p,i)=>`<div class="pc ${i===K.turn&&!K.over?'cur':''} ${p.lives<=0?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">D${p.dbl}</div><div class="m">${p.lives<=0?'Eliminated':(p.killer?'KILLER · ':'Hits '+p.hits+'/3 · ')+hearts(p.lives)}</div></div>`).join('');
   $('kTurn').textContent=K.over?'':K.players[K.turn].name+"'s turn · Dart "+(K.dart+1)+' of 3';
   $('kKeys').innerHTML=K.players.map((p,i)=>`<button class="${i===K.turn?'hit':''}" data-p="${i}" ${p.lives<=0?'disabled style="opacity:.35"':''}>D${p.dbl} · ${esc(p.name)}</button>`).join('')+'<button data-p="-1">Miss</button>';
-  if(K.over)showGWin(K.players[K.winner].name+' wins!','Last one standing');else hideGWin();
+  if(K.over){recordResult('killer',K.hist,[K.players[K.winner].name],K.players.map(p=>p.name));showGWin(K.players[K.winner].name+' wins!','Last one standing')}else hideGWin();
 }
 function kNext(){
   const n=K.players.length;
@@ -856,9 +918,261 @@ const GM={
     rematch(){K=newKiller(K.players.map(p=>p.name));saveG('killer',K);drawKiller()}}
 };
 
+/* ---------- accounts, profile and cloud saves ---------- */
+const FB_CFG={
+  apiKey:"AIzaSyB2cZp8kipw2DFGwYL9eXHXFeIpZAO7SYg",
+  authDomain:"backyard-darts.firebaseapp.com",
+  projectId:"backyard-darts",
+  storageBucket:"backyard-darts.firebasestorage.app",
+  messagingSenderId:"341421569875",
+  appId:"1:341421569875:web:a2ec728295da5f4376d3a6"
+};
+const cloud={api:null,user:null,profile:null,failed:false,initing:false,signupName:'',justSignedUp:false};
+const CLOUD_KEYS=['byd-game','byd-cricket','byd-atw','byd-shanghai','byd-bob','byd-halve','byd-killer'];
+const AV_EMOJI=['🎯','🌴','🐚','🌊','🦩','🐠','🐬','🐢','🥥','🍍','🏝️','☀️','🔥','👑','⭐','🦀','🎣','🍹'];
+const AV_COLORS=['#00abc9','#f4c430','#000000','#e76f51','#2a9d8f','#9b5de5','#ef476f','#264653'];
+const RANKS=[[0,'Rookie'],[3,'Regular'],[10,'Sharpshooter'],[25,'Pro'],[50,'Legend']];
+function rankOf(w){
+  let i=0;RANKS.forEach((r,k)=>{if(w>=r[0])i=k});
+  const nx=RANKS[i+1];
+  return {name:RANKS[i][1],next:nx?nx[1]:null,need:nx?nx[0]-w:0,pct:nx?(w-RANKS[i][0])/(nx[0]-RANKS[i][0])*100:100};
+}
+function avatarHTML(av,px){
+  av=av||{type:'emoji',emoji:'🎯',color:'#00abc9'};
+  if(av.type==='photo'&&av.data)return `<span class="av" style="width:${px}px;height:${px}px"><img src="${esc(av.data)}" alt=""></span>`;
+  return `<span class="av" style="width:${px}px;height:${px}px;background:${esc(av.color||'#00abc9')};font-size:${Math.round(px*.55)}px">${esc(av.emoji||'🎯')}</span>`;
+}
+function drawChip(){
+  const c=$('chip');
+  if(cloud.user&&cloud.profile)c.innerHTML=avatarHTML(cloud.profile.avatar,26)+'<span class="cn">'+esc(cloud.profile.name)+'</span>';
+  else if(cloud.user)c.innerHTML='<span class="cn">Loading…</span>';
+  else c.innerHTML='<span class="cn">Sign in</span>';
+}
+function refreshSetup(){
+  if($('setup').classList.contains('on'))drawSetup();
+  if($('gsetup').classList.contains('on'))drawGSetup();
+}
+
+/* cloud save of games in progress */
+const pushTimers={};
+function touch(key){
+  try{localStorage.setItem('ts-'+key,String(Date.now()))}catch(e){}
+  cloudPush(key);
+}
+function cloudPush(key){
+  if(!cloud.api||!cloud.user)return;
+  clearTimeout(pushTimers[key]);
+  pushTimers[key]=setTimeout(()=>{
+    let raw;try{raw=localStorage.getItem(key)}catch(e){return}
+    if(!raw)return;
+    try{
+      const o=JSON.parse(raw);
+      if(Array.isArray(o.hist))o.hist=o.hist.slice(-20);
+      if(Array.isArray(o.log))o.log=o.log.slice(-40);
+      cloud.api.pushGame(key,{state:JSON.stringify(o),updatedAt:+localStorage.getItem('ts-'+key)||Date.now(),over:!!o.over}).catch(()=>{});
+    }catch(e){}
+  },1500);
+}
+
+/* wins and games played */
+const recorded=new Map();
+const same=(a,b)=>String(a).trim().toLowerCase()===String(b).trim().toLowerCase();
+function recordResult(kind,key,winners,names){
+  if(!cloud.profile||!cloud.api||recorded.has(key))return;
+  const me=cloud.profile.name;
+  if(!names.some(n=>same(n,me)))return;
+  const win=winners.some(n=>same(n,me))?1:0;
+  recorded.set(key,{kind,win});
+  cloud.profile.gamesPlayed=(cloud.profile.gamesPlayed||0)+1;
+  cloud.profile.wins=(cloud.profile.wins||0)+win;
+  cloud.api.addStats(kind,1,win).catch(()=>{});
+}
+function unrecord(key){
+  const r=recorded.get(key);if(!r||!cloud.profile)return;
+  recorded.delete(key);
+  cloud.profile.gamesPlayed=Math.max(0,(cloud.profile.gamesPlayed||0)-1);
+  cloud.profile.wins=Math.max(0,(cloud.profile.wins||0)-r.win);
+  cloud.api.addStats(r.kind,-1,-r.win).catch(()=>{});
+}
+
+/* signing in */
+async function onUser(u){
+  cloud.user=u;
+  if(!u){
+    cloud.profile=null;drawChip();
+    if($('profile').classList.contains('on'))show('home');
+    return;
+  }
+  drawChip();
+  try{cloud.profile=await cloud.api.loadProfile(u,cloud.signupName)}
+  catch(e){cloud.profile={name:(u.email||'Player').split('@')[0].slice(0,14),avatar:null,gamesPlayed:0,wins:0,adFree:false}}
+  cloud.signupName='';
+  drawChip();
+  if($('auth').classList.contains('on'))show(cloud.justSignedUp?'profile':'home');
+  cloud.justSignedUp=false;
+  if($('profile').classList.contains('on'))drawProfile();
+  refreshSetup();
+  cloud.api.pullGames().then(n=>{if(n){refreshSetup();toast('Your saved games were restored')}}).catch(()=>{});
+}
+let authMode='in';
+function authMsg(t,ok){const m=$('auMsg');m.textContent=t;m.classList.toggle('ok',!!ok)}
+function setAuthMode(m){
+  authMode=m;
+  $('tabIn').classList.toggle('on',m==='in');$('tabUp').classList.toggle('on',m==='up');
+  $('upName').style.display=m==='up'?'block':'none';
+  $('auGo').textContent=m==='up'?'Create account':'Sign in';
+  $('auForgot').style.display=m==='in'?'inline-block':'none';
+  $('auPass').autocomplete=m==='up'?'new-password':'current-password';
+  authMsg('');
+}
+function friendly(e){
+  const c=(e&&e.code)||'';
+  if(/invalid-credential|user-not-found|wrong-password/.test(c))return 'Wrong email or password.';
+  if(/email-already-in-use/.test(c))return 'That email already has an account. Try signing in.';
+  if(/weak-password/.test(c))return 'Password must be at least 6 characters.';
+  if(/invalid-email/.test(c))return "That email address doesn't look right.";
+  if(/network/.test(c))return 'No internet connection.';
+  if(/too-many-requests/.test(c))return 'Too many tries. Wait a minute and try again.';
+  return 'Something went wrong. Please try again.';
+}
+function openAuth(){
+  if(!cloud.api){toast(cloud.failed?'Accounts need an internet connection':'Connecting… try again in a moment');return}
+  setAuthMode('in');show('auth');
+}
+function openProfile(){drawProfile();show('profile')}
+$('chip').addEventListener('click',()=>{if(cloud.user)openProfile();else openAuth()});
+$('authBack').addEventListener('click',()=>show('home'));
+$('pfBack').addEventListener('click',()=>show('home'));
+$('tabIn').addEventListener('click',()=>setAuthMode('in'));
+$('tabUp').addEventListener('click',()=>setAuthMode('up'));
+let authBusy=false;
+async function authGo(){
+  if(authBusy||!cloud.api)return;
+  const email=$('auEmail').value.trim(),pw=$('auPass').value,name=$('auName').value.trim();
+  if(!email||!pw){authMsg('Enter your email and password.');return}
+  if(authMode==='up'){
+    if(!name){authMsg('Enter a name.');return}
+    if(pw.length<6){authMsg('Password must be at least 6 characters.');return}
+  }
+  authBusy=true;$('auGo').disabled=true;authMsg('');
+  try{
+    if(authMode==='up'){cloud.signupName=name;cloud.justSignedUp=true;await cloud.api.signUp(email,pw)}
+    else await cloud.api.signIn(email,pw);
+  }catch(e){cloud.justSignedUp=false;authMsg(friendly(e))}
+  authBusy=false;$('auGo').disabled=false;
+}
+$('auGo').addEventListener('click',authGo);
+$('auPass').addEventListener('keydown',e=>{if(e.key==='Enter')authGo()});
+$('auForgot').addEventListener('click',async()=>{
+  const email=$('auEmail').value.trim();
+  if(!email){authMsg('Type your email above first.');return}
+  try{await cloud.api.reset(email);authMsg('If that email has an account, a reset link is on its way.',true)}
+  catch(e){authMsg(friendly(e))}
+});
+
+/* profile screen */
+function drawProfile(){
+  const p=cloud.profile;if(!p)return;
+  const av=p.avatar||{type:'emoji',emoji:'🎯',color:'#00abc9'};
+  $('pfAvatar').innerHTML=avatarHTML(av,96);
+  $('pfName').value=p.name;
+  $('pfAdfree').style.display=p.adFree?'block':'none';
+  $('stGames').textContent=p.gamesPlayed||0;
+  $('stWins').textContent=p.wins||0;
+  const r=rankOf(p.wins||0);
+  $('stRank').textContent=r.name;
+  $('rkBar').style.width=r.pct+'%';
+  $('rkTxt').textContent=r.next?r.need+' more win'+(r.need===1?'':'s')+' to reach '+r.next:'Top rank reached!';
+  $('emojiGrid').innerHTML=AV_EMOJI.map(e=>`<button data-e="${e}" class="${av.type==='emoji'&&av.emoji===e?'on':''}">${e}</button>`).join('');
+  $('colorRow').innerHTML=AV_COLORS.map(c=>`<button data-c="${c}" style="background:${c}" class="${av.type==='emoji'&&av.color===c?'on':''}"></button>`).join('');
+}
+function saveAvatar(av){
+  if(!cloud.profile)return;
+  cloud.profile.avatar=av;drawProfile();drawChip();
+  cloud.api.updateProfile({avatar:av}).catch(()=>toast("Couldn't save. Check your connection."));
+}
+function curEmojiAv(){const a=cloud.profile&&cloud.profile.avatar;return a&&a.type==='emoji'?a:{emoji:'🎯',color:'#00abc9'}}
+$('emojiGrid').addEventListener('click',e=>{const b=e.target.closest('[data-e]');if(b)saveAvatar({type:'emoji',emoji:b.dataset.e,color:curEmojiAv().color})});
+$('colorRow').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(b)saveAvatar({type:'emoji',emoji:curEmojiAv().emoji,color:b.dataset.c})});
+$('pfSave').addEventListener('click',()=>{
+  const n=$('pfName').value.trim();
+  if(!n){toast('Enter a name');return}
+  cloud.profile.name=n;drawChip();
+  cloud.api.updateProfile({name:n}).then(()=>toast('Name saved')).catch(()=>toast("Couldn't save. Check your connection."));
+});
+$('pfPhoto').addEventListener('click',()=>$('pfFile').click());
+$('pfFile').addEventListener('change',e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const img=new Image();
+  img.onload=()=>{
+    const s=160,c=document.createElement('canvas');c.width=c.height=s;
+    const m=Math.min(img.width,img.height);
+    c.getContext('2d').drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,s,s);
+    URL.revokeObjectURL(img.src);
+    saveAvatar({type:'photo',data:c.toDataURL('image/jpeg',0.75)});
+  };
+  img.onerror=()=>toast("Couldn't read that photo");
+  img.src=URL.createObjectURL(f);
+  e.target.value='';
+});
+$('pfOut').addEventListener('click',()=>{cloud.api.signOut().catch(()=>{});show('home')});
+
+/* connect to Firebase (only when online; the app works without it) */
+async function initCloud(){
+  if(cloud.api||cloud.initing)return;
+  cloud.initing=true;
+  try{
+    const base='https://www.gstatic.com/firebasejs/10.14.1/';
+    const [FA,AU,FS]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
+    const app=FA.initializeApp(FB_CFG),auth=AU.getAuth(app),db=FS.getFirestore(app);
+    const uref=()=>FS.doc(db,'users',cloud.user.uid);
+    cloud.api={
+      signIn:(e,p)=>AU.signInWithEmailAndPassword(auth,e,p),
+      signUp:(e,p)=>AU.createUserWithEmailAndPassword(auth,e,p),
+      signOut:()=>AU.signOut(auth),
+      reset:e=>AU.sendPasswordResetEmail(auth,e),
+      async loadProfile(u,name){
+        const ref=FS.doc(db,'users',u.uid),snap=await FS.getDoc(ref);
+        if(snap.exists())return snap.data();
+        const p={name:(name||u.displayName||(u.email||'Player').split('@')[0]).slice(0,14),avatar:{type:'emoji',emoji:'🎯',color:'#00abc9'},gamesPlayed:0,wins:0,adFree:false,createdAt:FS.serverTimestamp()};
+        await FS.setDoc(ref,p);
+        return Object.assign({},p,{createdAt:null});
+      },
+      updateProfile:d=>FS.updateDoc(uref(),d),
+      addStats(kind,played,win){
+        const d={gamesPlayed:FS.increment(played),wins:FS.increment(win)};
+        d['byGame.'+kind+'.played']=FS.increment(played);
+        d['byGame.'+kind+'.wins']=FS.increment(win);
+        return FS.updateDoc(uref(),d);
+      },
+      pushGame:(key,payload)=>FS.setDoc(FS.doc(db,'users',cloud.user.uid,'games',key),payload),
+      async pullGames(){
+        let n=0;
+        for(const k of CLOUD_KEYS){
+          const s=await FS.getDoc(FS.doc(db,'users',cloud.user.uid,'games',k));
+          const local=+localStorage.getItem('ts-'+k)||0;
+          if(!s.exists()){if(local)cloudPush(k);continue}
+          const d=s.data();
+          if((d.updatedAt||0)>local){
+            try{localStorage.setItem(k,d.state);localStorage.setItem('ts-'+k,String(d.updatedAt))}catch(e){continue}
+            if(!d.over)n++;
+          }else if(local>(d.updatedAt||0))cloudPush(k);
+        }
+        return n;
+      }
+    };
+    AU.onAuthStateChanged(auth,onUser);
+  }catch(e){cloud.failed=true}
+  cloud.initing=false;
+  drawChip();
+}
+
 /* ---------- start ---------- */
 drawSetup();
 drawSound();
+drawChip();
+initCloud();
+if(window.addEventListener)window.addEventListener('online',()=>{if(!cloud.api){cloud.failed=false;initCloud()}});
 loadVoices();
 if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=loadVoices;
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
