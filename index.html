@@ -66,7 +66,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 .cc{font-size:26px;font-weight:800;min-height:44px;display:flex;align-items:center;justify-content:center}
 .cc.cur,.ch.cur{border-color:var(--green2);background:#eef7f1}
 .cc.done{color:var(--green2)}
-#cTurn,#aTurn{text-align:center;font-weight:700;margin:14px 0 4px}
+#cTurn,#aTurn,#sTurn,#bTurn,#hTurn,#kTurn{text-align:center;font-weight:700;margin:14px 0 4px}
 #cMult{margin-top:auto}
 .mult{display:flex;gap:8px;margin:8px 0}
 .mult button{flex:1;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-weight:700;color:var(--ink)}
@@ -74,12 +74,19 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 .tkeys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 8px}
 .tkeys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:20px;font-weight:700;color:var(--ink)}
 .tkeys button:active,.akeys button:active{background:#e9eee9}
-#aCards{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+#aCards,#sCards,#bCards,#hCards,#kCards{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .akeys{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:auto}
 .akeys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:22px 0;font-size:20px;font-weight:700;color:var(--ink)}
 .akeys button.hit{background:var(--green);border-color:var(--green);color:#fff}
 .pbar{height:6px;background:#e5eae6;border-radius:4px;margin-top:6px;overflow:hidden}
 .pbar i{display:block;height:100%;background:var(--green2)}
+#hDisplay{text-align:center;font-size:56px;font-weight:800;min-height:68px;-webkit-user-select:none;user-select:none}
+#hDisplay.dim{color:#b9c2bc}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
+.kp button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:24px;font-weight:700;color:var(--ink)}
+.kp button:active{background:#e9eee9}
+.kp .go{background:var(--green);border-color:var(--green);color:#fff;font-size:18px}
+.pc.out{opacity:.45}
 #toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none;z-index:30}
 #toast.on{opacity:1}
 #banner{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:96px;font-weight:900;color:var(--gold);text-shadow:0 4px 0 var(--green),0 8px 24px rgba(0,0,0,.35);opacity:0;pointer-events:none;z-index:20;transform:scale(.6)}
@@ -102,10 +109,10 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
     <button class="gbtn" data-go="x01"><b>301 – 1001</b><span>Count down to zero, finish on a double</span></button>
     <button class="gbtn" data-go="cricket"><b>Cricket</b><span>Close 15 to 20 and the bull</span></button>
     <button class="gbtn" data-go="atw"><b>Around the World</b><span>Hit 1 to 20 in order, then the bull</span></button>
-    <button class="gbtn soon" disabled><b>Shanghai</b><span>Coming soon</span></button>
-    <button class="gbtn soon" disabled><b>Bob's 27</b><span>Coming soon</span></button>
-    <button class="gbtn soon" disabled><b>Halve-It</b><span>Coming soon</span></button>
-    <button class="gbtn soon" disabled><b>Killer</b><span>Coming soon</span></button>
+    <button class="gbtn" data-go="shanghai"><b>Shanghai</b><span>Single, double and triple of the round's number</span></button>
+    <button class="gbtn" data-go="bob"><b>Bob's 27</b><span>Doubles practice, 21 rounds</span></button>
+    <button class="gbtn" data-go="halve"><b>Halve-It</b><span>Miss the target and your score is halved</span></button>
+    <button class="gbtn" data-go="killer"><b>Killer</b><span>Become a killer, take out the other doubles</span></button>
   </div>
   <button class="big alt" id="howto">How to play</button>
 </section>
@@ -177,10 +184,42 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <details open><summary>301 – 1001 (X01)</summary><p>Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter.</p></details>
   <details><summary>Cricket</summary><p>The targets are 15, 16, 17, 18, 19, 20 and the bull. Three marks closes a number: a single is one mark, a double is two, a triple is three (bull: outer is one, inner is two). Once you've closed a number, more hits on it score points, until all your opponents have closed it too. To win, close all seven targets while having at least as many points as everyone else. In the app: pick Single, Double or Triple, then tap the number you hit for each dart.</p></details>
   <details><summary>Around the World</summary><p>Race to hit every number in order: 1, then 2, then 3, all the way to 20, and finish on the bullseye (outer or inner). You only move forward when you hit your current number. The first player to hit the bullseye wins. Optional rule: a double moves you forward 2 numbers and a triple moves you forward 3. In the app: tap Hit or Miss for each dart.</p></details>
-  <details><summary>Shanghai (coming soon)</summary><p>Each round has a target number. Try to hit a single, a double and a triple of that number in the same turn of three darts. Doing all three is a Shanghai.</p></details>
-  <details><summary>Bob's 27 (coming soon)</summary><p>A practice game for doubles. You start on 27 and work through the doubles from 1 to 20, then the bull. Each double you hit adds its value to your score. If all three darts miss, you lose that double's value. Finish all 21 rounds with the highest score.</p></details>
-  <details><summary>Halve-It (coming soon)</summary><p>Each round has a target. Hit it with at least one dart and its score is added to your total. Miss with all three darts and your total is cut in half. The highest total at the end wins.</p></details>
-  <details><summary>Killer (coming soon)</summary><p>Each player is given their own double. Hit your own double three times to become a killer. Killers then hit the other players' doubles to take away their lives. The last player left is the winner.</p></details>
+  <details><summary>Shanghai</summary><p>There are 7 rounds, and the target number is the round number (1 in round 1, 2 in round 2, and so on). You throw 3 darts at the target. A single scores the number, a double scores it twice and a triple three times. Hit a single, a double and a triple of the target in the same turn and that's a Shanghai: you win on the spot. If nobody does it, the highest score after round 7 wins. In the app: tap Single, Double, Triple or Miss for each dart.</p></details>
+  <details><summary>Bob's 27</summary><p>A practice game for doubles. You start on 27 and work through double 1, double 2 and so on up to double 20, then the bull, which makes 21 rounds. Each round you throw 3 darts at that double. Every hit adds the double's value to your score (double 5 is worth 10, the bull is worth 50). If all three darts miss, you lose that value. If your score drops below zero you're out. The highest score at the end wins. In the app: tap how many of your 3 darts hit.</p></details>
+  <details><summary>Halve-It</summary><p>There are 9 rounds, each with its own target: 15, 16, 17, any double, 18, 19, 20, any triple and the bull. You throw 3 darts at the target. Whatever you hit on the target is added to your total. If all three darts miss, your total is cut in half. The highest total at the end wins. In the app: type the points you scored with your 3 darts and tap Enter, or tap "Missed all 3 darts" to halve your total.</p></details>
+  <details><summary>Killer</summary><p>Each player is given their own double, picked at random, and starts with 3 lives. Hit your own double three times to become a killer. Once you're a killer, every hit on another player's double takes away one of their lives. Lose all three and you're out. The last player left wins. You need at least 2 players. In the app: tap the double you hit for each dart, or Miss.</p></details>
+</section>
+
+<section id="shanghai" class="screen">
+  <header class="bar"><button id="sMenu">‹ Home</button><div class="t">Shanghai</div><div><button id="sUndo">Undo</button></div></header>
+  <div id="sCards"></div>
+  <div id="sTurn"></div>
+  <div id="sKeys" class="akeys"></div>
+  <button class="big alt" id="sEnd" style="margin-top:4px">End turn</button>
+</section>
+
+<section id="bob" class="screen">
+  <header class="bar"><button id="bMenu">‹ Home</button><div class="t">Bob's 27</div><div><button id="bUndo">Undo</button></div></header>
+  <div id="bCards"></div>
+  <div id="bTurn"></div>
+  <div id="bKeys" class="akeys"></div>
+</section>
+
+<section id="halve" class="screen">
+  <header class="bar"><button id="hMenu">‹ Home</button><div class="t">Halve-It</div><div><button id="hUndo">Undo</button></div></header>
+  <div id="hCards"></div>
+  <div id="hTurn"></div>
+  <div id="hDisplay" class="dim">0</div>
+  <div id="hKeys" class="kp"></div>
+  <button class="big alt" id="hMiss" style="margin-top:8px">Missed all 3 darts (halve)</button>
+</section>
+
+<section id="killer" class="screen">
+  <header class="bar"><button id="kMenu">‹ Home</button><div class="t">Killer</div><div><button id="kUndo">Undo</button></div></header>
+  <div id="kCards"></div>
+  <div id="kTurn"></div>
+  <div id="kKeys" class="akeys"></div>
+  <button class="big alt" id="kEnd" style="margin-top:4px">End turn</button>
 </section>
 
 <div class="modal" id="gWin">
@@ -427,12 +466,13 @@ $('aMenu').addEventListener('click',()=>show('home'));
 
 /* ---------- setup for Cricket and Around the World ---------- */
 let gGame='cricket',gNames=['Player 1','Player 2'],curG='cricket';
-const GKEY={cricket:'byd-cricket',atw:'byd-atw'};
+const GKEY={cricket:'byd-cricket',atw:'byd-atw',shanghai:'byd-shanghai',bob:'byd-bob',halve:'byd-halve',killer:'byd-killer'};
+function saveG(key,S){try{localStorage.setItem(GKEY[key],JSON.stringify(S))}catch(e){}}
 function readSaved(g){try{return JSON.parse(localStorage.getItem(GKEY[g]))}catch(e){return null}}
 function openGSetup(g){
   gGame=g;
-  if(g==='cricket')gNames=gNames.slice(0,6);
-  $('gsTitle').textContent=g==='cricket'?'Cricket':'Around the World';
+  gNames=gNames.slice(0,GM[g].max);
+  $('gsTitle').textContent=GM[g].title;
   $('atwOpt').style.display=g==='atw'?'flex':'none';
   drawGSetup();show('gsetup');
 }
@@ -440,30 +480,26 @@ function drawGSetup(){
   const s=readSaved(gGame);
   $('gResume').style.display=(s&&!s.over)?'block':'none';
   $('gnames').innerHTML=gNames.map((n,i)=>`<div class="row"><input data-i="${i}" value="${esc(n)}" maxlength="14" placeholder="Player ${i+1}">${gNames.length>1?`<button class="x" data-del="${i}">✕</button>`:''}</div>`).join('');
-  $('gadd').style.display=gNames.length>=(gGame==='cricket'?6:8)?'none':'inline-block';
+  $('gadd').style.display=gNames.length>=GM[gGame].max?'none':'inline-block';
 }
 $('gnames').addEventListener('input',e=>{if(e.target.dataset.i!==undefined)gNames[+e.target.dataset.i]=e.target.value});
 $('gnames').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;gNames.splice(+b.dataset.del,1);drawGSetup()});
-$('gadd').addEventListener('click',()=>{if(gNames.length<(gGame==='cricket'?6:8)){gNames.push('Player '+(gNames.length+1));drawGSetup()}});
+$('gadd').addEventListener('click',()=>{if(gNames.length<GM[gGame].max){gNames.push('Player '+(gNames.length+1));drawGSetup()}});
 $('gstart').addEventListener('click',()=>{
   const list=gNames.map((n,i)=>n.trim()||('Player '+(i+1)));
-  if(gGame==='cricket'){C=newCricket(list);cMult=1;saveC();showCricket()}
-  else{A=newATW(list,$('atwJump').checked);saveA();showATW()}
+  GM[gGame].start(list);
 });
 $('gResume').addEventListener('click',()=>{
   const s=readSaved(gGame);if(!s)return;
-  if(gGame==='cricket'){C=s;cMult=1;showCricket()}else{A=s;showATW()}
+  GM[gGame].resume(s);
 });
 
 /* ---------- shared win box ---------- */
 function showGWin(title,stats){$('gWinTitle').textContent=title;$('gWinStats').textContent=stats;$('gWin').classList.add('on')}
 function hideGWin(){$('gWin').classList.remove('on')}
 $('gWinMenu').addEventListener('click',()=>{hideGWin();show('home')});
-$('gWinUndo').addEventListener('click',()=>{if(curG==='cricket')cUndo();else aUndo()});
-$('gRematch').addEventListener('click',()=>{
-  if(curG==='cricket'){C=newCricket(C.players.map(p=>p.name));cMult=1;saveC();drawCricket()}
-  else{A=newATW(A.players.map(p=>p.name),A.jump);saveA();drawATW()}
-});
+$('gWinUndo').addEventListener('click',()=>{GM[curG].undo()});
+$('gRematch').addEventListener('click',()=>{GM[curG].rematch()});
 
 /* ---------- Cricket ---------- */
 const CT=[20,19,18,17,16,15,25];
@@ -569,6 +605,235 @@ $('aEnd').addEventListener('click',()=>{
   pushHist(A);A.turn=(A.turn+1)%A.players.length;A.dart=0;
   saveA();drawATW();
 });
+
+['sMenu','bMenu','hMenu','kMenu'].forEach(id=>$(id).addEventListener('click',()=>show('home')));
+const namesOf=(S,idx)=>idx.map(i=>S.players[i].name).join(' & ');
+const topScorers=ps=>{const mx=Math.max(...ps.map(q=>q.score));return ps.map((q,i)=>q.score===mx?i:-1).filter(i=>i>=0)};
+
+/* ---------- Shanghai ---------- */
+const SR=7;
+let S=null;
+function newShanghai(list){
+  return {players:list.map(n=>({name:n,score:0,f:[0,0,0]})),round:1,turn:0,dart:0,over:false,shanghai:false,winners:[],hist:[]};
+}
+function showShanghai(){curG='shanghai';show('shanghai');drawShanghai()}
+$('sKeys').innerHTML='<button class="hit" data-m="1">Single</button><button class="hit" data-m="2">Double</button><button class="hit" data-m="3">Triple</button><button data-m="0">Miss</button>';
+function drawShanghai(){
+  $('sCards').innerHTML=S.players.map((p,i)=>{
+    const cur=i===S.turn&&!S.over;
+    return `<div class="pc ${cur?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${cur?'This turn: '+['S','D','T'].map((l,k)=>p.f[k]?l:'·').join(' '):'Points'}</div></div>`;
+  }).join('');
+  $('sTurn').textContent=S.over?'':'Round '+S.round+' of '+SR+' · Target '+S.round+' · '+S.players[S.turn].name+' · Dart '+(S.dart+1)+' of 3';
+  if(S.over){
+    const w=S.winners;
+    showGWin(S.shanghai?S.players[w[0]].name+' hit a Shanghai!':(w.length>1?'Tie: '+namesOf(S,w):S.players[w[0]].name+' wins!'),S.shanghai?'Instant win':S.players[w[0]].score+' points');
+  }else hideGWin();
+}
+function sNext(){
+  S.players[S.turn].f=[0,0,0];S.dart=0;
+  S.turn++;
+  if(S.turn>=S.players.length){S.turn=0;S.round++}
+  if(S.round>SR){
+    S.over=true;S.winners=topScorers(S.players);
+    confetti();say(S.winners.length>1?'It is a tie.':S.players[S.winners[0]].name+' wins.');
+  }else toast(S.players[S.turn].name+"'s turn");
+}
+function sDart(m){
+  if(!S||S.over)return;
+  pushHist(S);
+  const p=S.players[S.turn];
+  if(m){p.score+=m*S.round;p.f[m-1]=1}
+  S.dart++;
+  if(p.f[0]&&p.f[1]&&p.f[2]){
+    S.over=true;S.shanghai=true;S.winners=[S.turn];confetti();say('Shanghai! '+p.name+' wins.');
+  }else if(S.dart>=3)sNext();
+  saveG('shanghai',S);drawShanghai();
+}
+function sUndo(){if(!S||!S.hist.length)return;S=popHist(S);saveG('shanghai',S);drawShanghai()}
+$('sKeys').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)sDart(+b.dataset.m)});
+$('sUndo').addEventListener('click',sUndo);
+$('sEnd').addEventListener('click',()=>{if(!S||S.over)return;pushHist(S);sNext();saveG('shanghai',S);drawShanghai()});
+
+/* ---------- Bob's 27 ---------- */
+let B=null;
+const bTarget=r=>r<=20?'D'+r:'Bull';
+const bVal=r=>r<=20?2*r:50;
+function newBob(list){
+  return {players:list.map(n=>({name:n,score:27,out:false,last:''})),round:1,turn:0,over:false,hist:[]};
+}
+function showBob(){curG='bob';show('bob');drawBob()}
+$('bKeys').innerHTML='<button data-h="0">0 hits</button><button class="hit" data-h="1">1 hit</button><button class="hit" data-h="2">2 hits</button><button class="hit" data-h="3">3 hits</button>';
+function bWinners(){
+  const alive=B.players.map((p,i)=>p.out?-1:i).filter(i=>i>=0);
+  const pool=alive.length?alive:B.players.map((p,i)=>i);
+  const mx=Math.max(...pool.map(i=>B.players[i].score));
+  return pool.filter(i=>B.players[i].score===mx);
+}
+function drawBob(){
+  $('bCards').innerHTML=B.players.map((p,i)=>`<div class="pc ${i===B.turn&&!B.over?'cur':''} ${p.out?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.out?'Out':p.score}</div><div class="m">${esc(p.last||'Start on 27')}</div></div>`).join('');
+  $('bTurn').textContent=B.over?'':'Round '+B.round+' of 21 · Target '+bTarget(B.round)+' (worth '+bVal(B.round)+') · '+B.players[B.turn].name;
+  if(B.over){
+    const w=bWinners();
+    showGWin(w.length>1?'Tie: '+namesOf(B,w):B.players[w[0]].name+' wins!',B.players[w[0]].score+' points');
+  }else hideGWin();
+}
+function bNext(){
+  const n=B.players.length;
+  if(B.players.every(p=>p.out)){B.over=true}
+  else{
+    do{B.turn++;if(B.turn>=n){B.turn=0;B.round++}}while(B.round<=21&&B.players[B.turn].out);
+    if(B.round>21)B.over=true;
+  }
+  if(B.over){const w=bWinners();confetti();say(w.length>1?'It is a tie.':B.players[w[0]].name+' wins.')}
+}
+function bPlay(h){
+  if(!B||B.over)return;
+  pushHist(B);
+  const p=B.players[B.turn],v=bVal(B.round),t=bTarget(B.round);
+  if(h>0){p.score+=h*v;p.last=t+': +'+(h*v)}
+  else{
+    p.score-=v;p.last=t+': -'+v;
+    if(p.score<0){p.out=true;p.last='Out on '+t;toast(p.name+' is out');}
+  }
+  bNext();
+  saveG('bob',B);drawBob();
+}
+function bUndo(){if(!B||!B.hist.length)return;B=popHist(B);saveG('bob',B);drawBob()}
+$('bKeys').addEventListener('click',e=>{const b=e.target.closest('[data-h]');if(b)bPlay(+b.dataset.h)});
+$('bUndo').addEventListener('click',bUndo);
+
+/* ---------- Halve-It ---------- */
+const HT=['15','16','17','Any double','18','19','20','Any triple','Bull'];
+let H=null,hEntry='';
+function newHalve(list){
+  return {players:list.map(n=>({name:n,score:0,last:''})),round:0,turn:0,over:false,winners:[],hist:[]};
+}
+function showHalve(){curG='halve';hEntry='';show('halve');drawHalve()}
+$('hKeys').innerHTML=['1','2','3','4','5','6','7','8','9','del','0','go'].map(k=>`<button data-k="${k}" ${k==='go'?'class="go"':''}>${k==='del'?'⌫':k==='go'?'Enter':k}</button>`).join('');
+function drawHalve(){
+  $('hCards').innerHTML=H.players.map((p,i)=>`<div class="pc ${i===H.turn&&!H.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${esc(p.last||'Start on 0')}</div></div>`).join('');
+  $('hTurn').textContent=H.over?'':'Round '+(H.round+1)+' of '+HT.length+' · Target: '+HT[H.round]+' · '+H.players[H.turn].name;
+  $('hDisplay').textContent=hEntry===''?'0':hEntry;
+  $('hDisplay').classList.toggle('dim',hEntry==='');
+  if(H.over){
+    const w=H.winners;
+    showGWin(w.length>1?'Tie: '+namesOf(H,w):H.players[w[0]].name+' wins!',H.players[w[0]].score+' points');
+  }else hideGWin();
+}
+function hPlay(v){
+  if(!H||H.over)return;
+  pushHist(H);
+  const p=H.players[H.turn];
+  if(v===0){p.score=Math.floor(p.score/2);p.last='Halved';toast('Halved!');say('Halved. '+words(p.score)+'.')}
+  else{p.score+=v;p.last='+'+v;say(words(v)+(v>=100?'!':'.')+' Total '+words(p.score)+'.')}
+  hEntry='';
+  H.turn++;
+  if(H.turn>=H.players.length){H.turn=0;H.round++}
+  if(H.round>=HT.length){
+    H.over=true;H.winners=topScorers(H.players);
+    confetti();say(H.winners.length>1?'It is a tie.':H.players[H.winners[0]].name+' wins.');
+  }
+  saveG('halve',H);drawHalve();
+}
+$('hKeys').addEventListener('click',e=>{
+  const b=e.target.closest('[data-k]');if(!b||!H||H.over)return;
+  const k=b.dataset.k;
+  if(k==='del')hEntry=hEntry.slice(0,-1);
+  else if(k==='go'){
+    if(hEntry===''){toast('Type your points, or tap "Missed all 3"');return}
+    const v=parseInt(hEntry,10);
+    if(v>180){toast("That score isn't possible with 3 darts");hEntry='';drawHalve();return}
+    hPlay(v);return;
+  }
+  else if(hEntry.length<3)hEntry+=k;
+  drawHalve();
+});
+$('hMiss').addEventListener('click',()=>hPlay(0));
+function hUndo(){if(!H||!H.hist.length)return;H=popHist(H);hEntry='';saveG('halve',H);drawHalve()}
+$('hUndo').addEventListener('click',hUndo);
+
+/* ---------- Killer ---------- */
+let K=null;
+function newKiller(list){
+  const pool=[];for(let i=1;i<=20;i++)pool.push(i);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  return {players:list.map((n,i)=>({name:n,dbl:pool[i],hits:0,killer:false,lives:3})),turn:0,dart:0,over:false,winner:null,hist:[]};
+}
+function showKiller(){curG='killer';show('killer');drawKiller()}
+function drawKiller(){
+  const hearts=n=>'♥'.repeat(n)||'–';
+  $('kCards').innerHTML=K.players.map((p,i)=>`<div class="pc ${i===K.turn&&!K.over?'cur':''} ${p.lives<=0?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">D${p.dbl}</div><div class="m">${p.lives<=0?'Eliminated':(p.killer?'KILLER · ':'Hits '+p.hits+'/3 · ')+hearts(p.lives)}</div></div>`).join('');
+  $('kTurn').textContent=K.over?'':K.players[K.turn].name+"'s turn · Dart "+(K.dart+1)+' of 3';
+  $('kKeys').innerHTML=K.players.map((p,i)=>`<button class="${i===K.turn?'hit':''}" data-p="${i}" ${p.lives<=0?'disabled style="opacity:.35"':''}>D${p.dbl} · ${esc(p.name)}</button>`).join('')+'<button data-p="-1">Miss</button>';
+  if(K.over)showGWin(K.players[K.winner].name+' wins!','Last one standing');else hideGWin();
+}
+function kNext(){
+  const n=K.players.length;
+  do{K.turn=(K.turn+1)%n}while(K.players[K.turn].lives<=0);
+  K.dart=0;
+  toast(K.players[K.turn].name+"'s turn");
+}
+function kDart(idx){
+  if(!K||K.over)return;
+  pushHist(K);
+  const me=K.players[K.turn];
+  if(idx===K.turn){
+    if(!me.killer){
+      me.hits++;
+      if(me.hits>=3){me.killer=true;toast(me.name+' is a killer!');say(me.name+' is a killer!')}
+    }
+  }else if(idx>=0){
+    const t=K.players[idx];
+    if(!me.killer)toast('Hit your own double 3 times first');
+    else if(t.lives>0){
+      t.lives--;
+      if(t.lives===0){toast(t.name+' is eliminated!');say(t.name+' is eliminated.')}
+    }
+  }
+  K.dart++;
+  const alive=K.players.map((p,i)=>p.lives>0?i:-1).filter(i=>i>=0);
+  if(alive.length===1){K.over=true;K.winner=alive[0];confetti();say(K.players[K.winner].name+' wins.')}
+  else if(K.dart>=3)kNext();
+  saveG('killer',K);drawKiller();
+}
+function kUndo(){if(!K||!K.hist.length)return;K=popHist(K);saveG('killer',K);drawKiller()}
+$('kKeys').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b&&!b.disabled)kDart(+b.dataset.p)});
+$('kUndo').addEventListener('click',kUndo);
+$('kEnd').addEventListener('click',()=>{if(!K||K.over)return;pushHist(K);kNext();saveG('killer',K);drawKiller()});
+
+/* ---------- game registry ---------- */
+const GM={
+  cricket:{title:'Cricket',max:6,
+    start(l){C=newCricket(l);cMult=1;saveC();showCricket()},
+    resume(s){C=s;cMult=1;showCricket()},
+    undo(){cUndo()},
+    rematch(){C=newCricket(C.players.map(p=>p.name));cMult=1;saveC();drawCricket()}},
+  atw:{title:'Around the World',max:8,
+    start(l){A=newATW(l,$('atwJump').checked);saveA();showATW()},
+    resume(s){A=s;showATW()},
+    undo(){aUndo()},
+    rematch(){A=newATW(A.players.map(p=>p.name),A.jump);saveA();drawATW()}},
+  shanghai:{title:'Shanghai',max:8,
+    start(l){S=newShanghai(l);saveG('shanghai',S);showShanghai()},
+    resume(s){S=s;showShanghai()},
+    undo(){sUndo()},
+    rematch(){S=newShanghai(S.players.map(p=>p.name));saveG('shanghai',S);drawShanghai()}},
+  bob:{title:"Bob's 27",max:8,
+    start(l){B=newBob(l);saveG('bob',B);showBob()},
+    resume(s){B=s;showBob()},
+    undo(){bUndo()},
+    rematch(){B=newBob(B.players.map(p=>p.name));saveG('bob',B);drawBob()}},
+  halve:{title:'Halve-It',max:8,
+    start(l){H=newHalve(l);saveG('halve',H);showHalve()},
+    resume(s){H=s;showHalve()},
+    undo(){hUndo()},
+    rematch(){H=newHalve(H.players.map(p=>p.name));hEntry='';saveG('halve',H);drawHalve()}},
+  killer:{title:'Killer',max:8,
+    start(l){if(l.length<2){toast('Killer needs at least 2 players');return}K=newKiller(l);saveG('killer',K);showKiller()},
+    resume(s){K=s;showKiller()},
+    undo(){kUndo()},
+    rematch(){K=newKiller(K.players.map(p=>p.name));saveG('killer',K);drawKiller()}}
+};
 
 /* ---------- start ---------- */
 drawSetup();
