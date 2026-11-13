@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#14532d">
+<meta name="theme-color" content="#00abc9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BYD">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>Backyard Darts</title>
 <style>
-:root{--bg:#f5f6f4;--card:#fff;--ink:#16211b;--mute:#6b7a70;--green:#14532d;--green2:#1d7a43;--gold:#f4c430;--red:#c0392b;--line:#dfe4e0}
+:root{--bg:#f5f6f4;--card:#fff;--ink:#16211b;--mute:#6b7a70;--green:#14532d;--green2:#1d7a43;--gold:#f4c430;--red:#c0392b;--line:#dfe4e0;--aqua:#00abc9;--aqua2:#007a92}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 button,#display,#cards{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -50,10 +50,23 @@ header.bar .t{font-weight:700}
 #keys button:active{background:#e9eee9}
 #keys .go{background:var(--green);border-color:var(--green);color:#fff;font-size:18px}
 .menu{display:grid;gap:10px;margin-bottom:6px}
-.gbtn{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px 16px;text-align:left;display:flex;flex-direction:column;gap:2px;color:var(--ink)}
-.gbtn b{font-size:18px}
-.gbtn span{color:var(--mute);font-size:14px}
+.gbtn{background:var(--card);border:2px solid var(--line);border-left:6px solid var(--aqua);border-radius:14px;padding:12px 14px;text-align:left;display:flex;flex-direction:row;align-items:center;gap:12px;color:var(--ink);box-shadow:0 2px 0 rgba(0,0,0,.04)}
+.gbtn:nth-child(even){border-left-color:var(--gold)}
+.gbtn:active{background:#e6f7fa;transform:scale(.99)}
+.gbtn i{font-style:normal;font-size:26px;width:46px;height:46px;border-radius:12px;background:#e6f7fa;display:flex;align-items:center;justify-content:center;flex:none}
+.gbtn:nth-child(even) i{background:#fff4cc}
+.gbtn b{font-size:18px;display:block}
+.gbtn span{color:var(--mute);font-size:14px;display:block}
 .gbtn.soon{opacity:.55}
+#home{background:linear-gradient(180deg,#e6f7fa 0,var(--bg) 260px)}
+.hero{position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(135deg,var(--aqua),var(--aqua2));color:#fff;padding:26px 20px 30px 64px;margin-bottom:6px;box-shadow:0 6px 18px rgba(0,122,146,.25)}
+.flagtri{position:absolute;left:0;top:0;height:100%;width:46px}
+.heroTxt .eyebrow{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.hero h1{color:#fff;margin:4px 0 2px;font-size:32px;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero .sub{color:rgba(255,255,255,.92);margin:0}
+.goldband{position:absolute;left:0;right:0;bottom:0;height:10px;background:var(--gold)}
+#howto{color:var(--aqua2);border-color:var(--aqua)}
+#home h2.pick{margin:18px 0 10px;color:var(--aqua2)}
 details{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
 summary{font-weight:700;cursor:pointer}
 details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
@@ -103,16 +116,24 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 <body>
 
 <section id="home" class="screen on">
-  <h1>Backyard Darts</h1>
-  <p class="sub">Pick a game.</p>
+  <div class="hero">
+    <svg class="flagtri" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,0 100,50 0,100" fill="#000"/></svg>
+    <div class="heroTxt">
+      <div class="eyebrow">THE BAHAMAS</div>
+      <h1>Backyard Darts</h1>
+      <p class="sub">Island-style dart scoring</p>
+    </div>
+    <div class="goldband"></div>
+  </div>
+  <h2 class="pick">Pick a game</h2>
   <div class="menu">
-    <button class="gbtn" data-go="x01"><b>301 – 1001</b><span>Count down to zero, finish on a double</span></button>
-    <button class="gbtn" data-go="cricket"><b>Cricket</b><span>Close 15 to 20 and the bull</span></button>
-    <button class="gbtn" data-go="atw"><b>Around the World</b><span>Hit 1 to 20 in order, then the bull</span></button>
-    <button class="gbtn" data-go="shanghai"><b>Shanghai</b><span>Single, double and triple of the round's number</span></button>
-    <button class="gbtn" data-go="bob"><b>Bob's 27</b><span>Doubles practice, 21 rounds</span></button>
-    <button class="gbtn" data-go="halve"><b>Halve-It</b><span>Miss the target and your score is halved</span></button>
-    <button class="gbtn" data-go="killer"><b>Killer</b><span>Become a killer, take out the other doubles</span></button>
+    <button class="gbtn" data-go="x01"><i>🎯</i><div><b>301 – 1001</b><span>Count down to zero, finish on a double</span></div></button>
+    <button class="gbtn" data-go="cricket"><i>🏏</i><div><b>Cricket</b><span>Close 15 to 20 and the bull</span></div></button>
+    <button class="gbtn" data-go="atw"><i>🌴</i><div><b>Around the World</b><span>Hit 1 to 20 in order, then the bull</span></div></button>
+    <button class="gbtn" data-go="shanghai"><i>⭐</i><div><b>Shanghai</b><span>Single, double and triple of the round's number</span></div></button>
+    <button class="gbtn" data-go="bob"><i>🐚</i><div><b>Bob's 27</b><span>Doubles practice, 21 rounds</span></div></button>
+    <button class="gbtn" data-go="halve"><i>🌊</i><div><b>Halve-It</b><span>Miss the target and your score is halved</span></div></button>
+    <button class="gbtn" data-go="killer"><i>💀</i><div><b>Killer</b><span>Become a killer, take out the other doubles</span></div></button>
   </div>
   <button class="big alt" id="howto">How to play</button>
 </section>
