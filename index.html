@@ -86,6 +86,22 @@ header.bar .t{font-weight:700}
 .egrid button.on,.crow button.on{border-color:var(--aqua2);box-shadow:0 0 0 3px rgba(0,171,201,.3)}
 .crow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
 .crow button{width:34px;height:34px;border-radius:50%;border:3px solid #fff;outline:1px solid var(--line)}
+.liveBtn{font-size:18px}
+.liveBtn.on{background:#fff4cc;border-radius:8px;box-shadow:0 0 0 2px var(--gold)}
+.codeBig{font-size:46px;font-weight:900;letter-spacing:.25em;margin:8px 0 14px;color:var(--aqua2);padding-left:.25em}
+#liveWho h2{margin:8px 0 6px}
+#liveWho .chip{padding:8px 14px;font-size:15px}
+#liveMe .me{background:linear-gradient(135deg,var(--aqua),var(--aqua2));color:#fff;border-radius:20px;padding:20px 16px;text-align:center;margin:12px 0}
+#liveMe .me.your{box-shadow:0 0 0 5px var(--gold)}
+#liveMe .me .n{font-weight:700;font-size:18px}
+#liveMe .me .big2{font-size:88px;font-weight:900;line-height:1.05}
+#liveMe .me .lb{font-size:14px;letter-spacing:.12em;text-transform:uppercase;opacity:.92}
+#liveMe .me .sb{margin-top:8px;font-size:14px;opacity:.95}
+.turnb{background:var(--gold);color:#000;font-weight:900;border-radius:12px;padding:8px;margin-top:12px;font-size:20px;text-align:center}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:6px}
+.lrow.cur{border-color:var(--aqua)}
+.lrow .rs{font-size:12px;color:var(--mute)}
+.lrow b{font-size:22px}
 .badge{background:#fff4cc;border:2px solid var(--gold);color:#6b5200;border-radius:12px;padding:8px 12px;text-align:center;font-weight:700;margin-top:10px}
 #home h2.pick{margin:18px 0 10px;color:var(--aqua2)}
 details{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
@@ -157,6 +173,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
     <button class="gbtn" data-go="halve"><i>🌊</i><div><b>Halve-It</b><span>Miss the target and your score is halved</span></div></button>
     <button class="gbtn" data-go="killer"><i>💀</i><div><b>Killer</b><span>Become a killer, take out the other doubles</span></div></button>
   </div>
+  <button class="big alt" id="joinBtn">📡 Join a live game</button>
   <button class="big alt" id="howto">How to play</button>
 </section>
 
@@ -179,7 +196,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <header class="bar">
     <button id="menu">‹ Menu</button>
     <div class="t" id="gtitle"></div>
-    <div><button id="snd" title="Sound" style="font-size:20px">🔊</button><button id="undo">Undo</button></div>
+    <div><button id="snd" title="Sound" style="font-size:20px">🔊</button><button class="liveBtn" data-live>📡</button><button id="undo">Undo</button></div>
   </header>
   <div id="cards"></div>
   <div id="turn"></div>
@@ -204,7 +221,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 </section>
 
 <section id="cricket" class="screen">
-  <header class="bar"><button id="cMenu">‹ Home</button><div class="t">Cricket</div><div><button id="cUndo">Undo</button></div></header>
+  <header class="bar"><button id="cMenu">‹ Home</button><div class="t">Cricket</div><div><button class="liveBtn" data-live>📡</button><button id="cUndo">Undo</button></div></header>
   <div id="cBoard"></div>
   <div id="cTurn"></div>
   <div class="mult" id="cMult">
@@ -215,7 +232,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 </section>
 
 <section id="atw" class="screen">
-  <header class="bar"><button id="aMenu">‹ Home</button><div class="t">Around the World</div><div><button id="aUndo">Undo</button></div></header>
+  <header class="bar"><button id="aMenu">‹ Home</button><div class="t">Around the World</div><div><button class="liveBtn" data-live>📡</button><button id="aUndo">Undo</button></div></header>
   <div id="aCards"></div>
   <div id="aTurn"></div>
   <div id="aKeys" class="akeys"></div>
@@ -234,7 +251,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 </section>
 
 <section id="shanghai" class="screen">
-  <header class="bar"><button id="sMenu">‹ Home</button><div class="t">Shanghai</div><div><button id="sUndo">Undo</button></div></header>
+  <header class="bar"><button id="sMenu">‹ Home</button><div class="t">Shanghai</div><div><button class="liveBtn" data-live>📡</button><button id="sUndo">Undo</button></div></header>
   <div id="sCards"></div>
   <div id="sTurn"></div>
   <div id="sKeys" class="akeys"></div>
@@ -242,14 +259,14 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 </section>
 
 <section id="bob" class="screen">
-  <header class="bar"><button id="bMenu">‹ Home</button><div class="t">Bob's 27</div><div><button id="bUndo">Undo</button></div></header>
+  <header class="bar"><button id="bMenu">‹ Home</button><div class="t">Bob's 27</div><div><button class="liveBtn" data-live>📡</button><button id="bUndo">Undo</button></div></header>
   <div id="bCards"></div>
   <div id="bTurn"></div>
   <div id="bKeys" class="akeys"></div>
 </section>
 
 <section id="halve" class="screen">
-  <header class="bar"><button id="hMenu">‹ Home</button><div class="t">Halve-It</div><div><button id="hUndo">Undo</button></div></header>
+  <header class="bar"><button id="hMenu">‹ Home</button><div class="t">Halve-It</div><div><button class="liveBtn" data-live>📡</button><button id="hUndo">Undo</button></div></header>
   <div id="hCards"></div>
   <div id="hTurn"></div>
   <div id="hDisplay" class="dim">0</div>
@@ -258,7 +275,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 </section>
 
 <section id="killer" class="screen">
-  <header class="bar"><button id="kMenu">‹ Home</button><div class="t">Killer</div><div><button id="kUndo">Undo</button></div></header>
+  <header class="bar"><button id="kMenu">‹ Home</button><div class="t">Killer</div><div><button class="liveBtn" data-live>📡</button><button id="kUndo">Undo</button></div></header>
   <div id="kCards"></div>
   <div id="kTurn"></div>
   <div id="kKeys" class="akeys"></div>
@@ -298,6 +315,34 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <input type="file" id="pfFile" accept="image/*" style="display:none">
   <button class="link" id="pfOut" style="margin-top:14px">Sign out</button>
 </section>
+
+<section id="join" class="screen">
+  <header class="bar"><button id="joinBack">‹ Home</button><div class="t">Join a live game</div><div></div></header>
+  <p class="sub">Ask the scorer for the 5-letter code, then type it here.</p>
+  <div class="row"><input id="joinCode" maxlength="5" placeholder="CODE" autocomplete="off" autocapitalize="characters" autocorrect="off" style="font-size:30px;letter-spacing:.3em;text-align:center;font-weight:800"></div>
+  <div id="joinMsg" class="msg"></div>
+  <button class="big" id="joinGo" style="margin-top:6px">Join</button>
+</section>
+
+<section id="live" class="screen">
+  <header class="bar"><button id="liveLeave">‹ Leave</button><div class="t" id="liveTitle"></div><div><button id="liveSnd" style="font-size:18px">🔊</button></div></header>
+  <div id="liveWho"></div>
+  <div id="liveMe"></div>
+  <div id="liveRest"></div>
+  <button class="big alt" id="liveAlerts" style="display:none">🔔 Turn on notifications</button>
+  <div id="liveNote" style="text-align:center;color:var(--mute);font-size:13px;margin-top:10px"></div>
+</section>
+
+<div class="modal" id="liveModal">
+  <div class="box">
+    <h3>Live scoreboard is on</h3>
+    <p>Players open the app, tap <b>Join a live game</b> and type this code:</p>
+    <div id="liveCode" class="codeBig"></div>
+    <button class="big alt" id="liveShare" style="display:none">Send the code</button>
+    <button class="big" id="liveClose">Done</button>
+    <button class="link" id="liveStop">Stop sharing</button>
+  </div>
+</div>
 
 <div class="modal" id="gWin">
   <div class="box">
@@ -423,7 +468,7 @@ $('start').addEventListener('click',()=>{
 $('resume').addEventListener('click',()=>{const s=load();if(s){G=s;entry='';showGame()}});
 
 /* ---------- game ---------- */
-function showGame(){show('game');draw()}
+function showGame(){curG='x01';show('game');draw()}
 function avg(p){const n=p.visits.length;return n?(p.visits.reduce((a,v)=>a+v.v,0)/n).toFixed(1):'–'}
 function draw(){
   $('gtitle').textContent=G.start+(G.dbl?' · Double out':' · Straight out');
@@ -958,6 +1003,7 @@ const pushTimers={};
 function touch(key){
   try{localStorage.setItem('ts-'+key,String(Date.now()))}catch(e){}
   cloudPush(key);
+  liveSync();
 }
 function cloudPush(key){
   if(!cloud.api||!cloud.user)return;
@@ -1115,7 +1161,171 @@ $('pfFile').addEventListener('change',e=>{
   img.src=URL.createObjectURL(f);
   e.target.value='';
 });
-$('pfOut').addEventListener('click',()=>{cloud.api.signOut().catch(()=>{});show('home')});
+$('pfOut').addEventListener('click',()=>{
+  if(live.code){const c=live.code;live.code=null;try{localStorage.removeItem('byd-live')}catch(e){}cloud.api.endSession(c).catch(()=>{});drawLiveBtns()}
+  cloud.api.signOut().catch(()=>{});show('home');
+});
+
+/* ---------- live scoreboard: share a game to other phones ---------- */
+const LIVE_CHARS='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const LIVE_MAX_AGE=12*3600*1000;
+const live={code:null,started:0,timer:null};
+try{const s=JSON.parse(localStorage.getItem('byd-live'));if(s&&s.code&&Date.now()-s.started<LIVE_MAX_AGE){live.code=s.code;live.started=s.started}}catch(e){}
+
+function liveSnapshot(){
+  const lastOf=p=>p.visits.length?(p.visits[p.visits.length-1].bust?'Bust':String(p.visits[p.visits.length-1].v)):'–';
+  const hearts=n=>'♥'.repeat(Math.max(0,n))||'–';
+  if(curG==='x01'&&G)return {title:G.start+(G.dbl?' · Double out':' · Straight out'),turn:G.turn,over:!!G.over,winner:G.over?G.winner:null,
+    players:G.players.map(p=>({name:p.name,main:String(p.score),label:'to go',sub:'Avg '+avg(p)+' · Last '+lastOf(p),out:false}))};
+  if(curG==='cricket'&&C)return {title:'Cricket',turn:C.turn,over:!!C.over,winner:C.over?C.winner:null,
+    players:C.players.map(p=>{const cl=CT.filter(t=>p.marks[t]>=3).map(t=>t===25?'B':t);return {name:p.name,main:String(p.points),label:'points',sub:cl.length?'Closed: '+cl.join(' '):'No numbers closed yet',out:false}})};
+  if(curG==='atw'&&A)return {title:'Around the World',turn:A.turn,over:!!A.over,winner:A.over?A.winner:null,
+    players:A.players.map(p=>({name:p.name,main:aLabel(p.pos),label:'next target',sub:(p.pos-1)+' of 21 done',out:false}))};
+  if(curG==='shanghai'&&S)return {title:'Shanghai',turn:S.turn,over:!!S.over,winner:S.over?S.winners[0]:null,
+    players:S.players.map(p=>({name:p.name,main:String(p.score),label:'points',sub:'Round '+Math.min(S.round,SR)+' of '+SR,out:false}))};
+  if(curG==='bob'&&B)return {title:"Bob's 27",turn:B.turn,over:!!B.over,winner:B.over?bWinners()[0]:null,
+    players:B.players.map(p=>({name:p.name,main:p.out?'Out':String(p.score),label:'points',sub:p.last||'Round '+Math.min(B.round,21)+' of 21',out:!!p.out}))};
+  if(curG==='halve'&&H)return {title:'Halve-It',turn:H.turn,over:!!H.over,winner:H.over?H.winners[0]:null,
+    players:H.players.map(p=>({name:p.name,main:String(p.score),label:'points',sub:p.last||('Round '+Math.min(H.round+1,HT.length)+' of '+HT.length),out:false}))};
+  if(curG==='killer'&&K)return {title:'Killer',turn:K.turn,over:!!K.over,winner:K.over?K.winner:null,
+    players:K.players.map(p=>({name:p.name,main:'D'+p.dbl,label:p.lives<=0?'eliminated':(p.killer?'killer':'hit your double 3 times'),sub:'Lives '+hearts(p.lives)+(p.killer?'':' · Hits '+p.hits+'/3'),out:p.lives<=0}))};
+  return null;
+}
+function liveSync(){
+  if(!live.code||!cloud.api||!cloud.user)return;
+  clearTimeout(live.timer);
+  live.timer=setTimeout(()=>{
+    const s=liveSnapshot();if(!s)return;
+    cloud.api.publishSession(live.code,Object.assign({host:cloud.user.uid,updatedAt:Date.now()},s)).catch(()=>{});
+  },400);
+}
+function drawLiveBtns(){document.querySelectorAll('[data-live]').forEach(b=>b.classList.toggle('on',!!live.code))}
+function showLiveModal(){
+  $('liveCode').textContent=live.code;
+  $('liveShare').style.display=navigator.share?'block':'none';
+  $('liveModal').classList.add('on');
+}
+async function startLive(){
+  if(!cloud.api){toast('Live sharing needs an internet connection');return}
+  if(!cloud.user){toast('Sign in first to share live scores');openAuth();return}
+  if(!live.code){
+    for(let i=0;i<5&&!live.code;i++){
+      const c=Array.from({length:5},()=>LIVE_CHARS[Math.floor(Math.random()*LIVE_CHARS.length)]).join('');
+      const s=liveSnapshot()||{title:'Waiting for a game',turn:0,over:false,winner:null,players:[]};
+      try{
+        await cloud.api.publishSession(c,Object.assign({host:cloud.user.uid,updatedAt:Date.now()},s));
+        live.code=c;live.started=Date.now();
+      }catch(e){}
+    }
+    if(!live.code){toast("Couldn't start. Check your connection.");return}
+    try{localStorage.setItem('byd-live',JSON.stringify({code:live.code,started:live.started}))}catch(e){}
+  }
+  liveSync();drawLiveBtns();showLiveModal();
+}
+document.querySelectorAll('[data-live]').forEach(b=>b.addEventListener('click',()=>{if(live.code){liveSync();showLiveModal()}else startLive()}));
+$('liveClose').addEventListener('click',()=>$('liveModal').classList.remove('on'));
+$('liveStop').addEventListener('click',()=>{
+  const c=live.code;live.code=null;clearTimeout(live.timer);
+  try{localStorage.removeItem('byd-live')}catch(e){}
+  if(c&&cloud.api)cloud.api.endSession(c).catch(()=>{});
+  drawLiveBtns();$('liveModal').classList.remove('on');toast('Sharing stopped');
+});
+$('liveShare').addEventListener('click',()=>{
+  try{navigator.share({text:'Join my Backyard Darts game! Code: '+live.code+'  '+location.origin})}catch(e){}
+});
+
+/* viewer side */
+const watch={unsub:null,data:null,me:'',lastKey:''};
+try{watch.me=localStorage.getItem('byd-live-me')||''}catch(e){}
+const joinMsg=t=>{$('joinMsg').textContent=t};
+function unwatch(){if(watch.unsub){try{watch.unsub()}catch(e){}watch.unsub=null}}
+function openJoin(){
+  if(!cloud.api){toast(cloud.failed?'Joining needs an internet connection':'Connecting… try again in a moment');return}
+  joinMsg('');show('join');
+}
+function joinGo(){
+  if(!cloud.api)return;
+  const code=$('joinCode').value.trim().toUpperCase();
+  if(code.length<5){joinMsg('Enter the 5-letter code.');return}
+  unwatch();joinMsg('Connecting…');
+  let first=true;watch.lastKey='';watch.data=null;
+  watch.unsub=cloud.api.watchSession(code,d=>{
+    if(first){
+      first=false;
+      if(!d||Date.now()-(d.updatedAt||0)>LIVE_MAX_AGE){unwatch();joinMsg('No live game found with that code.');return}
+      show('live');
+    }
+    if(!d){liveEnded();return}
+    watch.data=d;drawLive(true);
+  },()=>{
+    unwatch();
+    if($('live').classList.contains('on'))toast('Connection lost');else joinMsg("Couldn't connect. Check the code and your internet.");
+  });
+}
+function liveEnded(){
+  unwatch();
+  $('liveMe').innerHTML='<div class="turnb">The scorer ended this session.</div>';
+  $('liveRest').innerHTML='';
+}
+function liveNotify(title,body){
+  if(!('Notification' in window)||Notification.permission!=='granted'||!document.hidden)return;
+  try{
+    if(navigator.serviceWorker&&navigator.serviceWorker.ready)
+      navigator.serviceWorker.ready.then(r=>r.showNotification(title,{body,tag:'byd-live',renotify:true,icon:'icon.svg'})).catch(()=>{});
+    else new Notification(title,{body,tag:'byd-live'});
+  }catch(e){}
+}
+function drawLive(upd){
+  const d=watch.data;if(!d)return;
+  const ps=d.players||[];
+  $('liveTitle').textContent=d.title||'Live game';
+  if(!watch.me&&cloud.profile){const j=ps.findIndex(p=>same(p.name,cloud.profile.name));if(j>=0)watch.me=ps[j].name}
+  const mi=watch.me?ps.findIndex(p=>same(p.name,watch.me)):-1;
+  $('liveWho').innerHTML=ps.length?'<h2>I am</h2><div class="chips">'+ps.map(p=>`<button class="chip ${same(p.name,watch.me)?'on':''}" data-who="${esc(p.name)}">${esc(p.name)}</button>`).join('')+'</div>':'';
+  const yours=mi>=0&&d.turn===mi&&!d.over;
+  let h='';
+  if(mi>=0){
+    const p=ps[mi];
+    h+=`<div class="me ${yours?'your':''}"><div class="n">${esc(p.name)}</div><div class="big2">${esc(p.main)}</div><div class="lb">${esc(p.label)}</div><div class="sb">${esc(p.sub)}</div>${yours?'<div class="turnb">YOUR TURN</div>':''}</div>`;
+  }
+  if(d.over){const w=ps[d.winner];h+=`<div class="turnb" style="margin:8px 0">${w?(d.winner===mi?'🎉 You won!':esc(w.name)+' wins!'):'Game over'}</div>`}
+  $('liveMe').innerHTML=h;
+  $('liveRest').innerHTML=ps.map((p,i)=>i===mi?'':`<div class="lrow ${i===d.turn&&!d.over?'cur':''}"><div><div>${esc(p.name)}${i===d.turn&&!d.over?' ▶':''}</div><div class="rs">${esc(p.sub)}</div></div><div style="text-align:right"><b>${esc(p.main)}</b><div class="rs">${esc(p.label)}</div></div></div>`).join('');
+  const canN='Notification' in window;
+  $('liveAlerts').style.display=(canN&&Notification.permission==='default')?'block':'none';
+  $('liveNote').textContent=canN?'':'Tip: on iPhone, add the app to your Home Screen (Share → Add to Home Screen) to get notifications.';
+  $('liveSnd').textContent=soundOn?'🔊':'🔇';
+  if(upd){
+    const key=(d.title||'')+'|'+d.turn+'|'+(d.over?1:0);
+    if(yours&&key!==watch.lastKey){if(navigator.vibrate)navigator.vibrate([200,100,200]);say('Your turn')}
+    watch.lastKey=key;
+    if(mi>=0){
+      const tn=ps[d.turn];
+      liveNotify('Backyard Darts · '+(d.title||''),ps[mi].main+' '+ps[mi].label+(yours?' · YOUR TURN':(tn&&!d.over?' · '+tn.name+' to throw':'')));
+    }
+  }
+}
+$('liveWho').addEventListener('click',e=>{
+  const b=e.target.closest('[data-who]');if(!b)return;
+  watch.me=b.dataset.who;
+  try{localStorage.setItem('byd-live-me',watch.me)}catch(err){}
+  drawLive(false);
+});
+$('liveAlerts').addEventListener('click',()=>{
+  try{Notification.requestPermission().then(()=>drawLive(false))}catch(e){}
+});
+$('liveSnd').addEventListener('click',()=>{
+  soundOn=!soundOn;
+  try{localStorage.setItem('byd-sound',soundOn?'on':'off')}catch(e){}
+  drawSound();$('liveSnd').textContent=soundOn?'🔊':'🔇';
+});
+$('liveLeave').addEventListener('click',()=>{unwatch();show('home')});
+$('joinBtn').addEventListener('click',openJoin);
+$('joinBack').addEventListener('click',()=>show('home'));
+$('joinGo').addEventListener('click',joinGo);
+$('joinCode').addEventListener('input',e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'')});
+$('joinCode').addEventListener('keydown',e=>{if(e.key==='Enter')joinGo()});
+drawLiveBtns();
 
 /* connect to Firebase (only when online; the app works without it) */
 async function initCloud(){
@@ -1146,6 +1356,9 @@ async function initCloud(){
         return FS.updateDoc(uref(),d);
       },
       pushGame:(key,payload)=>FS.setDoc(FS.doc(db,'users',cloud.user.uid,'games',key),payload),
+      publishSession:(code,data)=>FS.setDoc(FS.doc(db,'sessions',code),data),
+      endSession:code=>FS.deleteDoc(FS.doc(db,'sessions',code)),
+      watchSession:(code,cb,err)=>FS.onSnapshot(FS.doc(db,'sessions',code),s=>cb(s.exists()?s.data():null),err),
       async pullGames(){
         let n=0;
         for(const k of CLOUD_KEYS){
