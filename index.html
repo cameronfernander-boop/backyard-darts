@@ -92,6 +92,19 @@ header.bar .t{font-weight:700}
 .egrid button.on,.crow button.on{border-color:var(--aqua2);box-shadow:0 0 0 3px rgba(0,171,201,.3)}
 .crow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
 .crow button{width:34px;height:34px;border-radius:50%;border:3px solid #fff;outline:1px solid var(--line)}
+.lbRow{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin-bottom:6px}
+.lbRow.me{border-color:var(--aqua);background:var(--tint)}
+.lbRow .pos{width:30px;text-align:center;font-weight:800;font-size:18px;flex:none}
+.lbRow .who{flex:1;min-width:0}
+.lbRow .who b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbRow .who span{font-size:12px;color:var(--mute)}
+.lbRow .wins{text-align:right;flex:none}
+.lbRow .wins b{display:block;font-size:22px;line-height:1.1}
+.lbRow .wins span{font-size:11px;color:var(--mute)}
+#lb .tabs2{margin-bottom:12px}
+.lbMsg{text-align:center;color:var(--mute);padding:26px 10px}
+.lbYou{text-align:center;font-weight:700;color:var(--aqua2);margin:8px 0}
+.lbNote{text-align:center;color:var(--mute);font-size:12px;margin-top:8px}
 .liveBtn{font-size:18px}
 .liveBtn.on{background:var(--tint2);border-radius:8px;box-shadow:0 0 0 2px var(--gold)}
 .codeBig{font-size:46px;font-weight:900;letter-spacing:.25em;margin:8px 0 14px;color:var(--aqua2);padding-left:.25em}
@@ -179,6 +192,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
     <button class="gbtn" data-go="halve"><i>🌊</i><div><b>Halve-It</b><span>Miss the target and your score is halved</span></div></button>
     <button class="gbtn" data-go="killer"><i>💀</i><div><b>Killer</b><span>Become a killer, take out the other doubles</span></div></button>
   </div>
+  <button class="big alt" id="lbBtn">🏆 Leaderboard</button>
   <button class="big alt" id="joinBtn">📡 Join a live game</button>
   <button class="big alt" id="howto">How to play</button>
 </section>
@@ -307,6 +321,8 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <div class="pfTop"><div id="pfAvatar"></div></div>
   <h2>Name</h2>
   <div class="row"><input id="pfName" maxlength="14"><button id="pfSave" class="x" style="width:auto;padding:0 16px">Save</button></div>
+  <h2>Country</h2>
+  <div class="row"><select id="pfCountry"></select></div>
   <div id="pfAdfree" class="badge" style="display:none">⭐ Ad-free member</div>
   <div class="stats">
     <div class="stat"><b id="stGames">0</b><span>Games played</span></div>
@@ -350,6 +366,15 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
     <button class="link" id="liveStop">Stop sharing</button>
   </div>
 </div>
+
+<section id="lb" class="screen">
+  <header class="bar"><button id="lbBack">‹ Home</button><div class="t">Leaderboard</div><div></div></header>
+  <div class="tabs2"><button id="lbTabC" class="on">My country</button><button id="lbTabW">World</button></div>
+  <div id="lbCountryPick" style="display:none"><h2>Choose your country</h2><div class="row"><select id="lbCountry"></select></div></div>
+  <div id="lbList"></div>
+  <div id="lbYou" class="lbYou"></div>
+  <div class="lbNote">Ranked by wins in games against other people. Practice games against the computer don't count.</div>
+</section>
 
 <div class="modal" id="gWin">
   <div class="box">
@@ -1187,7 +1212,7 @@ function cloudPush(key){
 const recorded=new Map();
 const same=(a,b)=>String(a).trim().toLowerCase()===String(b).trim().toLowerCase();
 function recordResult(kind,key,winners,names){
-  if(!cloud.profile||!cloud.api||recorded.has(key))return;
+  if(!cloud.profile||!cloud.api||recorded.has(key)||names.length<2)return;
   const me=cloud.profile.name;
   if(!names.some(n=>same(n,me)))return;
   const win=winners.some(n=>same(n,me))?1:0;
@@ -1285,6 +1310,7 @@ function drawProfile(){
   const av=p.avatar||{type:'emoji',emoji:'🎯',color:'#00abc9'};
   $('pfAvatar').innerHTML=avatarHTML(av,96);
   $('pfName').value=p.name;
+  $('pfCountry').innerHTML=countryOptions(p.country||'');
   $('pfAdfree').style.display=p.adFree?'block':'none';
   $('stGames').textContent=p.gamesPlayed||0;
   $('stWins').textContent=p.wins||0;
@@ -1490,6 +1516,72 @@ $('joinCode').addEventListener('input',e=>{e.target.value=e.target.value.toUpper
 $('joinCode').addEventListener('keydown',e=>{if(e.key==='Enter')joinGo()});
 drawLiveBtns();
 
+/* ---------- country and leaderboard ---------- */
+const COUNTRIES=('AD AE AF AG AI AL AM AO AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GT GU GW GY HK HN HR HT HU ID IE IL IM IN IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW').split(' ');
+let uiLang='en';
+function countryName(cc){try{return new Intl.DisplayNames([uiLang],{type:'region'}).of(cc)||cc}catch(e){return cc}}
+function flagOf(cc){return cc&&cc.length===2?String.fromCodePoint.apply(null,cc.toUpperCase().split('').map(c=>127397+c.charCodeAt(0))):'🌍'}
+function countryOptions(sel){
+  const list=COUNTRIES.map(c=>[c,countryName(c)]).sort((a,b)=>a[1].localeCompare(b[1],uiLang));
+  return '<option value="">Choose your country…</option>'+list.map(x=>`<option value="${x[0]}" ${x[0]===sel?'selected':''}>${flagOf(x[0])} ${esc(x[1])}</option>`).join('');
+}
+function setCountry(cc){
+  if(!cloud.profile)return;
+  cloud.profile.country=cc;
+  cloud.api.updateProfile({country:cc}).catch(()=>toast("Couldn't save. Check your connection."));
+}
+let lbMode='country',lbToken=0;
+function openLb(){
+  if(!cloud.api){toast(cloud.failed?'The leaderboard needs an internet connection':'Connecting… try again in a moment');return}
+  if(!cloud.user){toast('Sign in to see the leaderboard');openAuth();return}
+  lbMode=cloud.profile&&cloud.profile.country?'country':'world';
+  show('lb');drawLb();
+}
+async function drawLb(){
+  const cc=cloud.profile&&cloud.profile.country;
+  $('lbTabC').classList.toggle('on',lbMode==='country');
+  $('lbTabW').classList.toggle('on',lbMode==='world');
+  const needCountry=lbMode==='country'&&!cc;
+  $('lbCountryPick').style.display=needCountry?'block':'none';
+  if(needCountry)$('lbCountry').innerHTML=countryOptions('');
+  $('lbYou').textContent='';
+  if(needCountry){$('lbList').innerHTML='';return}
+  const tok=++lbToken;
+  $('lbList').innerHTML='<div class="lbMsg">Loading…</div>';
+  try{
+    const scope=lbMode==='country'?cc:null;
+    const res=await cloud.api.getLeaderboard(scope,25);
+    if(tok!==lbToken)return;
+    const rows=res.rows.filter(r=>(r.wins||0)>0);
+    if(!rows.length){
+      $('lbList').innerHTML='<div class="lbMsg">No one is on this list yet.<br>Win a game against another player to be first!</div>';
+    }else{
+      let pos=0,prev=-1;
+      $('lbList').innerHTML=rows.map((r,i)=>{
+        if((r.wins||0)!==prev){pos=i+1;prev=r.wins||0}
+        const medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':String(pos);
+        const me=r.uid===cloud.user.uid;
+        return `<div class="lbRow ${me?'me':''}"><div class="pos">${medal}</div>${avatarHTML(r.avatar,38)}<div class="who"><b>${esc(r.name||'Player')}</b><span>${flagOf(r.country)} ${esc(rankOf(r.wins||0).name)}</span></div><div class="wins"><b>${r.wins||0}</b><span>wins</span></div></div>`;
+      }).join('');
+    }
+    const mine=cloud.profile&&cloud.profile.wins||0;
+    if(mine>0&&!rows.some(r=>r.uid===cloud.user.uid)){
+      try{
+        const above=await cloud.api.countAbove(scope,mine);
+        if(tok===lbToken)$('lbYou').textContent='Your position: #'+(above+1)+' ('+mine+' wins)';
+      }catch(e){}
+    }
+  }catch(e){
+    if(tok===lbToken)$('lbList').innerHTML="<div class=\"lbMsg\">Couldn't load the leaderboard. Check your connection.</div>";
+  }
+}
+$('lbBtn').addEventListener('click',openLb);
+$('lbBack').addEventListener('click',()=>show('home'));
+$('lbTabC').addEventListener('click',()=>{lbMode='country';drawLb()});
+$('lbTabW').addEventListener('click',()=>{lbMode='world';drawLb()});
+$('lbCountry').addEventListener('change',e=>{if(e.target.value){setCountry(e.target.value);drawLb()}});
+$('pfCountry').addEventListener('change',e=>{setCountry(e.target.value)});
+
 /* connect to Firebase (only when online; the app works without it) */
 async function initCloud(){
   if(cloud.api||cloud.initing)return;
@@ -1507,7 +1599,7 @@ async function initCloud(){
       async loadProfile(u,name){
         const ref=FS.doc(db,'users',u.uid),snap=await FS.getDoc(ref);
         if(snap.exists())return snap.data();
-        const p={name:(name||u.displayName||(u.email||'Player').split('@')[0]).slice(0,14),avatar:{type:'emoji',emoji:'🎯',color:'#00abc9'},gamesPlayed:0,wins:0,adFree:false,createdAt:FS.serverTimestamp()};
+        const p={name:(name||u.displayName||(u.email||'Player').split('@')[0]).slice(0,14),avatar:{type:'emoji',emoji:'🎯',color:'#00abc9'},gamesPlayed:0,wins:0,adFree:false,country:'',createdAt:FS.serverTimestamp()};
         await FS.setDoc(ref,p);
         return Object.assign({},p,{createdAt:null});
       },
@@ -1519,6 +1611,26 @@ async function initCloud(){
         return FS.updateDoc(uref(),d);
       },
       pushGame:(key,payload)=>FS.setDoc(FS.doc(db,'users',cloud.user.uid,'games',key),payload),
+      async getLeaderboard(cc,n){
+        const col=FS.collection(db,'users');
+        const toRows=snap=>snap.docs.map(d=>Object.assign({uid:d.id},d.data()));
+        if(!cc)return {rows:toRows(await FS.getDocs(FS.query(col,FS.orderBy('wins','desc'),FS.limit(n))))};
+        try{
+          return {rows:toRows(await FS.getDocs(FS.query(col,FS.where('country','==',cc),FS.orderBy('wins','desc'),FS.limit(n))))};
+        }catch(e){
+          if(e&&e.code==='failed-precondition'){
+            const rows=toRows(await FS.getDocs(FS.query(col,FS.where('country','==',cc),FS.limit(300))));
+            rows.sort((a,b)=>(b.wins||0)-(a.wins||0));
+            return {rows:rows.slice(0,n),fallback:true};
+          }
+          throw e;
+        }
+      },
+      async countAbove(cc,wins){
+        const col=FS.collection(db,'users');
+        const q=cc?FS.query(col,FS.where('country','==',cc),FS.where('wins','>',wins)):FS.query(col,FS.where('wins','>',wins));
+        return (await FS.getCountFromServer(q)).data().count;
+      },
       publishSession:(code,data)=>FS.setDoc(FS.doc(db,'sessions',code),data),
       endSession:code=>FS.deleteDoc(FS.doc(db,'sessions',code)),
       watchSession:(code,cb,err)=>FS.onSnapshot(FS.doc(db,'sessions',code),s=>cb(s.exists()?s.data():null),err),
