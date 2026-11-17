@@ -51,6 +51,18 @@ header.bar .t{font-weight:700}
 #keys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:24px;font-weight:700;color:var(--ink)}
 #keys button:active{background:var(--press)}
 #keys .go{background:var(--green);border-color:var(--green);color:#fff;font-size:18px}
+.turnRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 2px}
+.turnRow #turn{flex:1;text-align:left;margin:0}
+.modePill{background:var(--card);border:2px solid var(--aqua);color:var(--aqua2);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.tapSeq{text-align:center;font-weight:700;font-size:15px;min-height:20px;margin:-2px 0 6px;padding:0 6px;line-height:1.3}
+.tapSeq.dim{color:var(--mute);font-weight:400;font-size:13px}
+.tapPad{margin-top:auto}
+.tapPad.off{opacity:.45;pointer-events:none}
+.tgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.tgrid button{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:13px 0;font-size:20px;font-weight:700;color:var(--ink)}
+.tgrid button:active{background:var(--press)}
+.tgrid .go{grid-column:span 2;background:var(--green);border-color:var(--green);color:#fff;font-size:16px}
+@media (max-height:700px){.tgrid button{padding:9px 0}.tapSeq{margin-bottom:2px}}
 .menu{display:grid;gap:10px;margin-bottom:6px}
 .gbtn{background:var(--card);border:2px solid var(--line);border-left:6px solid var(--aqua);border-radius:14px;padding:12px 14px;text-align:left;display:flex;flex-direction:row;align-items:center;gap:12px;color:var(--ink);box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .gbtn:nth-child(even){border-left-color:var(--gold)}
@@ -220,15 +232,17 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
     <div><button id="snd" title="Sound" style="font-size:20px">🔊</button><button class="liveBtn" data-live>📡</button><button id="undo">Undo</button></div>
   </header>
   <div id="cards"></div>
-  <div id="turn"></div>
+  <div class="turnRow"><div id="turn"></div><button id="modeBtn" class="modePill"></button></div>
   <div id="display" class="dim">0</div>
   <div id="leave"></div>
+  <div id="tapSeq" class="tapSeq" style="display:none"></div>
   <div id="keys">
     <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
     <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
     <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
     <button data-k="del">⌫</button><button data-k="0">0</button><button data-k="go" class="go">Enter</button>
   </div>
+  <div id="tapPad" class="tapPad" style="display:none"></div>
 </section>
 
 <section id="gsetup" class="screen">
@@ -262,7 +276,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 
 <section id="tutorial" class="screen">
   <header class="bar"><button id="tBack">‹ Home</button><div class="t">How to play</div><div></div></header>
-  <details open><summary>301 – 1001 (X01)</summary><p>Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter.</p></details>
+  <details open><summary>301 – 1001 (X01)</summary><p>Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter. Not a fan of adding up? Tap "Tap numbers", then tap the number each dart hit: tap it twice for a double and three times for a treble (the bull is 25 tapped twice). The app adds it up and you tap DONE.</p></details>
   <details><summary>Cricket</summary><p>The targets are 15, 16, 17, 18, 19, 20 and the bull. Three marks closes a number: a single is one mark, a double is two, a triple is three (bull: outer is one, inner is two). Once you've closed a number, more hits on it score points, until all your opponents have closed it too. To win, close all seven targets while having at least as many points as everyone else. In the app: pick Single, Double or Triple, then tap the number you hit for each dart.</p></details>
   <details><summary>Around the World</summary><p>Race to hit every number in order: 1, then 2, then 3, all the way to 20, and finish on the bullseye (outer or inner). You only move forward when you hit your current number. The first player to hit the bullseye wins. Optional rule: a double moves you forward 2 numbers and a triple moves you forward 3. In the app: tap Hit or Miss for each dart.</p></details>
   <details><summary>Shanghai</summary><p>There are 7 rounds, and the target number is the round number (1 in round 1, 2 in round 2, and so on). You throw 3 darts at the target. A single scores the number, a double scores it twice and a triple three times. Hit a single, a double and a triple of the target in the same turn and that's a Shanghai: you win on the spot. If nobody does it, the highest score after round 7 wins. In the app: tap Single, Double, Triple or Miss for each dart.</p></details>
@@ -415,6 +429,8 @@ const KEY='byd-game';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let G=null, entry='', setupStart=501, names=['Player 1','Player 2'], cpuLvl=[-1,-1];
+let inMode='type', tapSeq=[];
+try{if(localStorage.getItem('byd-input')==='tap')inMode='tap'}catch(e){}
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(G))}catch(e){}touch(KEY)}
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
@@ -513,9 +529,9 @@ $('start').addEventListener('click',()=>{
   const list=names.map((n,i)=>n.trim()||('Player '+(i+1)));
   if(cpuLvl.every(l=>l>=0)){toast('Add at least one human player');return}
   G={start:setupStart,dbl:$('dbl').checked,players:list.map((n,i)=>({name:n,score:setupStart,visits:[],cpu:cpuLvl[i]})),turn:0,over:false,winner:null,log:[]};
-  entry='';save();showGame();
+  entry='';tapSeq=[];save();showGame();
 });
-$('resume').addEventListener('click',()=>{const s=load();if(s){G=s;entry='';showGame()}});
+$('resume').addEventListener('click',()=>{const s=load();if(s){G=s;entry='';tapSeq=[];showGame()}});
 
 /* ---------- game ---------- */
 function showGame(){curG='x01';show('game');draw()}
@@ -528,12 +544,29 @@ function draw(){
   }).join('');
   const p=G.players[G.turn];
   $('turn').textContent=G.over?'':p.name+"'s turn";
+  $('modeBtn').textContent=inMode==='tap'?'⌨️ Type total':'🎯 Tap numbers';
+  $('modeBtn').style.display=G.over?'none':'';
   const d=$('display');
   d.style.fontSize='';
   d.textContent=entry===''?'0':entry;
   d.classList.toggle('dim',entry==='');
   const v=entry===''?null:parseInt(entry,10);
-  $('leave').textContent=(v!==null&&v<=p.score)?'Leaves '+(p.score-v):'';
+  let lv='';
+  if(v!==null){
+    const left=p.score-v;
+    if(inMode==='tap'&&(left<0||(G.dbl&&left===1)))lv='Bust';
+    else if(left>=0)lv='Leaves '+left;
+  }
+  $('leave').textContent=lv;
+  const tapOn=inMode==='tap';
+  $('keys').style.display=tapOn?'none':'';
+  $('tapPad').style.display=tapOn?'block':'none';
+  $('tapPad').classList.toggle('off',!!cpuNow());
+  const sq=$('tapSeq');
+  sq.style.display=tapOn?'block':'none';
+  sq.textContent=cpuNow()?'':(tapSeq.length?tapSeq.join(' + '):'Tap the number each dart hit. Double = tap twice, treble = tap three times, bull = tap 25 twice.');
+  sq.classList.toggle('dim',!tapSeq.length);
+  $('tDone').textContent=tapSeq.length?'DONE':'No score';
   if(G.over){
     const w=G.players[G.winner];
     if(!G.players.some(p=>p.cpu>=0))recordResult('x01',G.log,[w.name],G.players.map(p=>p.name));
@@ -552,7 +585,7 @@ function key(k){
 }
 $('keys').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b)key(b.dataset.k)});
 document.addEventListener('keydown',e=>{
-  if(!$('game').classList.contains('on'))return;
+  if(!$('game').classList.contains('on')||inMode!=='type')return;
   if(/^[0-9]$/.test(e.key))key(e.key);
   else if(e.key==='Backspace')key('del');
   else if(e.key==='Enter')key('go');
@@ -561,7 +594,7 @@ let pendingV=0;
 function submit(){
   if(entry==='')return;
   const v=parseInt(entry,10);
-  if(v>180||IMPOSSIBLE.includes(v)){toast("That score isn't possible with 3 darts");entry='';draw();return}
+  if(v>180||IMPOSSIBLE.includes(v)){toast("That score isn't possible with 3 darts");if(inMode!=='tap')entry='';draw();return}
   const p=G.players[G.turn],left=p.score-v;
   const bust=left<0||(G.dbl&&left===1);
   if(!bust&&left===0&&G.dbl){pendingV=v;$('dblModal').classList.add('on');return}
@@ -577,7 +610,7 @@ function commit(v,bust){
     p.score-=v;p.visits.push({v,bust:false});if(v>=95)celebrate(v);
     msg=[(v?words(v)+(v>=100?'!':'.'):'No score.'),words(p.score)+' left.'];
   }
-  entry='';
+  entry='';tapSeq=[];
   if(p.score===0&&!bust){G.over=true;G.winner=G.turn;if(v<95)confetti();msg='Game shot! '+who+' wins.'}
   else G.turn=(G.turn+1)%G.players.length;
   const out=Array.isArray(msg)?msg.slice():[msg];
@@ -597,7 +630,7 @@ function undo(){
     G.players[e.p].score=e.prev;
     G.turn=e.p;
   }while(G.players[e.p].cpu>=0&&G.log.length);
-  G.over=false;G.winner=null;entry='';
+  G.over=false;G.winner=null;entry='';tapSeq=[];
   save();draw();
 }
 $('undo').addEventListener('click',undo);
@@ -606,7 +639,28 @@ $('menu').addEventListener('click',()=>{drawSetup();show('setup')});
 $('winMenu').addEventListener('click',()=>{$('winModal').classList.remove('on');drawSetup();show('setup')});
 $('rematch').addEventListener('click',()=>{
   G={start:G.start,dbl:G.dbl,players:G.players.map(p=>({name:p.name,score:G.start,visits:[],cpu:p.cpu>=0?p.cpu:-1})),turn:0,over:false,winner:null,log:[]};
-  entry='';save();draw();
+  entry='';tapSeq=[];save();draw();
+});
+
+/* ---------- tap-the-numbers scoring ---------- */
+$('tapPad').innerHTML='<div class="tgrid">'+Array.from({length:20},(_,i)=>`<button data-t="${i+1}">${i+1}</button>`).join('')+'<button data-t="25">25</button><button data-t="del">⌫</button><button data-t="clr">Clear</button><button data-t="done" class="go" id="tDone">No score</button></div>';
+function tapSum(){return tapSeq.reduce((a,b)=>a+b,0)}
+function tapSync(){entry=tapSeq.length?String(tapSum()):'';draw()}
+$('tapPad').addEventListener('click',e=>{
+  const b=e.target.closest('[data-t]');
+  if(!b||!G||G.over||cpuNow()||$('dblModal').classList.contains('on'))return;
+  const t=b.dataset.t;
+  if(t==='del'){tapSeq.pop();tapSync();return}
+  if(t==='clr'){tapSeq=[];tapSync();return}
+  if(t==='done'){if(!tapSeq.length)entry='0';submit();return}
+  const n=+t;
+  if(tapSum()+n>180){toast('The most you can score in a turn is 180');return}
+  tapSeq.push(n);tapSync();
+});
+$('modeBtn').addEventListener('click',()=>{
+  inMode=inMode==='tap'?'type':'tap';
+  try{localStorage.setItem('byd-input',inMode)}catch(e){}
+  entry='';tapSeq=[];draw();
 });
 
 /* ---------- toast, banner, confetti ---------- */
