@@ -51,6 +51,10 @@ header.bar .t{font-weight:700}
 #keys button{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 0;font-size:24px;font-weight:700;color:var(--ink)}
 #keys button:active{background:var(--press)}
 #keys .go{background:var(--green);border-color:var(--green);color:#fff;font-size:18px}
+.co{display:flex;align-items:center;justify-content:space-around;gap:6px;background:#2e8b2e;color:#fff;border-radius:12px;padding:8px 10px;margin:8px 0 0;font-weight:800;font-size:24px}
+.co.set{background:#007a92}
+.co small{font-size:13px;font-weight:700}
+@media (max-height:700px){.co{padding:3px 8px;font-size:19px;margin-top:5px}.turnRow{margin:6px 0 0}#display{font-size:44px;min-height:50px}}
 .turnRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 2px}
 .turnRow #turn{flex:1;text-align:left;margin:0}
 .modePill{background:var(--card);border:2px solid var(--aqua);color:var(--aqua2);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap}
@@ -232,6 +236,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
     <div><button id="snd" title="Sound" style="font-size:20px">🔊</button><button class="liveBtn" data-live>📡</button><button id="undo">Undo</button></div>
   </header>
   <div id="cards"></div>
+  <div id="co" class="co" style="display:none"></div>
   <div class="turnRow"><div id="turn"></div><button id="modeBtn" class="modePill"></button></div>
   <div id="display" class="dim">0</div>
   <div id="leave"></div>
@@ -276,7 +281,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 
 <section id="tutorial" class="screen">
   <header class="bar"><button id="tBack">‹ Home</button><div class="t">How to play</div><div></div></header>
-  <details open><summary>301 – 1001 (X01)</summary><p>Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter. Not a fan of adding up? Tap "Tap numbers", then tap the number each dart hit: tap it twice for a double and three times for a treble (the bull is 25 tapped twice). The app adds it up and you tap DONE.</p></details>
+  <details open><summary>301 – 1001 (X01)</summary><p>Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter. Not a fan of adding up? Tap "Tap numbers", then tap the number each dart hit: tap it twice for a double and three times for a treble (the bull is 25 tapped twice). The app adds it up and you tap DONE. Once you are on 180 or less, a green strip under the scores shows the easiest way to finish (T = treble, D = double, Bull = bullseye, a plain number = single). If there is no finish with three darts, a blue strip shows a good set-up and what it leaves you.</p></details>
   <details><summary>Cricket</summary><p>The targets are 15, 16, 17, 18, 19, 20 and the bull. Three marks closes a number: a single is one mark, a double is two, a triple is three (bull: outer is one, inner is two). Once you've closed a number, more hits on it score points, until all your opponents have closed it too. To win, close all seven targets while having at least as many points as everyone else. In the app: pick Single, Double or Triple, then tap the number you hit for each dart.</p></details>
   <details><summary>Around the World</summary><p>Race to hit every number in order: 1, then 2, then 3, all the way to 20, and finish on the bullseye (outer or inner). You only move forward when you hit your current number. The first player to hit the bullseye wins. Optional rule: a double moves you forward 2 numbers and a triple moves you forward 3. In the app: tap Hit or Miss for each dart.</p></details>
   <details><summary>Shanghai</summary><p>There are 7 rounds, and the target number is the round number (1 in round 1, 2 in round 2, and so on). You throw 3 darts at the target. A single scores the number, a double scores it twice and a triple three times. Hit a single, a double and a triple of the target in the same turn and that's a Shanghai: you win on the spot. If nobody does it, the highest score after round 7 wins. In the app: tap Single, Double, Triple or Miss for each dart.</p></details>
@@ -567,6 +572,7 @@ function draw(){
   sq.textContent=cpuNow()?'':(tapSeq.length?tapSeq.join(' + '):'Tap the number each dart hit. Double = tap twice, treble = tap three times, bull = tap 25 twice.');
   sq.classList.toggle('dim',!tapSeq.length);
   $('tDone').textContent=tapSeq.length?'DONE':'No score';
+  drawCo();
   if(G.over){
     const w=G.players[G.winner];
     if(!G.players.some(p=>p.cpu>=0))recordResult('x01',G.log,[w.name],G.players.map(p=>p.name));
@@ -1180,6 +1186,67 @@ function cpuVisit(rem,dbl,lvl){
     r=left;
   }
   return {darts,total:rem-r,bust:false};
+}
+
+/* ---------- checkout suggestions ---------- */
+const ALLSEG=RSEG.concat([mkSeg('O',25)]).sort((a,b)=>b.val-a.val);
+function segCost(s){
+  if(s.ring==='T')return {20:1,19:1.3,18:1.5,17:1.7,16:1.9,15:2}[s.n]||2.4;
+  if(s.ring==='D')return {20:.8,16:.9,8:1,10:1,18:1.1,12:1.1,4:1.2,6:1.3,14:1.3,2:1.5}[s.n]||1.9;
+  if(s.ring==='B')return 2.3;
+  if(s.ring==='O')return 1.5;
+  return s.n>=15?.3:.5;
+}
+const coMemo={};
+function bestRoute(r,dbl){
+  const key=r+(dbl?'d':'a');
+  if(key in coMemo)return coMemo[key];
+  let best=null,bc=1e9;
+  const fin=s=>s.val>0&&(!dbl||s.dbl);
+  const consider=(arr)=>{
+    const c=arr.reduce((a,x)=>a+segCost(x),0)+2.5*(arr.length-1);
+    if(c<bc){bc=c;best=arr}
+  };
+  for(const a of ALLSEG){
+    if(a.val===r&&fin(a))consider([a]);
+    if(a.val>=r)continue;
+    for(const b of ALLSEG){
+      if(a.val+b.val===r&&fin(b))consider([a,b]);
+      if(a.val+b.val>=r||b.val>a.val)continue;
+      for(const c of ALLSEG){
+        if(a.val+b.val+c.val===r&&fin(c))consider([a,b,c]);
+      }
+    }
+  }
+  return coMemo[key]=best;
+}
+function setupTip(r){
+  let best=null,bc=1e9;
+  for(const a of ALLSEG)for(const b of ALLSEG){
+    if(b.val>a.val)continue;
+    for(const c of ALLSEG){
+      if(c.val>b.val)continue;
+      const left=r-a.val-b.val-c.val;
+      if(left<2||left>40||(left>20&&left%2))continue;
+      if(left>40)continue;
+      const dOK=left<=40&&left%2===0;
+      if(!dOK)continue;
+      const cost=segCost(a)+segCost(b)+segCost(c)+(left===32||left===40||left===16||left===8?0:1);
+      if(cost<bc){bc=cost;best={segs:[a,b,c],left}}
+    }
+  }
+  return best;
+}
+function drawCo(){
+  const el=$('co');
+  const r=G&&G.players[G.turn]?G.players[G.turn].score:0;
+  if(!G||G.over||cpuNow()||r>180||r<(G.dbl?2:1)){el.style.display='none';return}
+  let segs=bestRoute(r,G.dbl),left=null;
+  if(!segs&&G.dbl){const t=setupTip(r);if(t){segs=t.segs;left=t.left}}
+  if(!segs){el.style.display='none';return}
+  el.className='co'+(left!==null?' set':'');
+  el.innerHTML=segs.map(x=>'<span>'+x.lab+'</span>').join('')+(left!==null?'<small>leaves '+left+'</small>':'');
+  el.style.display='flex';
 }
 
 /* playing the computer's turn */
