@@ -414,6 +414,16 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   </div>
 </div>
 
+<div class="modal" id="dartsModal">
+  <div class="box">
+    <h3>Game shot!</h3>
+    <p>How many darts did you throw this turn?</p>
+    <button class="big" data-nd="1">1 dart</button>
+    <button class="big" data-nd="2">2 darts</button>
+    <button class="big" data-nd="3">3 darts</button>
+  </div>
+</div>
+
 <div class="modal" id="winModal">
   <div class="box">
     <h3 id="winTitle"></h3>
@@ -577,7 +587,7 @@ function draw(){
     const w=G.players[G.winner];
     if(!G.players.some(p=>p.cpu>=0))recordResult('x01',G.log,[w.name],G.players.map(p=>p.name));
     $('winTitle').textContent=w.name+' wins!';
-    $('winStats').textContent='3-dart average '+avg(w)+' over '+w.visits.length+' visits';
+    $('winStats').innerHTML='3-dart average '+avg(w)+' over '+w.visits.length+' visits<br><b>Darts thrown:</b> '+G.players.map(q=>esc(q.name)+' '+dartsOf(q)).join(' · ');
     $('winModal').classList.add('on');
   }else $('winModal').classList.remove('on');
   scheduleCpu();
@@ -604,16 +614,26 @@ function submit(){
   const p=G.players[G.turn],left=p.score-v;
   const bust=left<0||(G.dbl&&left===1);
   if(!bust&&left===0&&G.dbl){pendingV=v;$('dblModal').classList.add('on');return}
+  if(!bust&&left===0)return finishStep(v);
   commit(v,bust);
 }
-function commit(v,bust){
+function finishStep(v){
+  if(inMode==='tap'&&tapSeq.length>=1&&tapSeq.length<=3)return commit(v,false,tapSeq.length);
+  pendingV=v;$('dartsModal').classList.add('on');
+}
+$('dartsModal').addEventListener('click',e=>{
+  const b=e.target.closest('[data-nd]');if(!b)return;
+  $('dartsModal').classList.remove('on');commit(pendingV,false,+b.dataset.nd);
+});
+function dartsOf(p){return p.visits.reduce((a,v)=>a+(v.d||3),0)}
+function commit(v,bust,darts){
   const p=G.players[G.turn];
   const who=p.cpu>=0?'Computer':p.name;
   G.log.push({p:G.turn,prev:p.score});
   let msg;
   if(bust){p.visits.push({v:0,bust:true});toast('Bust!');msg=['Bust!','No score.']}
   else{
-    p.score-=v;p.visits.push({v,bust:false});if(v>=95)celebrate(v);
+    p.score-=v;p.visits.push({v,bust:false,d:darts||3});if(v>=95)celebrate(v);
     msg=[(v?words(v)+(v>=100?'!':'.'):'No score.'),words(p.score)+' left.'];
   }
   entry='';tapSeq=[];
@@ -624,7 +644,7 @@ function commit(v,bust){
   say(out);
   save();draw();
 }
-$('dblYes').addEventListener('click',()=>{$('dblModal').classList.remove('on');commit(pendingV,false)});
+$('dblYes').addEventListener('click',()=>{$('dblModal').classList.remove('on');finishStep(pendingV)});
 $('dblNo').addEventListener('click',()=>{$('dblModal').classList.remove('on');commit(pendingV,true)});
 function undo(){
   if(!G||!G.log.length)return;
@@ -1267,7 +1287,7 @@ function scheduleCpu(){
     cpuT2=setTimeout(()=>{
       if(G.log!==log||G.turn!==turn||G.over)return;
       d.style.fontSize='';
-      commit(res.bust?0:res.total,res.bust);
+      commit(res.bust?0:res.total,res.bust,res.bust?3:res.darts.length);
     },1700);
   },1100);
 }
