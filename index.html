@@ -26,7 +26,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute
 .chip{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px 18px;font-weight:700;font-size:18px;color:var(--ink)}
 .chip.on{background:var(--green);border-color:var(--green);color:#fff}
 .row{display:flex;gap:8px;margin-bottom:8px}
-.row input{flex:1;padding:12px 14px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--card);color:var(--ink)}
+.row input{flex:1;min-width:0;padding:12px 14px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--card);color:var(--ink)}
 .x{background:var(--card);border:2px solid var(--line);border-radius:12px;width:48px;color:var(--mute)}
 select{flex:1;min-width:0;padding:12px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--card);color:var(--ink)}
 .link{background:none;color:var(--green2);font-weight:600;padding:8px 0}
@@ -35,8 +35,8 @@ select{flex:1;min-width:0;padding:12px;border:2px solid var(--line);border-radiu
 .big{background:var(--green);color:#fff;border-radius:14px;padding:16px;font-size:18px;font-weight:700;width:100%;margin-top:20px}
 .big.alt{background:var(--card);color:var(--green);border:2px solid var(--green);margin-top:10px}
 header.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-header.bar button{background:none;color:var(--green2);font-weight:600;padding:8px 4px}
-header.bar .t{font-weight:700}
+header.bar button{background:none;color:var(--green2);font-weight:600;padding:8px 4px;white-space:nowrap}
+header.bar .t{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 #cards{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
 .pc{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 12px}
 .pc.cur{border-color:var(--green2);box-shadow:0 0 0 3px rgba(0,171,201,.18)}
@@ -55,6 +55,7 @@ header.bar .t{font-weight:700}
 .co.set{background:#007a92}
 .co small{font-size:13px;font-weight:700}
 @media (max-height:700px){.co{padding:3px 8px;font-size:19px;margin-top:5px}.turnRow{margin:6px 0 0}#display{font-size:44px;min-height:50px}}
+.langRow{display:flex;align-items:center;gap:10px;margin:14px 0 6px}.langRow label{font-weight:700;color:var(--dim);white-space:nowrap}.langRow select{flex:1}
 .turnRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 2px}
 .turnRow #turn{flex:1;text-align:left;margin:0}
 .modePill{background:var(--card);border:2px solid var(--aqua);color:var(--aqua2);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap}
@@ -211,6 +212,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <button class="big alt" id="lbBtn">🏆 Leaderboard</button>
   <button class="big alt" id="joinBtn">📡 Join a live game</button>
   <button class="big alt" id="howto">How to play</button>
+  <div class="langRow"><label for="langSel">🌐 Language</label><select id="langSel"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="ht">Kreyòl ayisyen</option></select></div>
 </section>
 
 <section id="setup" class="screen">
@@ -447,12 +449,46 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
 <div id="banner"></div>
 <canvas id="confetti"></canvas>
 
+<script id="i18n">window.I18N={"es":{"Sign in":"Iniciar sesión","THE BAHAMAS":"LAS BAHAMAS","Island-style dart scoring":"Puntuación de dardos estilo isleño","Pick a game":"Elige un juego","🌙 Turn dark mode on":"🌙 Activar modo oscuro","☀️ Turn dark mode off":"☀️ Desactivar modo oscuro","Count down to zero, finish on a double":"Cuenta atrás hasta cero, termina con un doble","Cricket":"Cricket","Close 15 to 20 and the bull":"Cierra del 15 al 20 y la diana","Around the World":"Vuelta al mundo","Hit 1 to 20 in order, then the bull":"Acierta del 1 al 20 en orden y luego la diana","Shanghai":"Shanghái","Single, double and triple of the round's number":"Simple, doble y triple del número de la ronda","Bob's 27":"Bob's 27","Doubles practice, 21 rounds":"Práctica de dobles, 21 rondas","Halve-It":"Mitad","Miss the target and your score is halved":"Si fallas el objetivo, tu puntuación se reduce a la mitad","Killer":"Asesino","Become a killer, take out the other doubles":"Hazte asesino y elimina los dobles de los demás","🏆 Leaderboard":"🏆 Clasificación","📡 Join a live game":"📡 Unirse a un juego en vivo","How to play":"Cómo jugar","🌐 Language":"🌐 Idioma","‹ Home":"‹ Inicio","Resume last game":"Reanudar el último juego","Game":"Juego","Players":"Jugadores","+ Add player":"+ Añadir jugador","🤖 Add computer opponent":"🤖 Añadir oponente de computadora","Rules":"Reglas","Double out (finish on a double or bullseye)":"Doble para salir (terminar en un doble o en la diana)","Closest to the bull throws first (2 or more players)":"El más cercano a la diana tira primero (2 o más jugadores)","Caller voice":"Voz del locutor","Default voice":"Voz predeterminada","Test":"Probar","Start game":"Empezar juego","‹ Menu":"‹ Menú","Undo":"Deshacer","Enter":"Aceptar","Clear":"Borrar","No score":"Sin puntos","Doubles move you 2 numbers, triples move you 3":"Los dobles te avanzan 2 números, los triples 3","Single":"Simple","Double":"Doble","Triple":"Triple","Bull":"Diana","Miss":"Fallo","End turn":"Terminar turno","0 hits":"0 aciertos","1 hit":"1 acierto","2 hits":"2 aciertos","3 hits":"3 aciertos","Missed all 3 darts (halve)":"Fallé los 3 dardos (mitad)","Account":"Cuenta","Create account":"Crear cuenta","Your name":"Tu nombre","Email":"Correo electrónico","Password":"Contraseña","Forgot password?":"¿Olvidaste tu contraseña?","My profile":"Mi perfil","Name":"Nombre","Save":"Guardar","Country":"País","⭐ Ad-free member":"⭐ Miembro sin anuncios","Games played":"Juegos jugados","Wins":"Victorias","Rookie":"Novato","Regular":"Habitual","Sharpshooter":"Tirador certero","Pro":"Profesional","Legend":"Leyenda","Rank":"Rango","Avatar":"Avatar","Use a photo instead":"Usar una foto","Sign out":"Cerrar sesión","Join a live game":"Unirse a un juego en vivo","Ask the scorer for the 5-letter code, then type it here.":"Pide al anotador el código de 5 letras y escríbelo aquí.","Join":"Unirse","‹ Leave":"‹ Salir","🔔 Turn on notifications":"🔔 Activar notificaciones","Live scoreboard is on":"El marcador en vivo está activado","Players open the app, tap":"Los jugadores abren la app, tocan","and type this code:":"y escriben este código:","Send the code":"Enviar el código","Done":"Listo","Stop sharing":"Dejar de compartir","Leaderboard":"Clasificación","My country":"Mi país","World":"Mundo","Choose your country":"Elige tu país","Choose your country…":"Elige tu país…","Ranked by wins in games against other people. Practice games against the computer don't count.":"Clasificado por victorias en juegos contra otras personas. Los juegos de práctica contra la computadora no cuentan.","Rematch":"Revancha","Back to home":"Volver al inicio","Undo last dart":"Deshacer último dardo","Last dart a double?":"¿El último dardo fue un doble?","Did the finishing dart land in a double or the bullseye?":"¿El dardo final cayó en un doble o en la diana?","Yes, game shot!":"¡Sí, juego ganado!","No, it's a bust":"No, me pasé","Bull-off":"Desempate a la diana","Everyone throws one dart at the bull. Who was closest?":"Todos lanzan un dardo a la diana. ¿Quién quedó más cerca?","Game shot!":"¡Juego ganado!","How many darts did you throw this turn?":"¿Cuántos dardos lanzaste en este turno?","1 dart":"1 dardo","2 darts":"2 dardos","3 darts":"3 dardos","Back to menu":"Volver al menú","Undo last visit":"Deshacer última visita","Sound":"Sonido","Name other players will see":"Nombre que verán los demás jugadores","At least 6 characters":"Al menos 6 caracteres","CODE":"CÓDIGO","🎯 Tap numbers":"🎯 Tocar números","⌨️ Type total":"⌨️ Escribir total","DONE":"LISTO","Bust":"Pasado","Bust!":"¡Pasado!","Throwing…":"Lanzando…","Out":"Fuera","Eliminated":"Eliminado","KILLER":"ASESINO","Halved":"Mitad","Halved!":"¡A la mitad!","Instant win":"Victoria instantánea","Last one standing":"Último en pie","Any double":"Cualquier doble","Any triple":"Cualquier triple","Game over":"Fin del juego","Live game":"Juego en vivo","Waiting for a game":"Esperando un juego","Points":"Puntos","points":"puntos","to go":"por anotar","next target":"próximo objetivo","killer":"asesino","eliminated":"eliminado","hit your double 3 times":"acierta tu doble 3 veces","Lives":"Vidas","Avg":"Prom.","Last":"Último","avg":"prom.","Computer":"Computadora","Beginner":"Principiante","Casual":"Casual","Club":"Club","League":"Liga","Start on 0":"Empieza en 0","Start on 27":"Empieza en 27","No numbers closed yet":"Aún no hay números cerrados","Closed:":"Cerrados:","Hit":"Acierto","Hit (+1)":"Acierto (+1)","Double (+2)":"Doble (+2)","Triple (+3)":"Triple (+3)","wins":"victorias","Player":"Jugador","This turn:":"Este turno:","Tap the number each dart hit. Double = tap twice, treble = tap three times, bull = tap 25 twice.":"Toca el número que acertó cada dardo. Doble = tócalo dos veces, triple = tres veces, diana = toca 25 dos veces.","Double out":"Doble para salir","Straight out":"Salida libre","I am":"Yo soy","YOUR TURN":"TU TURNO","🎉 You won!":"🎉 ¡Ganaste!","Loading…":"Cargando…","Connecting…":"Conectando…","Accounts need an internet connection":"Las cuentas necesitan conexión a internet","Add at least one human player":"Añade al menos un jugador humano","Couldn't connect. Check the code and your internet.":"No se pudo conectar. Revisa el código y tu internet.","Couldn't read that photo":"No se pudo leer esa foto","Couldn't save. Check your connection.":"No se pudo guardar. Revisa tu conexión.","Couldn't start. Check your connection.":"No se pudo iniciar. Revisa tu conexión.","Connecting… try again in a moment":"Conectando… inténtalo de nuevo en un momento","Connection lost":"Conexión perdida","Enter a name":"Escribe un nombre","Enter a name.":"Escribe un nombre.","Enter the 5-letter code.":"Escribe el código de 5 letras.","Enter your email and password.":"Escribe tu correo y contraseña.","Hit your own double 3 times first":"Primero acierta tu propio doble 3 veces","If that email has an account, a reset link is on its way.":"Si ese correo tiene una cuenta, un enlace para restablecerla va en camino.","Joining needs an internet connection":"Unirse necesita conexión a internet","Killer needs at least 2 players":"Asesino necesita al menos 2 jugadores","Live sharing needs an internet connection":"Compartir en vivo necesita conexión a internet","Name saved":"Nombre guardado","No internet connection.":"Sin conexión a internet.","No live game found with that code.":"No se encontró ningún juego en vivo con ese código.","No triple on the bull":"No hay triple en la diana","Password must be at least 6 characters.":"La contraseña debe tener al menos 6 caracteres.","Sharing stopped":"Se dejó de compartir","Sign in first to share live scores":"Inicia sesión primero para compartir marcadores en vivo","Sign in to see the leaderboard":"Inicia sesión para ver la clasificación","Something went wrong. Please try again.":"Algo salió mal. Inténtalo de nuevo.","That email address doesn't look right.":"Ese correo no parece correcto.","That email already has an account. Try signing in.":"Ese correo ya tiene una cuenta. Intenta iniciar sesión.","That score isn't possible with 3 darts":"Esa puntuación no es posible con 3 dardos","The leaderboard needs an internet connection":"La clasificación necesita conexión a internet","The most you can score in a turn is 180":"Lo máximo que puedes anotar en un turno es 180","Tip: on iPhone, add the app to your Home Screen (Share → Add to Home Screen) to get notifications.":"Consejo: en iPhone, añade la app a tu pantalla de inicio (Compartir → Añadir a pantalla de inicio) para recibir notificaciones.","Too many tries. Wait a minute and try again.":"Demasiados intentos. Espera un minuto e inténtalo de nuevo.","Top rank reached!":"¡Rango máximo alcanzado!","Type your email above first.":"Escribe primero tu correo arriba.","Type your points, or tap \"Missed all 3\"":"Escribe tus puntos o toca «Fallé los 3»","Your saved games were restored":"Se restauraron tus juegos guardados","Wrong email or password.":"Correo o contraseña incorrectos.","Couldn't load the leaderboard. Check your connection.":"No se pudo cargar la clasificación. Revisa tu conexión.","No one is on this list yet.":"Todavía no hay nadie en esta lista.","Win a game against another player to be first!":"¡Gana un juego contra otro jugador para ser el primero!","The scorer ended this session.":"El anotador terminó esta sesión.","Player {n}":"Jugador {n}","{name}'s turn":"Turno de {name}","{name}'s turn · Dart {d} of 3":"Turno de {name} · Dardo {d} de 3","{name}'s turn · Dart {d} of 3 · Aim for {t}":"Turno de {name} · Dardo {d} de 3 · Apunta al {t}","Round {r} of {m} · Target {t} · {name} · Dart {d} of 3":"Ronda {r} de {m} · Objetivo {t} · {name} · Dardo {d} de 3","Round {r} of 21 · Target {t} (worth {v}) · {name}":"Ronda {r} de 21 · Objetivo {t} (vale {v}) · {name}","Round {r} of {m} · Target: {t} · {name}":"Ronda {r} de {m} · Objetivo: {t} · {name}","Round {r} of {m}":"Ronda {r} de {m}","{n} of 21 done":"{n} de 21 hechos","Next target · {n} of 21 done":"Próximo objetivo · {n} de 21 hechos","{n} points":"{n} puntos","{n} darts thrown":"{n} dardos lanzados","{name} wins!":"¡{name} gana!","Tie: {names}":"Empate: {names}","{name} hit a Shanghai!":"¡{name} logró un Shanghái!","{name} is out":"{name} queda fuera","Out on {t}":"Fuera en {t}","Hits {n}/3":"Aciertos {n}/3","{name} is a killer!":"¡{name} es un asesino!","{name} is eliminated!":"¡{name} queda eliminado!","{name} throws first":"{name} tira primero","Leaves {n}":"Quedan {n}","Scored {n}":"Anotó {n}","3-dart average {a} over {n} visits":"Promedio de 3 dardos: {a} (visitas: {n})","Darts thrown:":"Dardos lanzados:","{n} more win to reach {r}":"{n} victoria más para llegar a {r}","{n} more wins to reach {r}":"{n} victorias más para llegar a {r}","Your position: #{n} ({w} wins)":"Tu posición: #{n} ({w} victorias)","{name} to throw":"{name} va a tirar","Join my Backyard Darts game! Code: {c}":"¡Únete a mi juego de Backyard Darts! Código: {c}","Sound on":"Sonido activado","No score.":"Sin puntos.","{x} left.":"Quedan {x}.","Game shot! {name} wins.":"¡Juego ganado! {name} gana.","Total {x}.":"Total {x}.","Halved.":"A la mitad.","It is a tie.":"Es un empate.","{name} wins.":"{name} gana.","Bullseye! {name} wins.":"¡Diana! {name} gana.","Shanghai! {name} wins.":"¡Shanghái! {name} gana.","{name} is eliminated.":"{name} queda eliminado.","Your turn":"Tu turno","Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter. Not a fan of adding up? Tap \"Tap numbers\", then tap the number each dart hit: tap it twice for a double and three times for a treble (the bull is 25 tapped twice). The app adds it up and you tap DONE. Once you are on 180 or less, a green strip under the scores shows the easiest way to finish (T = treble, D = double, Bull = bullseye, a plain number = single). If there is no finish with three darts, a blue strip shows a good set-up and what it leaves you.":"Todos empiezan con la misma puntuación (301, 501, 701 o 1001) y van restando lo que anotan en cada turno de tres dardos. Debes terminar exactamente en cero, y el último dardo tiene que caer en un doble o en la diana. Si te pasas de cero, o te quedas en 1 con doble para salir activado, es un pase y tu puntuación vuelve a la que tenías antes de ese turno. En la app: suma tus tres dardos, escribe el total y toca Aceptar. ¿No te gusta sumar? Toca «Tocar números» y luego toca el número que acertó cada dardo: tócalo dos veces para un doble y tres veces para un triple (la diana es 25 tocado dos veces). La app lo suma y tú tocas LISTO. Cuando tengas 180 o menos, una franja verde bajo las puntuaciones muestra la forma más fácil de terminar (T = triple, D = doble, Diana = centro, un número solo = simple). Si no hay forma de terminar con tres dardos, una franja azul muestra una buena preparación y lo que te deja.","The targets are 15, 16, 17, 18, 19, 20 and the bull. Three marks closes a number: a single is one mark, a double is two, a triple is three (bull: outer is one, inner is two). Once you've closed a number, more hits on it score points, until all your opponents have closed it too. To win, close all seven targets while having at least as many points as everyone else. In the app: pick Single, Double or Triple, then tap the number you hit for each dart.":"Los objetivos son 15, 16, 17, 18, 19, 20 y la diana. Tres marcas cierran un número: un simple es una marca, un doble son dos, un triple son tres (diana: la exterior es una, la interior son dos). Una vez que cierras un número, más aciertos en él suman puntos, hasta que todos tus rivales también lo hayan cerrado. Para ganar, cierra los siete objetivos teniendo al menos tantos puntos como todos los demás. En la app: elige Simple, Doble o Triple y toca el número que acertaste con cada dardo.","Race to hit every number in order: 1, then 2, then 3, all the way to 20, and finish on the bullseye (outer or inner). You only move forward when you hit your current number. The first player to hit the bullseye wins. Optional rule: a double moves you forward 2 numbers and a triple moves you forward 3. In the app: tap Hit or Miss for each dart.":"Carrera para acertar todos los números en orden: primero el 1, luego el 2, luego el 3, hasta el 20, y terminar en la diana (exterior o interior). Solo avanzas cuando aciertas tu número actual. El primer jugador que acierte la diana gana. Regla opcional: un doble te avanza 2 números y un triple te avanza 3. En la app: toca Acierto o Fallo por cada dardo.","There are 7 rounds, and the target number is the round number (1 in round 1, 2 in round 2, and so on). You throw 3 darts at the target. A single scores the number, a double scores it twice and a triple three times. Hit a single, a double and a triple of the target in the same turn and that's a Shanghai: you win on the spot. If nobody does it, the highest score after round 7 wins. In the app: tap Single, Double, Triple or Miss for each dart.":"Hay 7 rondas y el número objetivo es el número de la ronda (1 en la ronda 1, 2 en la ronda 2, y así sucesivamente). Lanzas 3 dardos al objetivo. Un simple suma el número, un doble lo suma dos veces y un triple tres veces. Si aciertas un simple, un doble y un triple del objetivo en el mismo turno, es un Shanghái: ganas al instante. Si nadie lo consigue, gana la puntuación más alta tras la ronda 7. En la app: toca Simple, Doble, Triple o Fallo por cada dardo.","A practice game for doubles. You start on 27 and work through double 1, double 2 and so on up to double 20, then the bull, which makes 21 rounds. Each round you throw 3 darts at that double. Every hit adds the double's value to your score (double 5 is worth 10, the bull is worth 50). If all three darts miss, you lose that value. If your score drops below zero you're out. The highest score at the end wins. In the app: tap how many of your 3 darts hit.":"Un juego de práctica para dobles. Empiezas con 27 y avanzas por el doble 1, el doble 2 y así hasta el doble 20, y luego la diana, lo que suma 21 rondas. En cada ronda lanzas 3 dardos a ese doble. Cada acierto suma el valor del doble a tu puntuación (el doble 5 vale 10, la diana vale 50). Si fallas los tres dardos, pierdes ese valor. Si tu puntuación baja de cero, quedas eliminado. Gana la puntuación más alta al final. En la app: toca cuántos de tus 3 dardos acertaron.","There are 9 rounds, each with its own target: 15, 16, 17, any double, 18, 19, 20, any triple and the bull. You throw 3 darts at the target. Whatever you hit on the target is added to your total. If all three darts miss, your total is cut in half. The highest total at the end wins. In the app: type the points you scored with your 3 darts and tap Enter, or tap \"Missed all 3 darts\" to halve your total.":"Hay 9 rondas, cada una con su propio objetivo: 15, 16, 17, cualquier doble, 18, 19, 20, cualquier triple y la diana. Lanzas 3 dardos al objetivo. Lo que aciertes en el objetivo se suma a tu total. Si fallas los tres dardos, tu total se reduce a la mitad. Gana el total más alto al final. En la app: escribe los puntos que hiciste con tus 3 dardos y toca Aceptar, o toca «Fallé los 3 dardos» para reducir tu total a la mitad.","Each player is given their own double, picked at random, and starts with 3 lives. Hit your own double three times to become a killer. Once you're a killer, every hit on another player's double takes away one of their lives. Lose all three and you're out. The last player left wins. You need at least 2 players. In the app: tap the double you hit for each dart, or Miss.":"A cada jugador se le asigna su propio doble al azar y empieza con 3 vidas. Acierta tu propio doble tres veces para convertirte en asesino. Una vez que eres asesino, cada acierto en el doble de otro jugador le quita una vida. Si pierde las tres, queda eliminado. Gana el último jugador que quede. Se necesitan al menos 2 jugadores. En la app: toca el doble que acertaste con cada dardo, o Fallo."},"fr":{"Sign in":"Se connecter","THE BAHAMAS":"LES BAHAMAS","Island-style dart scoring":"Le score de fléchettes version îles","Pick a game":"Choisis un jeu","🌙 Turn dark mode on":"🌙 Activer le mode sombre","☀️ Turn dark mode off":"☀️ Désactiver le mode sombre","Count down to zero, finish on a double":"Décompte jusqu'à zéro, finis sur un double","Cricket":"Cricket","Close 15 to 20 and the bull":"Ferme du 15 au 20 et le bull","Around the World":"Tour du monde","Hit 1 to 20 in order, then the bull":"Touche de 1 à 20 dans l'ordre, puis le bull","Shanghai":"Shanghai","Single, double and triple of the round's number":"Simple, double et triple du numéro de la manche","Bob's 27":"Bob's 27","Doubles practice, 21 rounds":"Entraînement aux doubles, 21 manches","Halve-It":"Moitié","Miss the target and your score is halved":"Rate la cible et ton score est divisé par deux","Killer":"Killer","Become a killer, take out the other doubles":"Deviens killer et élimine les doubles des autres","🏆 Leaderboard":"🏆 Classement","📡 Join a live game":"📡 Rejoindre une partie en direct","How to play":"Comment jouer","🌐 Language":"🌐 Langue","‹ Home":"‹ Accueil","Resume last game":"Reprendre la dernière partie","Game":"Jeu","Players":"Joueurs","+ Add player":"+ Ajouter un joueur","🤖 Add computer opponent":"🤖 Ajouter un adversaire ordinateur","Rules":"Règles","Double out (finish on a double or bullseye)":"Double out (finir sur un double ou le bull)","Closest to the bull throws first (2 or more players)":"Le plus proche du bull lance en premier (2 joueurs ou plus)","Caller voice":"Voix de l'annonceur","Default voice":"Voix par défaut","Test":"Tester","Start game":"Commencer la partie","‹ Menu":"‹ Menu","Undo":"Annuler","Enter":"Valider","Clear":"Effacer","No score":"Aucun point","Doubles move you 2 numbers, triples move you 3":"Les doubles te font avancer de 2 numéros, les triples de 3","Single":"Simple","Double":"Double","Triple":"Triple","Bull":"Bull","Miss":"Raté","End turn":"Finir le tour","0 hits":"0 touche","1 hit":"1 touche","2 hits":"2 touches","3 hits":"3 touches","Missed all 3 darts (halve)":"3 fléchettes ratées (moitié)","Account":"Compte","Create account":"Créer un compte","Your name":"Ton nom","Email":"E-mail","Password":"Mot de passe","Forgot password?":"Mot de passe oublié ?","My profile":"Mon profil","Name":"Nom","Save":"Enregistrer","Country":"Pays","⭐ Ad-free member":"⭐ Membre sans pub","Games played":"Parties jouées","Wins":"Victoires","Rookie":"Débutant","Regular":"Habitué","Sharpshooter":"Tireur d'élite","Pro":"Pro","Legend":"Légende","Rank":"Rang","Avatar":"Avatar","Use a photo instead":"Utiliser une photo","Sign out":"Se déconnecter","Join a live game":"Rejoindre une partie en direct","Ask the scorer for the 5-letter code, then type it here.":"Demande le code à 5 lettres à celui qui marque, puis saisis-le ici.","Join":"Rejoindre","‹ Leave":"‹ Quitter","🔔 Turn on notifications":"🔔 Activer les notifications","Live scoreboard is on":"Le tableau en direct est activé","Players open the app, tap":"Les joueurs ouvrent l'appli, touchent","and type this code:":"et saisissent ce code :","Send the code":"Envoyer le code","Done":"Terminé","Stop sharing":"Arrêter le partage","Leaderboard":"Classement","My country":"Mon pays","World":"Monde","Choose your country":"Choisis ton pays","Choose your country…":"Choisis ton pays…","Ranked by wins in games against other people. Practice games against the computer don't count.":"Classé selon les victoires contre d'autres personnes. Les parties d'entraînement contre l'ordinateur ne comptent pas.","Rematch":"Revanche","Back to home":"Retour à l'accueil","Undo last dart":"Annuler la dernière fléchette","Last dart a double?":"La dernière fléchette dans un double ?","Did the finishing dart land in a double or the bullseye?":"La fléchette finale est-elle tombée dans un double ou le bull ?","Yes, game shot!":"Oui, partie gagnée !","No, it's a bust":"Non, c'est un dépassement","Bull-off":"Départage au bull","Everyone throws one dart at the bull. Who was closest?":"Chacun lance une fléchette vers le bull. Qui était le plus proche ?","Game shot!":"Partie gagnée !","How many darts did you throw this turn?":"Combien de fléchettes as-tu lancées ce tour ?","1 dart":"1 fléchette","2 darts":"2 fléchettes","3 darts":"3 fléchettes","Back to menu":"Retour au menu","Undo last visit":"Annuler la dernière visite","Sound":"Son","Name other players will see":"Nom que les autres joueurs verront","At least 6 characters":"Au moins 6 caractères","CODE":"CODE","🎯 Tap numbers":"🎯 Toucher les chiffres","⌨️ Type total":"⌨️ Saisir le total","DONE":"OK","Bust":"Dépassé","Bust!":"Dépassement !","Throwing…":"Lancer en cours…","Out":"Éliminé","Eliminated":"Éliminé","KILLER":"KILLER","Halved":"Divisé par deux","Halved!":"Divisé par deux !","Instant win":"Victoire immédiate","Last one standing":"Dernier en lice","Any double":"N'importe quel double","Any triple":"N'importe quel triple","Game over":"Partie terminée","Live game":"Partie en direct","Waiting for a game":"En attente d'une partie","Points":"Points","points":"points","to go":"à faire","next target":"prochaine cible","killer":"killer","eliminated":"éliminé","hit your double 3 times":"touche ton double 3 fois","Lives":"Vies","Avg":"Moy.","Last":"Dernier","avg":"moy.","Computer":"Ordinateur","Beginner":"Débutant","Casual":"Occasionnel","Club":"Club","League":"Ligue","Start on 0":"Départ à 0","Start on 27":"Départ à 27","No numbers closed yet":"Aucun numéro fermé pour l'instant","Closed:":"Fermés :","Hit":"Touché","Hit (+1)":"Touché (+1)","Double (+2)":"Double (+2)","Triple (+3)":"Triple (+3)","wins":"victoires","Player":"Joueur","This turn:":"Ce tour :","Tap the number each dart hit. Double = tap twice, treble = tap three times, bull = tap 25 twice.":"Touche le numéro atteint par chaque fléchette. Double = deux fois, triple = trois fois, bull = touche 25 deux fois.","Double out":"Double out","Straight out":"Sortie libre","I am":"Je suis","YOUR TURN":"À TOI DE JOUER","🎉 You won!":"🎉 Tu as gagné !","Loading…":"Chargement…","Connecting…":"Connexion…","Accounts need an internet connection":"Les comptes nécessitent une connexion internet","Add at least one human player":"Ajoute au moins un joueur humain","Couldn't connect. Check the code and your internet.":"Connexion impossible. Vérifie le code et ton internet.","Couldn't read that photo":"Impossible de lire cette photo","Couldn't save. Check your connection.":"Enregistrement impossible. Vérifie ta connexion.","Couldn't start. Check your connection.":"Démarrage impossible. Vérifie ta connexion.","Connecting… try again in a moment":"Connexion… réessaie dans un instant","Connection lost":"Connexion perdue","Enter a name":"Saisis un nom","Enter a name.":"Saisis un nom.","Enter the 5-letter code.":"Saisis le code à 5 lettres.","Enter your email and password.":"Saisis ton e-mail et ton mot de passe.","Hit your own double 3 times first":"Touche d'abord ton propre double 3 fois","If that email has an account, a reset link is on its way.":"Si cet e-mail a un compte, un lien de réinitialisation est en route.","Joining needs an internet connection":"Rejoindre nécessite une connexion internet","Killer needs at least 2 players":"Killer nécessite au moins 2 joueurs","Live sharing needs an internet connection":"Le partage en direct nécessite une connexion internet","Name saved":"Nom enregistré","No internet connection.":"Pas de connexion internet.","No live game found with that code.":"Aucune partie en direct trouvée avec ce code.","No triple on the bull":"Pas de triple sur le bull","Password must be at least 6 characters.":"Le mot de passe doit contenir au moins 6 caractères.","Sharing stopped":"Partage arrêté","Sign in first to share live scores":"Connecte-toi d'abord pour partager les scores en direct","Sign in to see the leaderboard":"Connecte-toi pour voir le classement","Something went wrong. Please try again.":"Un problème est survenu. Réessaie.","That email address doesn't look right.":"Cette adresse e-mail ne semble pas correcte.","That email already has an account. Try signing in.":"Cet e-mail a déjà un compte. Essaie de te connecter.","That score isn't possible with 3 darts":"Ce score est impossible avec 3 fléchettes","The leaderboard needs an internet connection":"Le classement nécessite une connexion internet","The most you can score in a turn is 180":"Le maximum que tu peux marquer en un tour est 180","Tip: on iPhone, add the app to your Home Screen (Share → Add to Home Screen) to get notifications.":"Astuce : sur iPhone, ajoute l'appli à ton écran d'accueil (Partager → Sur l'écran d'accueil) pour recevoir les notifications.","Too many tries. Wait a minute and try again.":"Trop de tentatives. Attends une minute et réessaie.","Top rank reached!":"Rang maximal atteint !","Type your email above first.":"Saisis d'abord ton e-mail ci-dessus.","Type your points, or tap \"Missed all 3\"":"Saisis tes points, ou touche « 3 ratées »","Your saved games were restored":"Tes parties sauvegardées ont été restaurées","Wrong email or password.":"E-mail ou mot de passe incorrect.","Couldn't load the leaderboard. Check your connection.":"Impossible de charger le classement. Vérifie ta connexion.","No one is on this list yet.":"Personne n'est encore dans cette liste.","Win a game against another player to be first!":"Gagne une partie contre un autre joueur pour être le premier !","The scorer ended this session.":"Celui qui marquait a mis fin à cette session.","Player {n}":"Joueur {n}","{name}'s turn":"Au tour de {name}","{name}'s turn · Dart {d} of 3":"Au tour de {name} · Fléchette {d} sur 3","{name}'s turn · Dart {d} of 3 · Aim for {t}":"Au tour de {name} · Fléchette {d} sur 3 · Vise le {t}","Round {r} of {m} · Target {t} · {name} · Dart {d} of 3":"Manche {r} sur {m} · Cible {t} · {name} · Fléchette {d} sur 3","Round {r} of 21 · Target {t} (worth {v}) · {name}":"Manche {r} sur 21 · Cible {t} (vaut {v}) · {name}","Round {r} of {m} · Target: {t} · {name}":"Manche {r} sur {m} · Cible : {t} · {name}","Round {r} of {m}":"Manche {r} sur {m}","{n} of 21 done":"{n} sur 21 faits","Next target · {n} of 21 done":"Prochaine cible · {n} sur 21 faits","{n} points":"{n} points","{n} darts thrown":"{n} fléchettes lancées","{name} wins!":"{name} gagne !","Tie: {names}":"Égalité : {names}","{name} hit a Shanghai!":"{name} a fait un Shanghai !","{name} is out":"{name} est éliminé","Out on {t}":"Éliminé sur {t}","Hits {n}/3":"Touches {n}/3","{name} is a killer!":"{name} est un killer !","{name} is eliminated!":"{name} est éliminé !","{name} throws first":"{name} lance en premier","Leaves {n}":"Reste {n}","Scored {n}":"A marqué {n}","3-dart average {a} over {n} visits":"Moyenne sur 3 fléchettes : {a} (visites : {n})","Darts thrown:":"Fléchettes lancées :","{n} more win to reach {r}":"{n} victoire de plus pour atteindre {r}","{n} more wins to reach {r}":"{n} victoires de plus pour atteindre {r}","Your position: #{n} ({w} wins)":"Ta position : n°{n} ({w} victoires)","{name} to throw":"{name} doit lancer","Join my Backyard Darts game! Code: {c}":"Rejoins ma partie de Backyard Darts ! Code : {c}","Sound on":"Son activé","No score.":"Aucun point.","{x} left.":"Il reste {x}.","Game shot! {name} wins.":"Partie gagnée ! {name} gagne.","Total {x}.":"Total {x}.","Halved.":"Divisé par deux.","It is a tie.":"C'est une égalité.","{name} wins.":"{name} gagne.","Bullseye! {name} wins.":"Bullseye ! {name} gagne.","Shanghai! {name} wins.":"Shanghai ! {name} gagne.","{name} is eliminated.":"{name} est éliminé.","Your turn":"À ton tour","Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter. Not a fan of adding up? Tap \"Tap numbers\", then tap the number each dart hit: tap it twice for a double and three times for a treble (the bull is 25 tapped twice). The app adds it up and you tap DONE. Once you are on 180 or less, a green strip under the scores shows the easiest way to finish (T = treble, D = double, Bull = bullseye, a plain number = single). If there is no finish with three darts, a blue strip shows a good set-up and what it leaves you.":"Tout le monde commence avec le même score (301, 501, 701 ou 1001) et soustrait ce qu'il marque à chaque tour de trois fléchettes. Il faut finir exactement à zéro, et la dernière fléchette doit tomber dans un double ou le bull. Si tu descends sous zéro, ou si tu restes à 1 avec le double out activé, c'est un dépassement et ton score revient à ce qu'il était avant ce tour. Dans l'appli : additionne tes trois fléchettes, saisis le total et touche Valider. Pas fan des additions ? Touche « Toucher les chiffres », puis touche le numéro atteint par chaque fléchette : deux fois pour un double et trois fois pour un triple (le bull, c'est 25 touché deux fois). L'appli additionne et tu touches OK. Dès que tu es à 180 ou moins, une bande verte sous les scores montre la façon la plus simple de finir (T = triple, D = double, Bull = centre, un simple chiffre = simple). S'il n'existe pas de finition en trois fléchettes, une bande bleue montre une bonne préparation et ce qu'elle te laisse.","The targets are 15, 16, 17, 18, 19, 20 and the bull. Three marks closes a number: a single is one mark, a double is two, a triple is three (bull: outer is one, inner is two). Once you've closed a number, more hits on it score points, until all your opponents have closed it too. To win, close all seven targets while having at least as many points as everyone else. In the app: pick Single, Double or Triple, then tap the number you hit for each dart.":"Les cibles sont 15, 16, 17, 18, 19, 20 et le bull. Trois marques ferment un numéro : un simple vaut une marque, un double deux, un triple trois (bull : l'extérieur en vaut une, l'intérieur deux). Une fois un numéro fermé, les touches suivantes marquent des points, jusqu'à ce que tous tes adversaires l'aient fermé aussi. Pour gagner, ferme les sept cibles en ayant au moins autant de points que tous les autres. Dans l'appli : choisis Simple, Double ou Triple, puis touche le numéro atteint par chaque fléchette.","Race to hit every number in order: 1, then 2, then 3, all the way to 20, and finish on the bullseye (outer or inner). You only move forward when you hit your current number. The first player to hit the bullseye wins. Optional rule: a double moves you forward 2 numbers and a triple moves you forward 3. In the app: tap Hit or Miss for each dart.":"Course pour toucher tous les numéros dans l'ordre : le 1, puis le 2, puis le 3, jusqu'au 20, et finir sur le bull (extérieur ou intérieur). Tu n'avances que lorsque tu touches ton numéro actuel. Le premier joueur à toucher le bull gagne. Règle optionnelle : un double te fait avancer de 2 numéros et un triple de 3. Dans l'appli : touche Touché ou Raté pour chaque fléchette.","There are 7 rounds, and the target number is the round number (1 in round 1, 2 in round 2, and so on). You throw 3 darts at the target. A single scores the number, a double scores it twice and a triple three times. Hit a single, a double and a triple of the target in the same turn and that's a Shanghai: you win on the spot. If nobody does it, the highest score after round 7 wins. In the app: tap Single, Double, Triple or Miss for each dart.":"Il y a 7 manches et le numéro cible est le numéro de la manche (1 à la manche 1, 2 à la manche 2, et ainsi de suite). Tu lances 3 fléchettes vers la cible. Un simple marque le numéro, un double deux fois et un triple trois fois. Touche un simple, un double et un triple de la cible dans le même tour et c'est un Shanghai : tu gagnes sur-le-champ. Si personne n'y arrive, le meilleur score après la manche 7 gagne. Dans l'appli : touche Simple, Double, Triple ou Raté pour chaque fléchette.","A practice game for doubles. You start on 27 and work through double 1, double 2 and so on up to double 20, then the bull, which makes 21 rounds. Each round you throw 3 darts at that double. Every hit adds the double's value to your score (double 5 is worth 10, the bull is worth 50). If all three darts miss, you lose that value. If your score drops below zero you're out. The highest score at the end wins. In the app: tap how many of your 3 darts hit.":"Un jeu d'entraînement aux doubles. Tu commences à 27 et passes par le double 1, le double 2 et ainsi de suite jusqu'au double 20, puis le bull, ce qui fait 21 manches. À chaque manche, tu lances 3 fléchettes vers ce double. Chaque touche ajoute la valeur du double à ton score (le double 5 vaut 10, le bull vaut 50). Si les trois fléchettes ratent, tu perds cette valeur. Si ton score passe sous zéro, tu es éliminé. Le meilleur score à la fin gagne. Dans l'appli : touche le nombre de fléchettes (sur 3) qui ont touché.","There are 9 rounds, each with its own target: 15, 16, 17, any double, 18, 19, 20, any triple and the bull. You throw 3 darts at the target. Whatever you hit on the target is added to your total. If all three darts miss, your total is cut in half. The highest total at the end wins. In the app: type the points you scored with your 3 darts and tap Enter, or tap \"Missed all 3 darts\" to halve your total.":"Il y a 9 manches, chacune avec sa propre cible : 15, 16, 17, un double quelconque, 18, 19, 20, un triple quelconque et le bull. Tu lances 3 fléchettes vers la cible. Ce que tu touches sur la cible s'ajoute à ton total. Si les trois fléchettes ratent, ton total est divisé par deux. Le meilleur total à la fin gagne. Dans l'appli : saisis les points marqués avec tes 3 fléchettes et touche Valider, ou touche « 3 fléchettes ratées » pour diviser ton total par deux.","Each player is given their own double, picked at random, and starts with 3 lives. Hit your own double three times to become a killer. Once you're a killer, every hit on another player's double takes away one of their lives. Lose all three and you're out. The last player left wins. You need at least 2 players. In the app: tap the double you hit for each dart, or Miss.":"Chaque joueur reçoit son propre double, tiré au hasard, et commence avec 3 vies. Touche ton propre double trois fois pour devenir killer. Une fois killer, chaque touche sur le double d'un autre joueur lui retire une vie. S'il perd les trois, il est éliminé. Le dernier joueur restant gagne. Il faut au moins 2 joueurs. Dans l'appli : touche le double atteint par chaque fléchette, ou Raté."},"ht":{"Sign in":"Konekte","THE BAHAMAS":"BAHAMAS","Island-style dart scoring":"Pwen flechèt nan style zile","Pick a game":"Chwazi yon jwèt","🌙 Turn dark mode on":"🌙 Limen mòd nwa","☀️ Turn dark mode off":"☀️ Etenn mòd nwa","Count down to zero, finish on a double":"Konte desann jiska zewo, fini sou yon doub","Cricket":"Cricket","Close 15 to 20 and the bull":"Fèmen 15 pou rive 20 ak bòl la","Around the World":"Toutotan mond lan","Hit 1 to 20 in order, then the bull":"Frape 1 rive 20 youn apre lòt, answit bòl la","Shanghai":"Shanghai","Single, double and triple of the round's number":"Senp, doub ak trip nimewo won an","Bob's 27":"Bob's 27","Doubles practice, 21 rounds":"Pratik doub, 21 won","Halve-It":"Koupe mwatye","Miss the target and your score is halved":"Si ou rate sib la, pwen ou koupe pa mwatye","Killer":"Kilè","Become a killer, take out the other doubles":"Vin yon kilè, elimine doub lòt yo","🏆 Leaderboard":"🏆 Klasman","📡 Join a live game":"📡 Antre nan yon jwèt an dirèk","How to play":"Kijan pou jwe","🌐 Language":"🌐 Lang","‹ Home":"‹ Akèy","Resume last game":"Kontinye dènye jwèt la","Game":"Jwèt","Players":"Jwè","+ Add player":"+ Ajoute yon jwè","🤖 Add computer opponent":"🤖 Ajoute yon advèsè òdinatè","Rules":"Règ","Double out (finish on a double or bullseye)":"Doub pou soti (fini sou yon doub oswa bòl la)","Closest to the bull throws first (2 or more players)":"Moun ki pi pre bòl la jete anvan (2 jwè oswa plis)","Caller voice":"Vwa moun k ap anonse a","Default voice":"Vwa pa defo","Test":"Teste","Start game":"Kòmanse jwèt la","‹ Menu":"‹ Meni","Undo":"Defèt","Enter":"Antre","Clear":"Efase","No score":"Pa gen pwen","Doubles move you 2 numbers, triples move you 3":"Doub fè w avanse 2 nimewo, trip fè w avanse 3","Single":"Senp","Double":"Doub","Triple":"Trip","Bull":"Bull","Miss":"Rate","End turn":"Fini tou a","0 hits":"0 kou","1 hit":"1 kou","2 hits":"2 kou","3 hits":"3 kou","Missed all 3 darts (halve)":"Rate 3 flechèt yo (mwatye)","Account":"Kont","Create account":"Kreye yon kont","Your name":"Non ou","Email":"Imèl","Password":"Modpas","Forgot password?":"Ou bliye modpas ou?","My profile":"Pwofil mwen","Name":"Non","Save":"Anrejistre","Country":"Peyi","⭐ Ad-free member":"⭐ Manm san piblisite","Games played":"Jwèt ki jwe","Wins":"Viktwa","Rookie":"Debitan","Regular":"Abitye","Sharpshooter":"Bon tirè","Pro":"Pwofesyonèl","Legend":"Lejand","Rank":"Ran","Avatar":"Avatar","Use a photo instead":"Itilize yon foto","Sign out":"Dekonekte","Join a live game":"Antre nan yon jwèt an dirèk","Ask the scorer for the 5-letter code, then type it here.":"Mande moun k ap make pwen yo kòd 5 lèt la, epi ekri l isit la.","Join":"Antre","‹ Leave":"‹ Kite","🔔 Turn on notifications":"🔔 Limen notifikasyon","Live scoreboard is on":"Tablo pwen an dirèk la limen","Players open the app, tap":"Jwè yo louvri aplikasyon an, tape sou","and type this code:":"epi ekri kòd sa a:","Send the code":"Voye kòd la","Done":"Fini","Stop sharing":"Sispann pataje","Leaderboard":"Klasman","My country":"Peyi mwen","World":"Mond","Choose your country":"Chwazi peyi ou","Choose your country…":"Chwazi peyi ou…","Ranked by wins in games against other people. Practice games against the computer don't count.":"Klasman selon viktwa nan jwèt kont lòt moun. Jwèt pratik kont òdinatè a pa konte.","Rematch":"Revanch","Back to home":"Retounen akèy","Undo last dart":"Defèt dènye flechèt la","Last dart a double?":"Dènye flechèt la te nan yon doub?","Did the finishing dart land in a double or the bullseye?":"Èske dènye flechèt la tonbe nan yon doub oswa nan bòl la?","Yes, game shot!":"Wi, jwèt la fini!","No, it's a bust":"Non, mwen depase","Bull-off":"Tire pou bòl la","Everyone throws one dart at the bull. Who was closest?":"Tout moun jete yon flechèt sou bòl la. Ki moun ki te pi pre?","Game shot!":"Jwèt la fini!","How many darts did you throw this turn?":"Konbyen flechèt ou jete nan tou sa a?","1 dart":"1 flechèt","2 darts":"2 flechèt","3 darts":"3 flechèt","Back to menu":"Retounen nan meni","Undo last visit":"Defèt dènye vizit la","Sound":"Son","Name other players will see":"Non lòt jwè yo pral wè","At least 6 characters":"Omwen 6 karaktè","CODE":"KÒD","🎯 Tap numbers":"🎯 Tape nimewo yo","⌨️ Type total":"⌨️ Ekri total la","DONE":"FINI","Bust":"Depase","Bust!":"Depase!","Throwing…":"Ap jete…","Out":"Soti","Eliminated":"Elimine","KILLER":"KILÈ","Halved":"Mwatye","Halved!":"Mwatye!","Instant win":"Viktwa imedya","Last one standing":"Dènye ki rete","Any double":"Nenpòt doub","Any triple":"Nenpòt trip","Game over":"Jwèt la fini","Live game":"Jwèt an dirèk","Waiting for a game":"Ap tann yon jwèt","Points":"Pwen","points":"pwen","to go":"ki rete","next target":"pwochen sib","killer":"kilè","eliminated":"elimine","hit your double 3 times":"frape doub ou 3 fwa","Lives":"Lavi","Avg":"Mwayèn","Last":"Dènye","avg":"mwayèn","Computer":"Òdinatè","Beginner":"Debitan","Casual":"Okazyonèl","Club":"Klèb","League":"Lig","Start on 0":"Kòmanse sou 0","Start on 27":"Kòmanse sou 27","No numbers closed yet":"Poko gen nimewo fèmen","Closed:":"Fèmen:","Hit":"Frape","Hit (+1)":"Frape (+1)","Double (+2)":"Doub (+2)","Triple (+3)":"Trip (+3)","wins":"viktwa","Player":"Jwè","This turn:":"Tou sa a:","Tap the number each dart hit. Double = tap twice, treble = tap three times, bull = tap 25 twice.":"Tape nimewo chak flechèt la frape. Doub = tape de fwa, trip = tape twa fwa, bòl = tape 25 de fwa.","Double out":"Doub pou soti","Straight out":"Soti lib","I am":"Se mwen","YOUR TURN":"TOU OU","🎉 You won!":"🎉 Ou genyen!","Loading…":"Ap chaje…","Connecting…":"Ap konekte…","Accounts need an internet connection":"Kont yo bezwen koneksyon entènèt","Add at least one human player":"Ajoute omwen yon jwè moun","Couldn't connect. Check the code and your internet.":"Pa t kapab konekte. Verifye kòd la ak entènèt ou.","Couldn't read that photo":"Pa t kapab li foto sa a","Couldn't save. Check your connection.":"Pa t kapab sere. Verifye koneksyon ou.","Couldn't start. Check your connection.":"Pa t kapab kòmanse. Verifye koneksyon ou.","Connecting… try again in a moment":"Ap konekte… eseye ankò nan yon ti moman","Connection lost":"Koneksyon an pèdi","Enter a name":"Ekri yon non","Enter a name.":"Ekri yon non.","Enter the 5-letter code.":"Ekri kòd 5 lèt la.","Enter your email and password.":"Ekri imèl ou ak modpas ou.","Hit your own double 3 times first":"Premye frape pwòp doub ou 3 fwa","If that email has an account, a reset link is on its way.":"Si imèl sa a gen yon kont, yon lyen pou reyinisyalize l ap vini.","Joining needs an internet connection":"Pou antre, ou bezwen entènèt","Killer needs at least 2 players":"Kilè bezwen omwen 2 jwè","Live sharing needs an internet connection":"Pataje an dirèk bezwen entènèt","Name saved":"Non an anrejistre","No internet connection.":"Pa gen entènèt.","No live game found with that code.":"Pa jwenn okenn jwèt an dirèk ak kòd sa a.","No triple on the bull":"Pa gen trip sou bòl la","Password must be at least 6 characters.":"Modpas la dwe gen omwen 6 karaktè.","Sharing stopped":"Pataje a sispann","Sign in first to share live scores":"Konekte anvan pou pataje pwen yo an dirèk","Sign in to see the leaderboard":"Konekte pou w wè klasman an","Something went wrong. Please try again.":"Gen yon bagay ki mal pase. Tanpri eseye ankò.","That email address doesn't look right.":"Adrès imèl sa a pa sanble bon.","That email already has an account. Try signing in.":"Imèl sa a gen yon kont deja. Eseye konekte.","That score isn't possible with 3 darts":"Pwen sa a pa posib ak 3 flechèt","The leaderboard needs an internet connection":"Klasman an bezwen entènèt","The most you can score in a turn is 180":"Maksimòm ou ka make nan yon tou se 180","Tip: on iPhone, add the app to your Home Screen (Share → Add to Home Screen) to get notifications.":"Konsèy: sou iPhone, ajoute aplikasyon an sou ekran akèy ou (Pataje → Ajoute sou ekran akèy) pou resevwa notifikasyon.","Too many tries. Wait a minute and try again.":"Twòp tantativ. Tann yon minit epi eseye ankò.","Top rank reached!":"Ou rive nan pi gwo ran an!","Type your email above first.":"Ekri imèl ou anwo a anvan.","Type your points, or tap \"Missed all 3\"":"Ekri pwen ou yo, oswa tape « Rate 3 yo »","Your saved games were restored":"Jwèt ou te sere yo retounen","Wrong email or password.":"Imèl oswa modpas la pa bon.","Couldn't load the leaderboard. Check your connection.":"Pa t kapab chaje klasman an. Verifye koneksyon ou.","No one is on this list yet.":"Poko gen pesonn sou lis sa a.","Win a game against another player to be first!":"Genyen yon jwèt kont yon lòt jwè pou w premye!","The scorer ended this session.":"Moun k ap make pwen an fin sesyon sa a.","Player {n}":"Jwè {n}","{name}'s turn":"Tou {name}","{name}'s turn · Dart {d} of 3":"Tou {name} · Flechèt {d} sou 3","{name}'s turn · Dart {d} of 3 · Aim for {t}":"Tou {name} · Flechèt {d} sou 3 · Vize {t}","Round {r} of {m} · Target {t} · {name} · Dart {d} of 3":"Won {r} sou {m} · Sib {t} · {name} · Flechèt {d} sou 3","Round {r} of 21 · Target {t} (worth {v}) · {name}":"Won {r} sou 21 · Sib {t} (vo {v}) · {name}","Round {r} of {m} · Target: {t} · {name}":"Won {r} sou {m} · Sib: {t} · {name}","Round {r} of {m}":"Won {r} sou {m}","{n} of 21 done":"{n} sou 21 fini","Next target · {n} of 21 done":"Pwochen sib · {n} sou 21 fini","{n} points":"{n} pwen","{n} darts thrown":"{n} flechèt jete","{name} wins!":"{name} genyen!","Tie: {names}":"Egalite: {names}","{name} hit a Shanghai!":"{name} fè yon Shanghai!","{name} is out":"{name} soti","Out on {t}":"Soti sou {t}","Hits {n}/3":"Kou {n}/3","{name} is a killer!":"{name} se yon kilè!","{name} is eliminated!":"{name} elimine!","{name} throws first":"{name} jete anvan","Leaves {n}":"Rete {n}","Scored {n}":"Te make {n}","3-dart average {a} over {n} visits":"Mwayèn 3 flechèt: {a} (vizit: {n})","Darts thrown:":"Flechèt jete:","{n} more win to reach {r}":"{n} viktwa anplis pou rive {r}","{n} more wins to reach {r}":"{n} viktwa anplis pou rive {r}","Your position: #{n} ({w} wins)":"Pozisyon ou: #{n} ({w} viktwa)","{name} to throw":"{name} pou jete","Join my Backyard Darts game! Code: {c}":"Antre nan jwèt Backyard Darts mwen an! Kòd: {c}","Sound on":"Son an limen","No score.":"Pa gen pwen.","{x} left.":"Rete {x}.","Game shot! {name} wins.":"Jwèt la fini! {name} genyen.","Total {x}.":"Total {x}.","Halved.":"Mwatye.","It is a tie.":"Se yon egalite.","{name} wins.":"{name} genyen.","Bullseye! {name} wins.":"Bullseye! {name} genyen.","Shanghai! {name} wins.":"Shanghai! {name} genyen.","{name} is eliminated.":"{name} elimine.","Your turn":"Tou ou","Everyone starts on the same score (301, 501, 701 or 1001) and subtracts what they score with each turn of three darts. You must finish on exactly zero, and the last dart has to land in a double or the bullseye. If you go below zero, or leave yourself on 1 with double-out on, it's a bust and your score goes back to what it was before that turn. In the app: add up your three darts, type the total, and tap Enter. Not a fan of adding up? Tap \"Tap numbers\", then tap the number each dart hit: tap it twice for a double and three times for a treble (the bull is 25 tapped twice). The app adds it up and you tap DONE. Once you are on 180 or less, a green strip under the scores shows the easiest way to finish (T = treble, D = double, Bull = bullseye, a plain number = single). If there is no finish with three darts, a blue strip shows a good set-up and what it leaves you.":"Tout moun kòmanse ak menm pwen (301, 501, 701 oswa 1001) epi yo retire sa yo make nan chak tou twa flechèt. Fòk ou fini egzakteman sou zewo, epi dènye flechèt la dwe tonbe nan yon doub oswa nan bòl la. Si ou desann anba zewo, oswa si ou rete sou 1 ak doub pou soti limen, se yon depasman epi pwen ou tounen sa l te ye anvan tou sa a. Nan aplikasyon an: adisyone twa flechèt ou yo, ekri total la epi tape Antre. Ou pa renmen adisyone? Tape « Tape nimewo yo », epi tape nimewo chak flechèt la frape: tape l de fwa pou yon doub ak twa fwa pou yon trip (bòl la se 25 ou tape de fwa). Aplikasyon an adisyone epi ou tape FINI. Lè ou rive sou 180 oswa mwens, yon bann vèt anba pwen yo montre pi bon fason pou fini (T = trip, D = doub, Bull = bòl la, yon senp nimewo = senp). Si pa gen fason pou fini ak twa flechèt, yon bann ble montre yon bon preparasyon ak sa li kite w.","The targets are 15, 16, 17, 18, 19, 20 and the bull. Three marks closes a number: a single is one mark, a double is two, a triple is three (bull: outer is one, inner is two). Once you've closed a number, more hits on it score points, until all your opponents have closed it too. To win, close all seven targets while having at least as many points as everyone else. In the app: pick Single, Double or Triple, then tap the number you hit for each dart.":"Sib yo se 15, 16, 17, 18, 19, 20 ak bòl la. Twa make fèmen yon nimewo: yon senp se yon make, yon doub se de, yon trip se twa (bòl la: sèk deyò a se youn, sèk andedan an se de). Lè ou fin fèmen yon nimewo, lòt kou sou li bay pwen, jiskaske tout advèsè ou yo fèmen l tou. Pou genyen, fèmen sèt sib yo epi gen omwen otan pwen ak tout lòt yo. Nan aplikasyon an: chwazi Senp, Doub oswa Trip, epi tape nimewo chak flechèt la frape.","Race to hit every number in order: 1, then 2, then 3, all the way to 20, and finish on the bullseye (outer or inner). You only move forward when you hit your current number. The first player to hit the bullseye wins. Optional rule: a double moves you forward 2 numbers and a triple moves you forward 3. In the app: tap Hit or Miss for each dart.":"Kous pou frape tout nimewo yo youn apre lòt: 1 an premye, answit 2, answit 3, jiska 20, epi fini sou bòl la (deyò oswa anndan). Ou avanse sèlman lè ou frape nimewo ou ye a. Premye jwè ki frape bòl la genyen. Règ opsyonèl: yon doub fè w avanse 2 nimewo epi yon trip fè w avanse 3. Nan aplikasyon an: tape Frape oswa Rate pou chak flechèt.","There are 7 rounds, and the target number is the round number (1 in round 1, 2 in round 2, and so on). You throw 3 darts at the target. A single scores the number, a double scores it twice and a triple three times. Hit a single, a double and a triple of the target in the same turn and that's a Shanghai: you win on the spot. If nobody does it, the highest score after round 7 wins. In the app: tap Single, Double, Triple or Miss for each dart.":"Gen 7 won epi nimewo sib la se nimewo won an (1 nan won 1, 2 nan won 2, ak sa yo konsa). Ou jete 3 flechèt sou sib la. Yon senp make nimewo a, yon doub make l de fwa epi yon trip make l twa fwa. Si ou frape yon senp, yon doub ak yon trip sou sib la nan menm tou a, se yon Shanghai: ou genyen sou plas. Si pesonn pa reyisi, pi gwo pwen apre won 7 la genyen. Nan aplikasyon an: tape Senp, Doub, Trip oswa Rate pou chak flechèt.","A practice game for doubles. You start on 27 and work through double 1, double 2 and so on up to double 20, then the bull, which makes 21 rounds. Each round you throw 3 darts at that double. Every hit adds the double's value to your score (double 5 is worth 10, the bull is worth 50). If all three darts miss, you lose that value. If your score drops below zero you're out. The highest score at the end wins. In the app: tap how many of your 3 darts hit.":"Yon jwèt pratik pou doub. Ou kòmanse sou 27 epi ou pase sou doub 1, doub 2 ak sa yo konsa jiska doub 20, answit bòl la, sa ki fè 21 won. Chak won ou jete 3 flechèt sou doub sa a. Chak kou ajoute valè doub la sou pwen ou (doub 5 vo 10, bòl la vo 50). Si twa flechèt yo rate, ou pèdi valè sa a. Si pwen ou desann anba zewo, ou soti. Pi gwo pwen nan fen an genyen. Nan aplikasyon an: tape konbyen nan 3 flechèt ou yo ki frape.","There are 9 rounds, each with its own target: 15, 16, 17, any double, 18, 19, 20, any triple and the bull. You throw 3 darts at the target. Whatever you hit on the target is added to your total. If all three darts miss, your total is cut in half. The highest total at the end wins. In the app: type the points you scored with your 3 darts and tap Enter, or tap \"Missed all 3 darts\" to halve your total.":"Gen 9 won, chak ak pwòp sib li: 15, 16, 17, nenpòt doub, 18, 19, 20, nenpòt trip ak bòl la. Ou jete 3 flechèt sou sib la. Sa ou frape sou sib la ajoute sou total ou. Si twa flechèt yo rate, total ou koupe pa mwatye. Pi gwo total nan fen an genyen. Nan aplikasyon an: ekri pwen ou fè ak 3 flechèt ou yo epi tape Antre, oswa tape « Rate 3 flechèt yo » pou koupe total ou pa mwatye.","Each player is given their own double, picked at random, and starts with 3 lives. Hit your own double three times to become a killer. Once you're a killer, every hit on another player's double takes away one of their lives. Lose all three and you're out. The last player left wins. You need at least 2 players. In the app: tap the double you hit for each dart, or Miss.":"Chak jwè resevwa pwòp doub li, tire o aza, epi li kòmanse ak 3 lavi. Frape pwòp doub ou twa fwa pou vin yon kilè. Lè ou se yon kilè, chak kou sou doub yon lòt jwè pran youn nan lavi li. Si li pèdi twa yo, li soti. Dènye jwè ki rete a genyen. Fòk gen omwen 2 jwè. Nan aplikasyon an: tape doub chak flechèt la frape, oswa Rate."}};</script>
 <script>
 const IMPOSSIBLE=[163,166,169,172,173,175,176,178,179];
 const KEY='byd-game';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let G=null, entry='', setupStart=501, names=['Player 1','Player 2'], cpuLvl=[-1,-1];
+
+/* ---------- languages ---------- */
+const LANGS={en:'English',es:'Español',fr:'Français',ht:'Kreyòl ayisyen'};
+let LANG='en';
+try{const sv=localStorage.getItem('byd-lang');if(sv&&LANGS[sv])LANG=sv;else{const nl=(navigator.language||'en').slice(0,2).toLowerCase();if(LANGS[nl])LANG=nl}}catch(e){}
+const SLANG=LANG==='ht'?'fr':LANG;
+const SPEECH_LOCALE={en:'en-US',es:'es-ES',fr:'fr-FR'}[SLANG];
+const I18N=window.I18N||{};
+function fill(r,v){return v?r.replace(/\{(\w+)\}/g,(m,k)=>k in v?v[k]:m):r}
+function L(s,v){const d=I18N[LANG];return fill((d&&d[s]!==undefined)?d[s]:s,v)}
+function LS(s,v){const d=I18N[SLANG];return fill((d&&d[s]!==undefined)?d[s]:s,v)}
+const PN=i=>L('Player {n}',{n:i});
+const uiLang=LANG;
+(function(){
+  document.documentElement.lang=LANG;
+  if(LANG==='en')return;
+  const d=I18N[LANG];if(!d)return;
+  const trText=s=>{const m=s.match(/^(\s*)([\s\S]*?)(\s*)$/);const k=m[2];return(k&&d[k]!==undefined)?m[1]+d[k]+m[3]:s};
+  const ATTR=['placeholder','aria-label','title'];
+  function trNode(n){
+    if(n.nodeType===3){const p=n.parentNode;if(p&&(p.nodeName==='SCRIPT'||p.nodeName==='STYLE'))return;const v=trText(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v}
+    else if(n.nodeType===1){
+      if(n.nodeName==='SCRIPT'||n.nodeName==='STYLE')return;
+      ATTR.forEach(a=>{if(n.hasAttribute(a)){const o=n.getAttribute(a),v=trText(o);if(v!==o)n.setAttribute(a,v)}});
+      n.childNodes.forEach(trNode);
+    }
+  }
+  window.trNode=trNode;
+  trNode(document.body);
+  new MutationObserver(ms=>{for(const m of ms){
+    if(m.type==='childList')m.addedNodes.forEach(trNode);else trNode(m.target);
+  }}).observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATTR});
+})();
+let G=null, entry='', setupStart=501, names=[PN(1),PN(2)], cpuLvl=[-1,-1];
 let inMode='type', tapSeq=[];
 try{if(localStorage.getItem('byd-input')==='tap')inMode='tap'}catch(e){}
 
@@ -463,22 +499,44 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.to
 /* ---------- voice ---------- */
 const ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
 const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
-function words(n){
+function wEn(n){
   if(n<20)return ONES[n];
   if(n<100)return TENS[Math.floor(n/10)]+(n%10?'-'+ONES[n%10]:'');
-  if(n<1000)return ONES[Math.floor(n/100)]+' hundred'+(n%100?' and '+words(n%100):'');
-  return 'one thousand'+(n%1000?' and '+words(n%1000):'');
+  if(n<1000)return ONES[Math.floor(n/100)]+' hundred'+(n%100?' and '+wEn(n%100):'');
+  return 'one thousand'+(n%1000?' and '+wEn(n%1000):'');
 }
+const ES1=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+const ES10=['','','','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+const ES100=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+function wEs(n){
+  if(n<30)return ES1[n];
+  if(n<100)return ES10[Math.floor(n/10)]+(n%10?' y '+ES1[n%10]:'');
+  if(n===100)return 'cien';
+  if(n<1000)return ES100[Math.floor(n/100)]+(n%100?' '+wEs(n%100):'');
+  return 'mil'+(n%1000?' '+wEs(n%1000):'');
+}
+const FR1=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
+const FR10=['','','vingt','trente','quarante','cinquante','soixante'];
+function wFr(n){
+  if(n<20)return FR1[n];
+  if(n<70){const t=Math.floor(n/10),u=n%10;return FR10[t]+(u===1?' et un':u?'-'+FR1[u]:'')}
+  if(n<80){const u=n-60;return u===11?'soixante et onze':'soixante-'+FR1[u]+(u===10?'':'')}
+  if(n<100){const u=n-80;return u===0?'quatre-vingts':'quatre-vingt-'+FR1[u]}
+  if(n<1000){const h=Math.floor(n/100),r=n%100;return (h>1?FR1[h]+' ':'')+'cent'+(h>1&&r===0?'s':'')+(r?' '+wFr(r):'')}
+  return 'mille'+(n%1000?' '+wFr(n%1000):'');
+}
+function words(n){return SLANG==='es'?wEs(n):SLANG==='fr'?wFr(n):wEn(n)}
 let soundOn=true;
 try{soundOn=localStorage.getItem('byd-sound')!=='off'}catch(e){}
 function drawSound(){$('snd').textContent=soundOn?'🔊':'🔇'}
 let voices=[],voiceName='';
-try{voiceName=localStorage.getItem('byd-voice')||''}catch(e){}
-const MALE=/daniel|aaron|evan|alex\b|fred|ryan|guy|david|mark|george|james|tom\b|oliver|arthur|gordon|reed|rishi|male|liam|thomas|eric|brandon|christopher|davis|andrew|bruce|lee\b/i;
-const FEMALE=/samantha|karen|victoria|susan|moira|tessa|fiona|kate|serena|zira|hazel|jenny|aria|sara|emma|female|amy|ava|nicky|allison|joanna|catherine|libby|sonia|michelle|monica|ella|nora/i;
+const VKEY=SLANG==='en'?'byd-voice':'byd-voice-'+SLANG;
+try{voiceName=localStorage.getItem(VKEY)||''}catch(e){}
+const MALE=/jorge|diego|juan|carlos|pablo|henri|nicolas|jean|paul|daniel|aaron|evan|alex\b|fred|ryan|guy|david|mark|george|james|tom\b|oliver|arthur|gordon|reed|rishi|male|liam|thomas|eric|brandon|christopher|davis|andrew|bruce|lee\b/i;
+const FEMALE=/paulina|marisol|amelie|audrey|marie|julie|helena|lucia|laura|elena|paloma|denise|eloise|samantha|karen|victoria|susan|moira|tessa|fiona|kate|serena|zira|hazel|jenny|aria|sara|emma|female|amy|ava|nicky|allison|joanna|catherine|libby|sonia|michelle|monica|ella|nora/i;
 function rank(v){
   let s=0;
-  if(/^en/i.test(v.lang))s+=10;
+  s+=10;
   if(MALE.test(v.name))s+=20;
   if(FEMALE.test(v.name))s-=30;
   if(/natural|neural|enhanced|premium|online|siri/i.test(v.name))s+=15;
@@ -486,7 +544,7 @@ function rank(v){
 }
 function loadVoices(){
   if(!('speechSynthesis' in window))return;
-  voices=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)).sort((a,b)=>rank(b)-rank(a));
+  voices=speechSynthesis.getVoices().filter(v=>new RegExp('^'+SLANG,'i').test(v.lang)).sort((a,b)=>rank(b)-rank(a));
   const sel=$('voiceSel');
   if(!voices.length){sel.innerHTML='<option>Default voice</option>';return}
   if(!voices.some(v=>v.name===voiceName))voiceName=voices[0].name;
@@ -503,8 +561,8 @@ function say(t){
     const v=voices.find(x=>x.name===voiceName);
     const speak=i=>{
       if(run!==sayRun||i>=parts.length)return;
-      const u=new SpeechSynthesisUtterance(parts[i]);
-      if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';
+      const u=new SpeechSynthesisUtterance(LS(parts[i]));
+      if(v){u.voice=v;u.lang=v.lang}else u.lang=SPEECH_LOCALE;
       u.rate=0.95;u.pitch=0.9;
       let moved=false;
       const next=()=>{if(moved)return;moved=true;setTimeout(()=>speak(i+1),i+1<parts.length?SAY_GAP:0)};
@@ -517,12 +575,12 @@ function say(t){
 }
 $('voiceSel').addEventListener('change',e=>{
   voiceName=e.target.value;
-  try{localStorage.setItem('byd-voice',voiceName)}catch(err){}
-  say('One hundred and eighty!');
+  try{localStorage.setItem(VKEY,voiceName)}catch(err){}
+  say([words(180)+'!']);
 });
 $('voiceTest').addEventListener('click',()=>{
   if(!soundOn){soundOn=true;try{localStorage.setItem('byd-sound','on')}catch(e){}drawSound()}
-  say(['One hundred and eighty!','Three hundred and twenty-one left.']);
+  say([words(180)+'!',LS('{x} left.',{x:words(321)})]);
 });
 $('snd').addEventListener('click',()=>{
   soundOn=!soundOn;
@@ -533,34 +591,34 @@ $('snd').addEventListener('click',()=>{
 
 /* ---------- setup ---------- */
 function drawSetup(){
-  if(cloud.profile&&names[0]==='Player 1')names[0]=cloud.profile.name;
+  if(cloud.profile&&names[0]===PN(1))names[0]=cloud.profile.name;
   const saved=load();
   $('resume').style.display=(saved&&!saved.over)?'block':'none';
   $('games').innerHTML=[101,301,501,701,1001].map(n=>`<button class="chip ${n===setupStart?'on':''}" data-n="${n}">${n}</button>`).join('');
   $('names').innerHTML=names.map((n,i)=>cpuLvl[i]>=0
-    ?`<div class="row"><select data-lv="${i}">${LEVELS.map((l,k)=>`<option value="${k}" ${k===cpuLvl[i]?'selected':''}>🤖 Computer · ${l.name} (avg ~${l.avg})</option>`).join('')}</select><button class="x" data-del="${i}">✕</button></div>`
-    :`<div class="row"><input data-i="${i}" value="${esc(n)}" maxlength="14" placeholder="Player ${i+1}">${names.length>1?`<button class="x" data-del="${i}">✕</button>`:''}</div>`).join('');
+    ?`<div class="row"><select data-lv="${i}">${LEVELS.map((l,k)=>`<option value="${k}" ${k===cpuLvl[i]?'selected':''}>🤖 ${L('Computer')} · ${L(l.name)} (${L('avg')} ~${l.avg})</option>`).join('')}</select><button class="x" data-del="${i}">✕</button></div>`
+    :`<div class="row"><input data-i="${i}" value="${esc(n)}" maxlength="14" placeholder="${PN(i+1)}">${names.length>1?`<button class="x" data-del="${i}">✕</button>`:''}</div>`).join('');
   $('add').style.display=names.length>=8?'none':'inline-block';
   $('addCpu').style.display=names.length>=8?'none':'inline-block';
 }
 $('games').addEventListener('click',e=>{const b=e.target.closest('[data-n]');if(!b)return;setupStart=+b.dataset.n;drawSetup()});
 $('names').addEventListener('input',e=>{if(e.target.dataset.i!==undefined)names[+e.target.dataset.i]=e.target.value});
-$('names').addEventListener('change',e=>{if(e.target.dataset.lv!==undefined){const i=+e.target.dataset.lv;cpuLvl[i]=+e.target.value;names[i]='🤖 '+LEVELS[cpuLvl[i]].name}});
+$('names').addEventListener('change',e=>{if(e.target.dataset.lv!==undefined){const i=+e.target.dataset.lv;cpuLvl[i]=+e.target.value;names[i]='🤖 '+L(LEVELS[cpuLvl[i]].name)}});
 $('names').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;names.splice(+b.dataset.del,1);cpuLvl.splice(+b.dataset.del,1);drawSetup()});
-$('add').addEventListener('click',()=>{if(names.length<8){names.push('Player '+(names.length+1));cpuLvl.push(-1);drawSetup()}});
-$('addCpu').addEventListener('click',()=>{if(names.length<8){names.push('🤖 Club');cpuLvl.push(2);drawSetup()}});
+$('add').addEventListener('click',()=>{if(names.length<8){names.push(PN(names.length+1));cpuLvl.push(-1);drawSetup()}});
+$('addCpu').addEventListener('click',()=>{if(names.length<8){names.push('🤖 '+L('Club'));cpuLvl.push(2);drawSetup()}});
 function lastStarter(){try{const v=localStorage.getItem('byd-starter');return v===null?-1:+v}catch(e){return -1}}
 function beginX01(list,first){
   try{localStorage.setItem('byd-starter',String(first))}catch(e){}
   G={start:setupStart,dbl:$('dbl').checked,first,players:list.map((n,i)=>({name:n,score:setupStart,visits:[],cpu:cpuLvl[i]})),turn:first,over:false,winner:null,log:[]};
   entry='';tapSeq=[];save();showGame();
-  if(list.length>1)toast(list[first]+' throws first');
+  if(list.length>1)toast(L('{name} throws first',{name:list[first]}));
 }
 let pendingList=null;
 try{$('bull').checked=localStorage.getItem('byd-bull')==='1'}catch(e){}
 $('bull').addEventListener('change',()=>{try{localStorage.setItem('byd-bull',$('bull').checked?'1':'0')}catch(e){}});
 $('start').addEventListener('click',()=>{
-  const list=names.map((n,i)=>n.trim()||('Player '+(i+1)));
+  const list=names.map((n,i)=>n.trim()||PN(i+1));
   if(cpuLvl.every(l=>l>=0)){toast('Add at least one human player');return}
   if($('bull').checked&&list.length>1&&cpuLvl.every(l=>l<0)){
     pendingList=list;
@@ -579,13 +637,13 @@ $('resume').addEventListener('click',()=>{const s=load();if(s){G=s;entry='';tapS
 function showGame(){curG='x01';show('game');draw()}
 function avg(p){const n=p.visits.length;return n?(p.visits.reduce((a,v)=>a+v.v,0)/n).toFixed(1):'–'}
 function draw(){
-  $('gtitle').textContent=G.start+(G.dbl?' · Double out':' · Straight out');
+  $('gtitle').textContent=G.start+' · '+L(G.dbl?'Double out':'Straight out');
   $('cards').innerHTML=G.players.map((p,i)=>{
-    const last=p.visits.length?(p.visits[p.visits.length-1].bust?'Bust':p.visits[p.visits.length-1].v):'–';
-    return `<div class="pc ${i===G.turn&&!G.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">Avg ${avg(p)} · Last ${last}</div></div>`;
+    const last=p.visits.length?(p.visits[p.visits.length-1].bust?L('Bust'):p.visits[p.visits.length-1].v):'–';
+    return `<div class="pc ${i===G.turn&&!G.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${L('Avg')} ${avg(p)} · ${L('Last')} ${last}</div></div>`;
   }).join('');
   const p=G.players[G.turn];
-  $('turn').textContent=G.over?'':p.name+"'s turn";
+  $('turn').textContent=G.over?'':L("{name}'s turn",{name:p.name});
   $('modeBtn').textContent=inMode==='tap'?'⌨️ Type total':'🎯 Tap numbers';
   $('modeBtn').style.display=G.over?'none':'';
   const d=$('display');
@@ -597,7 +655,7 @@ function draw(){
   if(v!==null){
     const left=p.score-v;
     if(inMode==='tap'&&(left<0||(G.dbl&&left===1)))lv='Bust';
-    else if(left>=0)lv='Leaves '+left;
+    else if(left>=0)lv=L('Leaves {n}',{n:left});
   }
   $('leave').textContent=lv;
   const tapOn=inMode==='tap';
@@ -613,8 +671,8 @@ function draw(){
   if(G.over){
     const w=G.players[G.winner];
     if(!G.players.some(p=>p.cpu>=0))recordResult('x01',G.log,[w.name],G.players.map(p=>p.name));
-    $('winTitle').textContent=w.name+' wins!';
-    $('winStats').innerHTML='3-dart average '+avg(w)+' over '+w.visits.length+' visits<br><b>Darts thrown:</b> '+G.players.map(q=>esc(q.name)+' '+dartsOf(q)).join(' · ');
+    $('winTitle').textContent=L('{name} wins!',{name:w.name});
+    $('winStats').innerHTML=esc(L('3-dart average {a} over {n} visits',{a:avg(w),n:w.visits.length}))+'<br><b>'+esc(L('Darts thrown:'))+'</b> '+G.players.map(q=>esc(q.name)+' '+dartsOf(q)).join(' · ');
     $('winModal').classList.add('on');
   }else $('winModal').classList.remove('on');
   scheduleCpu();
@@ -655,19 +713,19 @@ $('dartsModal').addEventListener('click',e=>{
 function dartsOf(p){return p.visits.reduce((a,v)=>a+(v.d||3),0)}
 function commit(v,bust,darts){
   const p=G.players[G.turn];
-  const who=p.cpu>=0?'Computer':p.name;
+  const who=p.cpu>=0?L('Computer'):p.name;
   G.log.push({p:G.turn,prev:p.score});
   let msg;
   if(bust){p.visits.push({v:0,bust:true});toast('Bust!');msg=['Bust!','No score.']}
   else{
     p.score-=v;p.visits.push({v,bust:false,d:darts||3});if(v>=95)celebrate(v);
-    msg=[(v?words(v)+(v>=100?'!':'.'):'No score.'),words(p.score)+' left.'];
+    msg=[(v?words(v)+(v>=100?'!':'.'):'No score.'),LS('{x} left.',{x:words(p.score)})];
   }
   entry='';tapSeq=[];
-  if(p.score===0&&!bust){G.over=true;G.winner=G.turn;if(v<95)confetti();msg='Game shot! '+who+' wins.'}
+  if(p.score===0&&!bust){G.over=true;G.winner=G.turn;if(v<95)confetti();msg=LS('Game shot! {name} wins.',{name:who})}
   else G.turn=(G.turn+1)%G.players.length;
   const out=Array.isArray(msg)?msg.slice():[msg];
-  if(p.cpu>=0&&!G.over)out[0]='Computer. '+out[0];
+  if(p.cpu>=0&&!G.over)out[0]=LS('Computer')+'. '+LS(out[0]);
   say(out);
   save();draw();
 }
@@ -695,7 +753,7 @@ $('rematch').addEventListener('click',()=>{
   try{localStorage.setItem('byd-starter',String(first))}catch(e){}
   G={start:G.start,dbl:G.dbl,first,players:G.players.map(p=>({name:p.name,score:G.start,visits:[],cpu:p.cpu>=0?p.cpu:-1})),turn:first,over:false,winner:null,log:[]};
   entry='';tapSeq=[];save();draw();
-  if(n>1)toast(G.players[first].name+' throws first');
+  if(n>1)toast(L('{name} throws first',{name:G.players[first].name}));
 });
 
 /* ---------- tap-the-numbers scoring ---------- */
@@ -721,7 +779,7 @@ $('modeBtn').addEventListener('click',()=>{
 
 /* ---------- toast, banner, confetti ---------- */
 let tt;
-function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
+function toast(m){const t=$('toast');t.textContent=L(m);t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
 function celebrate(v){
   const b=$('banner');b.textContent=v+'!';b.classList.remove('on');void b.offsetWidth;b.classList.add('on');
   confetti();
@@ -759,7 +817,7 @@ $('cMenu').addEventListener('click',()=>show('home'));
 $('aMenu').addEventListener('click',()=>show('home'));
 
 /* ---------- setup for Cricket and Around the World ---------- */
-let gGame='cricket',gNames=['Player 1','Player 2'],curG='cricket';
+let gGame='cricket',gNames=[PN(1),PN(2)],curG='cricket';
 const GKEY={cricket:'byd-cricket',atw:'byd-atw',shanghai:'byd-shanghai',bob:'byd-bob',halve:'byd-halve',killer:'byd-killer'};
 function saveG(key,S){try{localStorage.setItem(GKEY[key],JSON.stringify(S))}catch(e){}touch(GKEY[key])}
 function readSaved(g){try{return JSON.parse(localStorage.getItem(GKEY[g]))}catch(e){return null}}
@@ -771,17 +829,17 @@ function openGSetup(g){
   drawGSetup();show('gsetup');
 }
 function drawGSetup(){
-  if(cloud.profile&&gNames[0]==='Player 1')gNames[0]=cloud.profile.name;
+  if(cloud.profile&&gNames[0]===PN(1))gNames[0]=cloud.profile.name;
   const s=readSaved(gGame);
   $('gResume').style.display=(s&&!s.over)?'block':'none';
-  $('gnames').innerHTML=gNames.map((n,i)=>`<div class="row"><input data-i="${i}" value="${esc(n)}" maxlength="14" placeholder="Player ${i+1}">${gNames.length>1?`<button class="x" data-del="${i}">✕</button>`:''}</div>`).join('');
+  $('gnames').innerHTML=gNames.map((n,i)=>`<div class="row"><input data-i="${i}" value="${esc(n)}" maxlength="14" placeholder="${PN(i+1)}">${gNames.length>1?`<button class="x" data-del="${i}">✕</button>`:''}</div>`).join('');
   $('gadd').style.display=gNames.length>=GM[gGame].max?'none':'inline-block';
 }
 $('gnames').addEventListener('input',e=>{if(e.target.dataset.i!==undefined)gNames[+e.target.dataset.i]=e.target.value});
 $('gnames').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;gNames.splice(+b.dataset.del,1);drawGSetup()});
-$('gadd').addEventListener('click',()=>{if(gNames.length<GM[gGame].max){gNames.push('Player '+(gNames.length+1));drawGSetup()}});
+$('gadd').addEventListener('click',()=>{if(gNames.length<GM[gGame].max){gNames.push(PN(gNames.length+1));drawGSetup()}});
 $('gstart').addEventListener('click',()=>{
-  const list=gNames.map((n,i)=>n.trim()||('Player '+(i+1)));
+  const list=gNames.map((n,i)=>n.trim()||PN(i+1));
   GM[gGame].start(list);
 });
 $('gResume').addEventListener('click',()=>{
@@ -814,9 +872,9 @@ function drawCricket(){
     h+=`<div class="cl">${t===25?'B':t}</div>`+C.players.map((p,i)=>`<div class="cc ${i===C.turn&&!C.over?'cur':''} ${p.marks[t]>=3?'done':''}">${sym[p.marks[t]]}</div>`).join('');
   });
   $('cBoard').innerHTML=h+'</div>';
-  $('cTurn').textContent=C.over?'':C.players[C.turn].name+"'s turn · Dart "+(C.dart+1)+' of 3';
+  $('cTurn').textContent=C.over?'':L("{name}'s turn · Dart {d} of 3",{name:C.players[C.turn].name,d:C.dart+1});
   document.querySelectorAll('#cMult button').forEach(b=>b.classList.toggle('on',+b.dataset.m===cMult));
-  if(C.over){const w=C.players[C.winner];recordResult('cricket',C.hist,[w.name],C.players.map(p=>p.name));showGWin(w.name+' wins!',w.points+' points');}else hideGWin();
+  if(C.over){const w=C.players[C.winner];recordResult('cricket',C.hist,[w.name],C.players.map(p=>p.name));showGWin(L('{name} wins!',{name:w.name}),L('{n} points',{n:w.points}));}else hideGWin();
 }
 function cDart(t){
   if(!C||C.over)return;
@@ -833,10 +891,10 @@ function cDart(t){
   C.dart++;
   const others=C.players.filter((q,i)=>i!==C.turn).map(q=>q.points);
   if(cAllClosed(p)&&p.points>=Math.max(...others)){
-    C.over=true;C.winner=C.turn;confetti();say('Game shot! '+p.name+' wins.');
+    C.over=true;C.winner=C.turn;confetti();say(LS('Game shot! {name} wins.',{name:p.name}));
   }else if(C.dart>=3){
     C.turn=(C.turn+1)%C.players.length;C.dart=0;
-    toast(C.players[C.turn].name+"'s turn");
+    toast(L("{name}'s turn",{name:C.players[C.turn].name}));
   }
   saveC();drawCricket();
 }
@@ -862,13 +920,13 @@ function saveA(){try{localStorage.setItem(GKEY.atw,JSON.stringify(A))}catch(e){}
 function showATW(){curG='atw';show('atw');drawATW()}
 const aLabel=pos=>pos===21?'Bull':String(pos);
 function drawATW(){
-  $('aCards').innerHTML=A.players.map((p,i)=>`<div class="pc ${i===A.turn&&!A.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${aLabel(p.pos)}</div><div class="m">Next target · ${p.pos-1} of 21 done</div><div class="pbar"><i style="width:${(p.pos-1)/21*100}%"></i></div></div>`).join('');
+  $('aCards').innerHTML=A.players.map((p,i)=>`<div class="pc ${i===A.turn&&!A.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${aLabel(p.pos)}</div><div class="m">${L('Next target · {n} of 21 done',{n:p.pos-1})}</div><div class="pbar"><i style="width:${(p.pos-1)/21*100}%"></i></div></div>`).join('');
   const cur=A.players[A.turn];
-  $('aTurn').textContent=A.over?'':cur.name+"'s turn · Dart "+(A.dart+1)+' of 3 · Aim for '+aLabel(cur.pos);
+  $('aTurn').textContent=A.over?'':L("{name}'s turn · Dart {d} of 3 · Aim for {t}",{name:cur.name,d:A.dart+1,t:aLabel(cur.pos)});
   $('aKeys').innerHTML=A.jump
     ?'<button class="hit" data-s="1">Hit (+1)</button><button class="hit" data-s="2">Double (+2)</button><button class="hit" data-s="3">Triple (+3)</button><button data-s="0">Miss</button>'
     :'<button class="hit" data-s="1">Hit</button><button data-s="0">Miss</button>';
-  if(A.over){const w=A.players[A.winner];recordResult('atw',A.hist,[w.name],A.players.map(p=>p.name));showGWin(w.name+' wins!',w.darts+' darts thrown');}else hideGWin();
+  if(A.over){const w=A.players[A.winner];recordResult('atw',A.hist,[w.name],A.players.map(p=>p.name));showGWin(L('{name} wins!',{name:w.name}),L('{n} darts thrown',{n:w.darts}));}else hideGWin();
 }
 function aDart(step){
   if(!A||A.over)return;
@@ -882,10 +940,10 @@ function aDart(step){
   }
   A.dart++;
   if(won){
-    A.over=true;A.winner=A.turn;confetti();say('Bullseye! '+p.name+' wins.');
+    A.over=true;A.winner=A.turn;confetti();say(LS('Bullseye! {name} wins.',{name:p.name}));
   }else if(A.dart>=3){
     A.turn=(A.turn+1)%A.players.length;A.dart=0;
-    toast(A.players[A.turn].name+"'s turn");
+    toast(L("{name}'s turn",{name:A.players[A.turn].name}));
   }
   saveA();drawATW();
 }
@@ -916,13 +974,13 @@ $('sKeys').innerHTML='<button class="hit" data-m="1">Single</button><button clas
 function drawShanghai(){
   $('sCards').innerHTML=S.players.map((p,i)=>{
     const cur=i===S.turn&&!S.over;
-    return `<div class="pc ${cur?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${cur?'This turn: '+['S','D','T'].map((l,k)=>p.f[k]?l:'·').join(' '):'Points'}</div></div>`;
+    return `<div class="pc ${cur?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${cur?L('This turn:')+' '+['S','D','T'].map((l,k)=>p.f[k]?l:'·').join(' '):L('Points')}</div></div>`;
   }).join('');
-  $('sTurn').textContent=S.over?'':'Round '+S.round+' of '+SR+' · Target '+S.round+' · '+S.players[S.turn].name+' · Dart '+(S.dart+1)+' of 3';
+  $('sTurn').textContent=S.over?'':L('Round {r} of {m} · Target {t} · {name} · Dart {d} of 3',{r:S.round,m:SR,t:S.round,name:S.players[S.turn].name,d:S.dart+1});
   if(S.over){
     const w=S.winners;
     recordResult('shanghai',S.hist,w.map(i=>S.players[i].name),S.players.map(p=>p.name));
-    showGWin(S.shanghai?S.players[w[0]].name+' hit a Shanghai!':(w.length>1?'Tie: '+namesOf(S,w):S.players[w[0]].name+' wins!'),S.shanghai?'Instant win':S.players[w[0]].score+' points');
+    showGWin(S.shanghai?L('{name} hit a Shanghai!',{name:S.players[w[0]].name}):(w.length>1?L('Tie: {names}',{names:namesOf(S,w)}):L('{name} wins!',{name:S.players[w[0]].name})),S.shanghai?L('Instant win'):L('{n} points',{n:S.players[w[0]].score}));
   }else hideGWin();
 }
 function sNext(){
@@ -931,8 +989,8 @@ function sNext(){
   if(S.turn>=S.players.length){S.turn=0;S.round++}
   if(S.round>SR){
     S.over=true;S.winners=topScorers(S.players);
-    confetti();say(S.winners.length>1?'It is a tie.':S.players[S.winners[0]].name+' wins.');
-  }else toast(S.players[S.turn].name+"'s turn");
+    confetti();say(S.winners.length>1?'It is a tie.':LS('{name} wins.',{name:S.players[S.winners[0]].name}));
+  }else toast(L("{name}'s turn",{name:S.players[S.turn].name}));
 }
 function sDart(m){
   if(!S||S.over)return;
@@ -941,7 +999,7 @@ function sDart(m){
   if(m){p.score+=m*S.round;p.f[m-1]=1}
   S.dart++;
   if(p.f[0]&&p.f[1]&&p.f[2]){
-    S.over=true;S.shanghai=true;S.winners=[S.turn];confetti();say('Shanghai! '+p.name+' wins.');
+    S.over=true;S.shanghai=true;S.winners=[S.turn];confetti();say(LS('Shanghai! {name} wins.',{name:p.name}));
   }else if(S.dart>=3)sNext();
   saveG('shanghai',S);drawShanghai();
 }
@@ -967,11 +1025,11 @@ function bWinners(){
 }
 function drawBob(){
   $('bCards').innerHTML=B.players.map((p,i)=>`<div class="pc ${i===B.turn&&!B.over?'cur':''} ${p.out?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.out?'Out':p.score}</div><div class="m">${esc(p.last||'Start on 27')}</div></div>`).join('');
-  $('bTurn').textContent=B.over?'':'Round '+B.round+' of 21 · Target '+bTarget(B.round)+' (worth '+bVal(B.round)+') · '+B.players[B.turn].name;
+  $('bTurn').textContent=B.over?'':L('Round {r} of 21 · Target {t} (worth {v}) · {name}',{r:B.round,t:bTarget(B.round),v:bVal(B.round),name:B.players[B.turn].name});
   if(B.over){
     const w=bWinners();
     recordResult('bob',B.hist,w.map(i=>B.players[i].name),B.players.map(p=>p.name));
-    showGWin(w.length>1?'Tie: '+namesOf(B,w):B.players[w[0]].name+' wins!',B.players[w[0]].score+' points');
+    showGWin(w.length>1?L('Tie: {names}',{names:namesOf(B,w)}):L('{name} wins!',{name:B.players[w[0]].name}),L('{n} points',{n:B.players[w[0]].score}));
   }else hideGWin();
 }
 function bNext(){
@@ -981,7 +1039,7 @@ function bNext(){
     do{B.turn++;if(B.turn>=n){B.turn=0;B.round++}}while(B.round<=21&&B.players[B.turn].out);
     if(B.round>21)B.over=true;
   }
-  if(B.over){const w=bWinners();confetti();say(w.length>1?'It is a tie.':B.players[w[0]].name+' wins.')}
+  if(B.over){const w=bWinners();confetti();say(w.length>1?'It is a tie.':LS('{name} wins.',{name:B.players[w[0]].name}))}
 }
 function bPlay(h){
   if(!B||B.over)return;
@@ -990,7 +1048,7 @@ function bPlay(h){
   if(h>0){p.score+=h*v;p.last=t+': +'+(h*v)}
   else{
     p.score-=v;p.last=t+': -'+v;
-    if(p.score<0){p.out=true;p.last='Out on '+t;toast(p.name+' is out');}
+    if(p.score<0){p.out=true;p.last=L('Out on {t}',{t});toast(L('{name} is out',{name:p.name}));}
   }
   bNext();
   saveG('bob',B);drawBob();
@@ -1009,27 +1067,27 @@ function showHalve(){curG='halve';hEntry='';show('halve');drawHalve()}
 $('hKeys').innerHTML=['1','2','3','4','5','6','7','8','9','del','0','go'].map(k=>`<button data-k="${k}" ${k==='go'?'class="go"':''}>${k==='del'?'⌫':k==='go'?'Enter':k}</button>`).join('');
 function drawHalve(){
   $('hCards').innerHTML=H.players.map((p,i)=>`<div class="pc ${i===H.turn&&!H.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${esc(p.last||'Start on 0')}</div></div>`).join('');
-  $('hTurn').textContent=H.over?'':'Round '+(H.round+1)+' of '+HT.length+' · Target: '+HT[H.round]+' · '+H.players[H.turn].name;
+  $('hTurn').textContent=H.over?'':L('Round {r} of {m} · Target: {t} · {name}',{r:H.round+1,m:HT.length,t:HT[H.round],name:H.players[H.turn].name});
   $('hDisplay').textContent=hEntry===''?'0':hEntry;
   $('hDisplay').classList.toggle('dim',hEntry==='');
   if(H.over){
     const w=H.winners;
     recordResult('halve',H.hist,w.map(i=>H.players[i].name),H.players.map(p=>p.name));
-    showGWin(w.length>1?'Tie: '+namesOf(H,w):H.players[w[0]].name+' wins!',H.players[w[0]].score+' points');
+    showGWin(w.length>1?L('Tie: {names}',{names:namesOf(H,w)}):L('{name} wins!',{name:H.players[w[0]].name}),L('{n} points',{n:H.players[w[0]].score}));
   }else hideGWin();
 }
 function hPlay(v){
   if(!H||H.over)return;
   pushHist(H);
   const p=H.players[H.turn];
-  if(v===0){p.score=Math.floor(p.score/2);p.last='Halved';toast('Halved!');say(['Halved.',words(p.score)+' total.'])}
-  else{p.score+=v;p.last='+'+v;say([words(v)+(v>=100?'!':'.'),'Total '+words(p.score)+'.'])}
+  if(v===0){p.score=Math.floor(p.score/2);p.last=L('Halved');toast('Halved!');say(['Halved.',LS('Total {x}.',{x:words(p.score)})])}
+  else{p.score+=v;p.last='+'+v;say([words(v)+(v>=100?'!':'.'),LS('Total {x}.',{x:words(p.score)})])}
   hEntry='';
   H.turn++;
   if(H.turn>=H.players.length){H.turn=0;H.round++}
   if(H.round>=HT.length){
     H.over=true;H.winners=topScorers(H.players);
-    confetti();say(H.winners.length>1?'It is a tie.':H.players[H.winners[0]].name+' wins.');
+    confetti();say(H.winners.length>1?'It is a tie.':LS('{name} wins.',{name:H.players[H.winners[0]].name}));
   }
   saveG('halve',H);drawHalve();
 }
@@ -1060,16 +1118,16 @@ function newKiller(list){
 function showKiller(){curG='killer';show('killer');drawKiller()}
 function drawKiller(){
   const hearts=n=>'♥'.repeat(n)||'–';
-  $('kCards').innerHTML=K.players.map((p,i)=>`<div class="pc ${i===K.turn&&!K.over?'cur':''} ${p.lives<=0?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">D${p.dbl}</div><div class="m">${p.lives<=0?'Eliminated':(p.killer?'KILLER · ':'Hits '+p.hits+'/3 · ')+hearts(p.lives)}</div></div>`).join('');
-  $('kTurn').textContent=K.over?'':K.players[K.turn].name+"'s turn · Dart "+(K.dart+1)+' of 3';
+  $('kCards').innerHTML=K.players.map((p,i)=>`<div class="pc ${i===K.turn&&!K.over?'cur':''} ${p.lives<=0?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">D${p.dbl}</div><div class="m">${p.lives<=0?L('Eliminated'):(p.killer?L('KILLER')+' · ':L('Hits {n}/3',{n:p.hits})+' · ')+hearts(p.lives)}</div></div>`).join('');
+  $('kTurn').textContent=K.over?'':L("{name}'s turn · Dart {d} of 3",{name:K.players[K.turn].name,d:K.dart+1});
   $('kKeys').innerHTML=K.players.map((p,i)=>`<button class="${i===K.turn?'hit':''}" data-p="${i}" ${p.lives<=0?'disabled style="opacity:.35"':''}>D${p.dbl} · ${esc(p.name)}</button>`).join('')+'<button data-p="-1">Miss</button>';
-  if(K.over){recordResult('killer',K.hist,[K.players[K.winner].name],K.players.map(p=>p.name));showGWin(K.players[K.winner].name+' wins!','Last one standing')}else hideGWin();
+  if(K.over){recordResult('killer',K.hist,[K.players[K.winner].name],K.players.map(p=>p.name));showGWin(L('{name} wins!',{name:K.players[K.winner].name}),L('Last one standing'))}else hideGWin();
 }
 function kNext(){
   const n=K.players.length;
   do{K.turn=(K.turn+1)%n}while(K.players[K.turn].lives<=0);
   K.dart=0;
-  toast(K.players[K.turn].name+"'s turn");
+  toast(L("{name}'s turn",{name:K.players[K.turn].name}));
 }
 function kDart(idx){
   if(!K||K.over)return;
@@ -1078,19 +1136,19 @@ function kDart(idx){
   if(idx===K.turn){
     if(!me.killer){
       me.hits++;
-      if(me.hits>=3){me.killer=true;toast(me.name+' is a killer!');say(me.name+' is a killer!')}
+      if(me.hits>=3){me.killer=true;toast(L('{name} is a killer!',{name:me.name}));say(LS('{name} is a killer!',{name:me.name}))}
     }
   }else if(idx>=0){
     const t=K.players[idx];
     if(!me.killer)toast('Hit your own double 3 times first');
     else if(t.lives>0){
       t.lives--;
-      if(t.lives===0){toast(t.name+' is eliminated!');say(t.name+' is eliminated.')}
+      if(t.lives===0){toast(L('{name} is eliminated!',{name:t.name}));say(LS('{name} is eliminated.',{name:t.name}))}
     }
   }
   K.dart++;
   const alive=K.players.map((p,i)=>p.lives>0?i:-1).filter(i=>i>=0);
-  if(alive.length===1){K.over=true;K.winner=alive[0];confetti();say(K.players[K.winner].name+' wins.')}
+  if(alive.length===1){K.over=true;K.winner=alive[0];confetti();say(LS('{name} wins.',{name:K.players[K.winner].name}))}
   else if(K.dart>=3)kNext();
   saveG('killer',K);drawKiller();
 }
@@ -1313,7 +1371,7 @@ function scheduleCpu(){
     const d=$('display');
     d.style.fontSize='34px';d.classList.remove('dim');
     d.textContent=res.darts.map(x=>x.lab).join(' · ');
-    $('leave').textContent=res.bust?'Bust!':(res.total?'Scored '+res.total:'No score');
+    $('leave').textContent=res.bust?L('Bust!'):(res.total?L('Scored {n}',{n:res.total}):L('No score'));
     cpuT2=setTimeout(()=>{
       if(G.log!==log||G.turn!==turn||G.over)return;
       d.style.fontSize='';
@@ -1486,9 +1544,9 @@ function drawProfile(){
   $('stGames').textContent=p.gamesPlayed||0;
   $('stWins').textContent=p.wins||0;
   const r=rankOf(p.wins||0);
-  $('stRank').textContent=r.name;
+  $('stRank').textContent=L(r.name);
   $('rkBar').style.width=r.pct+'%';
-  $('rkTxt').textContent=r.next?r.need+' more win'+(r.need===1?'':'s')+' to reach '+r.next:'Top rank reached!';
+  $('rkTxt').textContent=r.next?L(r.need===1?'{n} more win to reach {r}':'{n} more wins to reach {r}',{n:r.need,r:L(r.next)}):L('Top rank reached!');
   $('emojiGrid').innerHTML=AV_EMOJI.map(e=>`<button data-e="${e}" class="${av.type==='emoji'&&av.emoji===e?'on':''}">${e}</button>`).join('');
   $('colorRow').innerHTML=AV_COLORS.map(c=>`<button data-c="${c}" style="background:${c}" class="${av.type==='emoji'&&av.color===c?'on':''}"></button>`).join('');
 }
@@ -1533,22 +1591,22 @@ const live={code:null,started:0,timer:null};
 try{const s=JSON.parse(localStorage.getItem('byd-live'));if(s&&s.code&&Date.now()-s.started<LIVE_MAX_AGE){live.code=s.code;live.started=s.started}}catch(e){}
 
 function liveSnapshot(){
-  const lastOf=p=>p.visits.length?(p.visits[p.visits.length-1].bust?'Bust':String(p.visits[p.visits.length-1].v)):'–';
+  const lastOf=p=>p.visits.length?(p.visits[p.visits.length-1].bust?L('Bust'):String(p.visits[p.visits.length-1].v)):'–';
   const hearts=n=>'♥'.repeat(Math.max(0,n))||'–';
   if(curG==='x01'&&G)return {title:G.start+(G.dbl?' · Double out':' · Straight out'),turn:G.turn,over:!!G.over,winner:G.over?G.winner:null,
-    players:G.players.map(p=>({name:p.name,main:String(p.score),label:'to go',sub:'Avg '+avg(p)+' · Last '+lastOf(p),out:false}))};
+    players:G.players.map(p=>({name:p.name,main:String(p.score),label:'to go',sub:L('Avg')+' '+avg(p)+' · '+L('Last')+' '+lastOf(p),out:false}))};
   if(curG==='cricket'&&C)return {title:'Cricket',turn:C.turn,over:!!C.over,winner:C.over?C.winner:null,
-    players:C.players.map(p=>{const cl=CT.filter(t=>p.marks[t]>=3).map(t=>t===25?'B':t);return {name:p.name,main:String(p.points),label:'points',sub:cl.length?'Closed: '+cl.join(' '):'No numbers closed yet',out:false}})};
+    players:C.players.map(p=>{const cl=CT.filter(t=>p.marks[t]>=3).map(t=>t===25?'B':t);return {name:p.name,main:String(p.points),label:'points',sub:cl.length?L('Closed:')+' '+cl.join(' '):L('No numbers closed yet'),out:false}})};
   if(curG==='atw'&&A)return {title:'Around the World',turn:A.turn,over:!!A.over,winner:A.over?A.winner:null,
-    players:A.players.map(p=>({name:p.name,main:aLabel(p.pos),label:'next target',sub:(p.pos-1)+' of 21 done',out:false}))};
+    players:A.players.map(p=>({name:p.name,main:aLabel(p.pos),label:'next target',sub:L('{n} of 21 done',{n:p.pos-1}),out:false}))};
   if(curG==='shanghai'&&S)return {title:'Shanghai',turn:S.turn,over:!!S.over,winner:S.over?S.winners[0]:null,
-    players:S.players.map(p=>({name:p.name,main:String(p.score),label:'points',sub:'Round '+Math.min(S.round,SR)+' of '+SR,out:false}))};
+    players:S.players.map(p=>({name:p.name,main:String(p.score),label:'points',sub:L('Round {r} of {m}',{r:Math.min(S.round,SR),m:SR}),out:false}))};
   if(curG==='bob'&&B)return {title:"Bob's 27",turn:B.turn,over:!!B.over,winner:B.over?bWinners()[0]:null,
-    players:B.players.map(p=>({name:p.name,main:p.out?'Out':String(p.score),label:'points',sub:p.last||'Round '+Math.min(B.round,21)+' of 21',out:!!p.out}))};
+    players:B.players.map(p=>({name:p.name,main:p.out?'Out':String(p.score),label:'points',sub:p.last||L('Round {r} of {m}',{r:Math.min(B.round,21),m:21}),out:!!p.out}))};
   if(curG==='halve'&&H)return {title:'Halve-It',turn:H.turn,over:!!H.over,winner:H.over?H.winners[0]:null,
-    players:H.players.map(p=>({name:p.name,main:String(p.score),label:'points',sub:p.last||('Round '+Math.min(H.round+1,HT.length)+' of '+HT.length),out:false}))};
+    players:H.players.map(p=>({name:p.name,main:String(p.score),label:'points',sub:p.last||L('Round {r} of {m}',{r:Math.min(H.round+1,HT.length),m:HT.length}),out:false}))};
   if(curG==='killer'&&K)return {title:'Killer',turn:K.turn,over:!!K.over,winner:K.over?K.winner:null,
-    players:K.players.map(p=>({name:p.name,main:'D'+p.dbl,label:p.lives<=0?'eliminated':(p.killer?'killer':'hit your double 3 times'),sub:'Lives '+hearts(p.lives)+(p.killer?'':' · Hits '+p.hits+'/3'),out:p.lives<=0}))};
+    players:K.players.map(p=>({name:p.name,main:'D'+p.dbl,label:p.lives<=0?'eliminated':(p.killer?'killer':'hit your double 3 times'),sub:L('Lives')+' '+hearts(p.lives)+(p.killer?'':' · '+L('Hits {n}/3',{n:p.hits})),out:p.lives<=0}))};
   return null;
 }
 function liveSync(){
@@ -1591,7 +1649,7 @@ $('liveStop').addEventListener('click',()=>{
   drawLiveBtns();$('liveModal').classList.remove('on');toast('Sharing stopped');
 });
 $('liveShare').addEventListener('click',()=>{
-  try{navigator.share({text:'Join my Backyard Darts game! Code: '+live.code+'  '+location.origin})}catch(e){}
+  try{navigator.share({text:L('Join my Backyard Darts game! Code: {c}',{c:live.code})+'  '+location.origin})}catch(e){}
 });
 
 /* viewer side */
@@ -1638,7 +1696,7 @@ function liveNotify(title,body){
 function drawLive(upd){
   const d=watch.data;if(!d)return;
   const ps=d.players||[];
-  $('liveTitle').textContent=d.title||'Live game';
+  $('liveTitle').textContent=(d.title||L('Live game')).replace(/ · (Double out|Straight out)$/,(m,a)=>' · '+L(a)).replace(/^[A-Za-z' -]+$/,m=>L(m));
   if(!watch.me&&cloud.profile){const j=ps.findIndex(p=>same(p.name,cloud.profile.name));if(j>=0)watch.me=ps[j].name}
   const mi=watch.me?ps.findIndex(p=>same(p.name,watch.me)):-1;
   $('liveWho').innerHTML=ps.length?'<h2>I am</h2><div class="chips">'+ps.map(p=>`<button class="chip ${same(p.name,watch.me)?'on':''}" data-who="${esc(p.name)}">${esc(p.name)}</button>`).join('')+'</div>':'';
@@ -1646,11 +1704,11 @@ function drawLive(upd){
   let h='';
   if(mi>=0){
     const p=ps[mi];
-    h+=`<div class="me ${yours?'your':''}"><div class="n">${esc(p.name)}</div><div class="big2">${esc(p.main)}</div><div class="lb">${esc(p.label)}</div><div class="sb">${esc(p.sub)}</div>${yours?'<div class="turnb">YOUR TURN</div>':''}</div>`;
+    h+=`<div class="me ${yours?'your':''}"><div class="n">${esc(p.name)}</div><div class="big2">${esc(p.main)}</div><div class="lb">${esc(L(p.label))}</div><div class="sb">${esc(p.sub)}</div>${yours?'<div class="turnb">'+L('YOUR TURN')+'</div>':''}</div>`;
   }
-  if(d.over){const w=ps[d.winner];h+=`<div class="turnb" style="margin:8px 0">${w?(d.winner===mi?'🎉 You won!':esc(w.name)+' wins!'):'Game over'}</div>`}
+  if(d.over){const w=ps[d.winner];h+=`<div class="turnb" style="margin:8px 0">${w?(d.winner===mi?L('🎉 You won!'):esc(L('{name} wins!',{name:w.name}))):L('Game over')}</div>`}
   $('liveMe').innerHTML=h;
-  $('liveRest').innerHTML=ps.map((p,i)=>i===mi?'':`<div class="lrow ${i===d.turn&&!d.over?'cur':''}"><div><div>${esc(p.name)}${i===d.turn&&!d.over?' ▶':''}</div><div class="rs">${esc(p.sub)}</div></div><div style="text-align:right"><b>${esc(p.main)}</b><div class="rs">${esc(p.label)}</div></div></div>`).join('');
+  $('liveRest').innerHTML=ps.map((p,i)=>i===mi?'':`<div class="lrow ${i===d.turn&&!d.over?'cur':''}"><div><div>${esc(p.name)}${i===d.turn&&!d.over?' ▶':''}</div><div class="rs">${esc(p.sub)}</div></div><div style="text-align:right"><b>${esc(p.main)}</b><div class="rs">${esc(L(p.label))}</div></div></div>`).join('');
   const canN='Notification' in window;
   $('liveAlerts').style.display=(canN&&Notification.permission==='default')?'block':'none';
   $('liveNote').textContent=canN?'':'Tip: on iPhone, add the app to your Home Screen (Share → Add to Home Screen) to get notifications.';
@@ -1661,7 +1719,7 @@ function drawLive(upd){
     watch.lastKey=key;
     if(mi>=0){
       const tn=ps[d.turn];
-      liveNotify('Backyard Darts · '+(d.title||''),ps[mi].main+' '+ps[mi].label+(yours?' · YOUR TURN':(tn&&!d.over?' · '+tn.name+' to throw':'')));
+      liveNotify('Backyard Darts · '+(d.title||''),ps[mi].main+' '+L(ps[mi].label)+(yours?' · '+L('YOUR TURN'):(tn&&!d.over?' · '+L('{name} to throw',{name:tn.name}):'')));
     }
   }
 }
@@ -1689,8 +1747,8 @@ drawLiveBtns();
 
 /* ---------- country and leaderboard ---------- */
 const COUNTRIES=('AD AE AF AG AI AL AM AO AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GT GU GW GY HK HN HR HT HU ID IE IL IM IN IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW').split(' ');
-let uiLang='en';
-function countryName(cc){try{return new Intl.DisplayNames([uiLang],{type:'region'}).of(cc)||cc}catch(e){return cc}}
+
+function countryName(cc){for(const l of [uiLang==='ht'?'fr':uiLang,'en']){try{const n=new Intl.DisplayNames([l],{type:'region'}).of(cc);if(n)return n}catch(e){}}return cc}
 function flagOf(cc){return cc&&cc.length===2?String.fromCodePoint.apply(null,cc.toUpperCase().split('').map(c=>127397+c.charCodeAt(0))):'🌍'}
 function countryOptions(sel){
   const list=COUNTRIES.map(c=>[c,countryName(c)]).sort((a,b)=>a[1].localeCompare(b[1],uiLang));
@@ -1732,14 +1790,14 @@ async function drawLb(){
         if((r.wins||0)!==prev){pos=i+1;prev=r.wins||0}
         const medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':String(pos);
         const me=r.uid===cloud.user.uid;
-        return `<div class="lbRow ${me?'me':''}"><div class="pos">${medal}</div>${avatarHTML(r.avatar,38)}<div class="who"><b>${esc(r.name||'Player')}</b><span>${flagOf(r.country)} ${esc(rankOf(r.wins||0).name)}</span></div><div class="wins"><b>${r.wins||0}</b><span>wins</span></div></div>`;
+        return `<div class="lbRow ${me?'me':''}"><div class="pos">${medal}</div>${avatarHTML(r.avatar,38)}<div class="who"><b>${esc(r.name||L('Player'))}</b><span>${flagOf(r.country)} ${esc(L(rankOf(r.wins||0).name))}</span></div><div class="wins"><b>${r.wins||0}</b><span>${L('wins')}</span></div></div>`;
       }).join('');
     }
     const mine=cloud.profile&&cloud.profile.wins||0;
     if(mine>0&&!rows.some(r=>r.uid===cloud.user.uid)){
       try{
         const above=await cloud.api.countAbove(scope,mine);
-        if(tok===lbToken)$('lbYou').textContent='Your position: #'+(above+1)+' ('+mine+' wins)';
+        if(tok===lbToken)$('lbYou').textContent=L('Your position: #{n} ({w} wins)',{n:above+1,w:mine});
       }catch(e){}
     }
   }catch(e){
@@ -1829,6 +1887,8 @@ async function initCloud(){
 /* ---------- start ---------- */
 drawSetup();
 drawSound();
+$('langSel').value=LANG;
+$('langSel').addEventListener('change',e=>{try{localStorage.setItem('byd-lang',e.target.value)}catch(err){}location.reload()});
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   $('themeBtn').textContent=t==='dark'?'☀️ Turn dark mode off':'🌙 Turn dark mode on';
