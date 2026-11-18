@@ -43,6 +43,21 @@ header.bar .t{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis
 .pc .n{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pc .s{font-size:40px;font-weight:800;line-height:1.1}
 .pc .m{font-size:12px;color:var(--mute)}
+#cards .pbar{display:none}
+#cards .m span+span::before{content:' · '}
+@media all{
+  #cards.stack{display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-height:calc(var(--n,2)*86px);container-type:size}
+  #cards.stack .pc{flex:1 1 0;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:8px 14px;overflow:hidden}
+  #cards.stack .n{font-size:17px;max-width:56%;margin:0 auto}
+  #cards.stack .s{font-size:64px;font-size:clamp(44px,calc(100cqh / var(--n,2) * .5),140px);line-height:1}
+  #cards.stack .m{position:absolute;top:10px;left:14px;right:14px;display:flex;flex-direction:row-reverse;justify-content:space-between;font-size:13px}
+  #cards.stack .m span+span::before{content:none}
+  #cards.stack .pbar{display:block;margin:8px 4% 0;height:7px}
+  #cards.stack .pc.cur{background:linear-gradient(160deg,#00869f,#006478);border-color:var(--green2);color:#fff}
+  #cards.stack .pc.cur .m{color:rgba(255,255,255,.85)}
+  #cards.stack .pc.cur .pbar{background:rgba(255,255,255,.28)}
+  #cards.stack .pc.cur .pbar i{background:var(--gold)}
+}
 #turn{text-align:center;font-weight:700;margin:16px 0 4px}
 #display{text-align:center;font-size:56px;font-weight:800;min-height:68px}
 #display.dim{color:var(--dim)}
@@ -667,9 +682,12 @@ function showGame(){curG='x01';show('game');draw()}
 function avg(p){const n=p.visits.length;return n?(p.visits.reduce((a,v)=>a+v.v,0)/n).toFixed(1):'–'}
 function draw(){
   $('gtitle').textContent=G.start+' · '+L(G.dbl?'Double out':'Straight out');
+  const np=G.players.length;
+  $('cards').className=cardStack()?'stack':'';$('cards').style.setProperty('--n',np);
   $('cards').innerHTML=G.players.map((p,i)=>{
     const last=p.visits.length?(p.visits[p.visits.length-1].bust?L('Bust'):p.visits[p.visits.length-1].v):'–';
-    return `<div class="pc ${i===G.turn&&!G.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${L('Avg')} ${avg(p)} · ${L('Last')} ${last}</div></div>`;
+    const pct=Math.max(0,Math.min(100,(G.start-p.score)/G.start*100));
+    return `<div class="pc ${i===G.turn&&!G.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m"><span>${L('Avg')} ${avg(p)}</span><span>${L('Last')} ${last}</span></div><div class="pbar"><i style="width:${pct}%"></i></div></div>`;
   }).join('');
   const p=G.players[G.turn];
   $('turn').textContent=G.over?'':L("{name}'s turn",{name:p.name});
@@ -720,6 +738,11 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='Backspace')key('del');
   else if(e.key==='Enter')key('go');
 });
+function cardStack(){
+  const n=G?G.players.length:0,h=innerHeight,tap=inMode==='tap';
+  return n===2?h>=(tap?790:740):n===3?h>=(tap?880:830):false;
+}
+window.addEventListener('resize',()=>{if(G&&$('game').classList.contains('on'))$('cards').classList.toggle('stack',cardStack())});
 let pendingV=0;
 function submit(){
   if(entry==='')return;
