@@ -43,20 +43,22 @@ header.bar .t{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis
 .pc .n{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pc .s{font-size:40px;font-weight:800;line-height:1.1}
 .pc .m{font-size:12px;color:var(--mute)}
-#cards .pbar{display:none}
-#cards .m span+span::before{content:' · '}
+#cards:not(.stack) .pbar{display:none}
+#cards:not(.stack) .m span+span::before{content:' · '}
 @media all{
-  #cards.stack{display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-height:calc(var(--n,2)*86px);container-type:size}
-  #cards.stack .pc{flex:1 1 0;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:8px 14px;overflow:hidden}
-  #cards.stack .n{font-size:17px;max-width:56%;margin:0 auto}
-  #cards.stack .s{font-size:64px;font-size:clamp(44px,calc(100cqh / var(--n,2) * .5),140px);line-height:1}
-  #cards.stack .m{position:absolute;top:10px;left:14px;right:14px;display:flex;flex-direction:row-reverse;justify-content:space-between;font-size:13px}
-  #cards.stack .m span+span::before{content:none}
-  #cards.stack .pbar{display:block;margin:8px 4% 0;height:7px}
-  #cards.stack .pc.cur{background:linear-gradient(160deg,#00869f,#006478);border-color:var(--green2);color:#fff}
-  #cards.stack .pc.cur .m{color:rgba(255,255,255,.85)}
-  #cards.stack .pc.cur .pbar{background:rgba(255,255,255,.28)}
-  #cards.stack .pc.cur .pbar i{background:var(--gold)}
+  :is(#cards,#aCards,#sCards,#bCards,#hCards,#kCards).stack{display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-height:calc(var(--n,2)*86px);container-type:size}
+  .stack .pc{flex:1 1 0;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:8px 14px;overflow:hidden}
+  .stack .n{font-size:17px;max-width:56%;margin:0 auto}
+  .stack .s{font-size:64px;font-size:clamp(44px,calc(100cqh / var(--n,2) * .5),140px);line-height:1}
+  .stack .m{font-size:14px;margin-top:4px}
+  .stack .pbar{display:block;margin:8px 4% 0;height:7px}
+  .stack.corner .m{position:absolute;top:10px;left:14px;right:14px;display:flex;flex-direction:row-reverse;justify-content:space-between;font-size:13px;margin:0}
+  .stack.corner .m span+span::before{content:none}
+  .stack .pc.cur{background:linear-gradient(160deg,#00869f,#006478);border-color:var(--green2);color:#fff}
+  .stack .pc.cur .m{color:rgba(255,255,255,.85)}
+  .stack .pc.cur .pbar{background:rgba(255,255,255,.28)}
+  .stack .pc.cur .pbar i{background:var(--gold)}
+}
 }
 #turn{text-align:center;font-weight:700;margin:16px 0 4px}
 #display{text-align:center;font-size:56px;font-weight:800;min-height:68px}
@@ -683,7 +685,7 @@ function avg(p){const n=p.visits.length;return n?(p.visits.reduce((a,v)=>a+v.v,0
 function draw(){
   $('gtitle').textContent=G.start+' · '+L(G.dbl?'Double out':'Straight out');
   const np=G.players.length;
-  $('cards').className=cardStack()?'stack':'';$('cards').style.setProperty('--n',np);
+  $('cards').className=(cardStack()?'stack ':'')+'corner';$('cards').style.setProperty('--n',np);
   $('cards').innerHTML=G.players.map((p,i)=>{
     const last=p.visits.length?(p.visits[p.visits.length-1].bust?L('Bust'):p.visits[p.visits.length-1].v):'–';
     const pct=Math.max(0,Math.min(100,(G.start-p.score)/G.start*100));
@@ -742,7 +744,18 @@ function cardStack(){
   const n=G?G.players.length:0,h=innerHeight,tap=inMode==='tap';
   return n===2?h>=(tap?790:740):n===3?h>=(tap?880:830):false;
 }
-window.addEventListener('resize',()=>{if(G&&$('game').classList.contains('on'))$('cards').classList.toggle('stack',cardStack())});
+window.addEventListener('resize',()=>{
+  if(G&&$('game').classList.contains('on'))$('cards').classList.toggle('stack',cardStack());
+  ['aCards','sCards','bCards','hCards','kCards'].forEach(id=>{const b=$(id);if(b&&b.closest('.screen').classList.contains('on'))autoStack(b,b.children.length)});
+});
+function autoStack(box,n){
+  box.style.setProperty('--n',n);
+  const scr=box.closest('.screen');
+  if(n<1||n>3||!scr||!scr.classList.contains('on')){box.classList.remove('stack');return}
+  box.classList.add('stack');
+  if(scr.scrollHeight>innerHeight+1)box.classList.remove('stack');
+}
+function cardsFit(id){queueMicrotask(()=>{const b=$(id);autoStack(b,b.children.length)})}
 let pendingV=0;
 function submit(){
   if(entry==='')return;
@@ -972,6 +985,7 @@ function saveA(){try{localStorage.setItem(GKEY.atw,JSON.stringify(A))}catch(e){}
 function showATW(){curG='atw';show('atw');drawATW()}
 const aLabel=pos=>pos===21?'Bull':String(pos);
 function drawATW(){
+  cardsFit('aCards');
   $('aCards').innerHTML=A.players.map((p,i)=>`<div class="pc ${i===A.turn&&!A.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${aLabel(p.pos)}</div><div class="m">${L('Next target · {n} of 21 done',{n:p.pos-1})}</div><div class="pbar"><i style="width:${(p.pos-1)/21*100}%"></i></div></div>`).join('');
   const cur=A.players[A.turn];
   $('aTurn').textContent=A.over?'':L("{name}'s turn · Dart {d} of 3 · Aim for {t}",{name:cur.name,d:A.dart+1,t:aLabel(cur.pos)});
@@ -1024,6 +1038,7 @@ function newShanghai(list){
 function showShanghai(){curG='shanghai';show('shanghai');drawShanghai()}
 $('sKeys').innerHTML='<button class="hit" data-m="1">Single</button><button class="hit" data-m="2">Double</button><button class="hit" data-m="3">Triple</button><button data-m="0">Miss</button>';
 function drawShanghai(){
+  cardsFit('sCards');
   $('sCards').innerHTML=S.players.map((p,i)=>{
     const cur=i===S.turn&&!S.over;
     return `<div class="pc ${cur?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${cur?L('This turn:')+' '+['S','D','T'].map((l,k)=>p.f[k]?l:'·').join(' '):L('Points')}</div></div>`;
@@ -1076,6 +1091,7 @@ function bWinners(){
   return pool.filter(i=>B.players[i].score===mx);
 }
 function drawBob(){
+  cardsFit('bCards');
   $('bCards').innerHTML=B.players.map((p,i)=>`<div class="pc ${i===B.turn&&!B.over?'cur':''} ${p.out?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.out?'Out':p.score}</div><div class="m">${esc(p.last||'Start on 27')}</div></div>`).join('');
   $('bTurn').textContent=B.over?'':L('Round {r} of 21 · Target {t} (worth {v}) · {name}',{r:B.round,t:bTarget(B.round),v:bVal(B.round),name:B.players[B.turn].name});
   if(B.over){
@@ -1118,6 +1134,7 @@ function newHalve(list){
 function showHalve(){curG='halve';hEntry='';show('halve');drawHalve()}
 $('hKeys').innerHTML=['1','2','3','4','5','6','7','8','9','del','0','go'].map(k=>`<button data-k="${k}" ${k==='go'?'class="go"':''}>${k==='del'?'⌫':k==='go'?'Enter':k}</button>`).join('');
 function drawHalve(){
+  cardsFit('hCards');
   $('hCards').innerHTML=H.players.map((p,i)=>`<div class="pc ${i===H.turn&&!H.over?'cur':''}"><div class="n">${esc(p.name)}</div><div class="s">${p.score}</div><div class="m">${esc(p.last||'Start on 0')}</div></div>`).join('');
   $('hTurn').textContent=H.over?'':L('Round {r} of {m} · Target: {t} · {name}',{r:H.round+1,m:HT.length,t:HT[H.round],name:H.players[H.turn].name});
   $('hDisplay').textContent=hEntry===''?'0':hEntry;
@@ -1170,6 +1187,7 @@ function newKiller(list){
 function showKiller(){curG='killer';show('killer');drawKiller()}
 function drawKiller(){
   const hearts=n=>'♥'.repeat(n)||'–';
+  cardsFit('kCards');
   $('kCards').innerHTML=K.players.map((p,i)=>`<div class="pc ${i===K.turn&&!K.over?'cur':''} ${p.lives<=0?'out':''}"><div class="n">${esc(p.name)}</div><div class="s">D${p.dbl}</div><div class="m">${p.lives<=0?L('Eliminated'):(p.killer?L('KILLER')+' · ':L('Hits {n}/3',{n:p.hits})+' · ')+hearts(p.lives)}</div></div>`).join('');
   $('kTurn').textContent=K.over?'':L("{name}'s turn · Dart {d} of 3",{name:K.players[K.turn].name,d:K.dart+1});
   $('kKeys').innerHTML=K.players.map((p,i)=>`<button class="${i===K.turn?'hit':''}" data-p="${i}" ${p.lives<=0?'disabled style="opacity:.35"':''}>D${p.dbl} · ${esc(p.name)}</button>`).join('')+'<button data-p="-1">Miss</button>';
