@@ -48,8 +48,8 @@ header.bar .t{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis
 @media all{
   :is(#cards,#aCards,#sCards,#bCards,#hCards,#kCards).stack{display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-height:calc(var(--n,2)*86px);container-type:size}
   .stack .pc{flex:1 1 0;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:8px 14px;overflow:hidden}
-  .stack .n{font-size:17px;max-width:56%;margin:0 auto}
-  .stack .s{font-size:64px;font-size:clamp(44px,calc(100cqh / var(--n,2) * .5),140px);line-height:1}
+  .stack .n{font-size:17px;max-width:56%;margin:0 auto;flex:none;line-height:1.25}
+  .stack .s{font-size:64px;font-size:clamp(34px,calc(100cqh / var(--n,2) * .44),140px);line-height:1;flex:none}
   .stack .m{font-size:14px;margin-top:4px}
   .stack .pbar{display:block;margin:8px 4% 0;height:7px}
   .stack.corner .m{position:absolute;top:10px;left:14px;right:14px;display:flex;flex-direction:row-reverse;justify-content:space-between;font-size:13px;margin:0}
@@ -784,6 +784,7 @@ function draw(){
     $('winStats').innerHTML=esc(L('3-dart average {a} over {n} visits',{a:avg(w),n:w.visits.length}))+'<br><b>'+esc(L('Darts thrown:'))+'</b> '+G.players.map(q=>esc(q.name)+' '+dartsOf(q)).join(' · ')+(G.m?'<br><b>'+esc(L('Legs'))+':</b> '+esc(mLine(G,G.players.map(p=>p.name))):'');
     $('winModal').classList.add('on');
   }else{$('winModal').classList.remove('on');mUndo(G)}
+  fitStack();
   scheduleCpu();
 }
 function key(k){
@@ -800,12 +801,17 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='Backspace')key('del');
   else if(e.key==='Enter')key('go');
 });
+function fitStack(){
+  const c=$('cards');if(!c.classList.contains('stack'))return;
+  const bad=[...c.querySelectorAll('.pc')].some(el=>{const n=el.querySelector('.n').getBoundingClientRect(),sc=el.querySelector('.s').getBoundingClientRect();return el.scrollHeight>el.clientHeight+1||n.bottom>sc.top+2||n.height<18});
+  if(bad)c.classList.remove('stack');
+}
 function cardStack(){
   const n=G?G.players.length:0,h=innerHeight,tap=inMode==='tap';
   return n===2?h>=(tap?790:740):n===3?h>=(tap?880:830):false;
 }
 window.addEventListener('resize',()=>{
-  if(G&&$('game').classList.contains('on'))$('cards').classList.toggle('stack',cardStack());
+  if(G&&$('game').classList.contains('on')){$('cards').classList.toggle('stack',cardStack());fitStack()}
   ['aCards','sCards','bCards','hCards','kCards'].forEach(id=>{const b=$(id);if(b&&b.closest('.screen').classList.contains('on'))autoStack(b,b.children.length)});
 });
 function autoStack(box,n){
