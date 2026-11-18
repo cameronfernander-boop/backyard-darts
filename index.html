@@ -224,6 +224,7 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   <button id="addCpu" class="link">🤖 Add computer opponent</button>
   <h2>Rules</h2>
   <label class="toggle"><input type="checkbox" id="dbl" checked> Double out (finish on a double or bullseye)</label>
+  <label class="toggle"><input type="checkbox" id="bull"> Closest to the bull throws first (2 or more players)</label>
   <h2>Caller voice</h2>
   <div class="row"><select id="voiceSel"></select><button id="voiceTest" class="x" style="width:auto;padding:0 16px">Test</button></div>
   <button id="start" class="big">Start game</button>
@@ -414,6 +415,14 @@ details p{color:var(--mute);margin:8px 0 0;line-height:1.5}
   </div>
 </div>
 
+<div class="modal" id="bullModal">
+  <div class="box">
+    <h3>Bull-off</h3>
+    <p>Everyone throws one dart at the bull. Who was closest?</p>
+    <div id="bullBtns"></div>
+  </div>
+</div>
+
 <div class="modal" id="dartsModal">
   <div class="box">
     <h3>Game shot!</h3>
@@ -540,11 +549,29 @@ $('names').addEventListener('change',e=>{if(e.target.dataset.lv!==undefined){con
 $('names').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;names.splice(+b.dataset.del,1);cpuLvl.splice(+b.dataset.del,1);drawSetup()});
 $('add').addEventListener('click',()=>{if(names.length<8){names.push('Player '+(names.length+1));cpuLvl.push(-1);drawSetup()}});
 $('addCpu').addEventListener('click',()=>{if(names.length<8){names.push('🤖 Club');cpuLvl.push(2);drawSetup()}});
+function lastStarter(){try{const v=localStorage.getItem('byd-starter');return v===null?-1:+v}catch(e){return -1}}
+function beginX01(list,first){
+  try{localStorage.setItem('byd-starter',String(first))}catch(e){}
+  G={start:setupStart,dbl:$('dbl').checked,first,players:list.map((n,i)=>({name:n,score:setupStart,visits:[],cpu:cpuLvl[i]})),turn:first,over:false,winner:null,log:[]};
+  entry='';tapSeq=[];save();showGame();
+  if(list.length>1)toast(list[first]+' throws first');
+}
+let pendingList=null;
+try{$('bull').checked=localStorage.getItem('byd-bull')==='1'}catch(e){}
+$('bull').addEventListener('change',()=>{try{localStorage.setItem('byd-bull',$('bull').checked?'1':'0')}catch(e){}});
 $('start').addEventListener('click',()=>{
   const list=names.map((n,i)=>n.trim()||('Player '+(i+1)));
   if(cpuLvl.every(l=>l>=0)){toast('Add at least one human player');return}
-  G={start:setupStart,dbl:$('dbl').checked,players:list.map((n,i)=>({name:n,score:setupStart,visits:[],cpu:cpuLvl[i]})),turn:0,over:false,winner:null,log:[]};
-  entry='';tapSeq=[];save();showGame();
+  if($('bull').checked&&list.length>1&&cpuLvl.every(l=>l<0)){
+    pendingList=list;
+    $('bullBtns').innerHTML=list.map((n,i)=>`<button class="big" data-b="${i}">${esc(n)}</button>`).join('');
+    $('bullModal').classList.add('on');return;
+  }
+  beginX01(list,list.length>1?(lastStarter()+1)%list.length:0);
+});
+$('bullModal').addEventListener('click',e=>{
+  const b=e.target.closest('[data-b]');if(!b)return;
+  $('bullModal').classList.remove('on');beginX01(pendingList,+b.dataset.b);
 });
 $('resume').addEventListener('click',()=>{const s=load();if(s){G=s;entry='';tapSeq=[];showGame()}});
 
@@ -664,8 +691,11 @@ $('winUndo').addEventListener('click',()=>{unrecord(G.log);undo()});
 $('menu').addEventListener('click',()=>{drawSetup();show('setup')});
 $('winMenu').addEventListener('click',()=>{$('winModal').classList.remove('on');drawSetup();show('setup')});
 $('rematch').addEventListener('click',()=>{
-  G={start:G.start,dbl:G.dbl,players:G.players.map(p=>({name:p.name,score:G.start,visits:[],cpu:p.cpu>=0?p.cpu:-1})),turn:0,over:false,winner:null,log:[]};
+  const n=G.players.length,first=n>1?((G.first||0)+1)%n:0;
+  try{localStorage.setItem('byd-starter',String(first))}catch(e){}
+  G={start:G.start,dbl:G.dbl,first,players:G.players.map(p=>({name:p.name,score:G.start,visits:[],cpu:p.cpu>=0?p.cpu:-1})),turn:first,over:false,winner:null,log:[]};
   entry='';tapSeq=[];save();draw();
+  if(n>1)toast(G.players[first].name+' throws first');
 });
 
 /* ---------- tap-the-numbers scoring ---------- */
